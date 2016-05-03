@@ -41,6 +41,16 @@ def readArgs(argv):
 		elif argv[i] == "-h":
 			writeHelp()
 	
+
+	if host == "":
+		nGroup = input("Inserire il numero del gruppo: ")
+		nElement = input("Inserire il numero dell'elemento del gruppo: ")
+		host = ("172.030." + func.format_string(nGroup, const.LENGTH_SECTION_IPV4, "0") + 
+						"." + func.format_string(nElement, const.LENGTH_SECTION_IPV4, "0") + 
+						"|fc00:0000:0000:0000:0000:0000:" + func.format_string(nGroup, const.LENGTH_SECTION_IPV6, "0") + 
+						":" + func.format_string(nElement, const.LENGTH_SECTION_IPV6, "0"))
+	func.gtext("IP: " + host)
+
 	# Return della lista della configurazione scelta
 	return [T, host]
 

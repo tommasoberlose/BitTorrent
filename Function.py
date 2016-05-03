@@ -27,6 +27,9 @@ def get_ipv4(ip):
 
 def get_ipv6(ip):
 	return ip[16:55]
+	
+def progress():
+	print("|||", end = "")
 
 
 # TEST
