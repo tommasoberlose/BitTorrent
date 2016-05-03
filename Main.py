@@ -12,6 +12,7 @@ T = False
 sessionID = ""
 
 host = ""
+t_host = ["", const.TPORT]
 
 ####### INIZIALIZZAZIONE
 [T, host] = config.readArgs(sys.argv)
@@ -40,4 +41,4 @@ else:
 	daemonThreadP.start()	
 """
 
-m.menu()
+m.menu(host, T, t_host)

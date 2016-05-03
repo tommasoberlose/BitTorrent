@@ -6,7 +6,8 @@ import TextFunc as tfunc
 
 
 def logout(ip55, ipTracker55, sessionID):
-	print ("\n>>> LOGOUT")
+	tfunc.warning("\n>>> LOGOUT")
+	result = -1
 	pk = pack.request_logout(sessionID)
 	s = sFunc.create_socket_client(func.roll_the_dice(ipTracker55), const.TPORT);
 	if s is None:
@@ -26,12 +27,16 @@ def logout(ip55, ipTracker55, sessionID):
 			else:
 				sD.sendall(pk)
 				sD.close()
-			print ("Chiusura del peer eseguito con successo, arrivederci.\n\n")
+			tfunc.success("Chiusura del peer eseguito con successo, arrivederci.\n\n")
+			result = 1
 		else:
 			tfunc.error("Errore nel codice di logout.")
 		s.close()
 
+	return result
+
 def quit(ip55):
+	tfunc.warning("\n>>> QUIT")
 	pk = pack.close()
 	s = sFunc.create_socket_client(func.roll_the_dice(ip55), const.TPORT);
 	if s is None:
@@ -39,4 +44,4 @@ def quit(ip55):
 	else:
 		s.sendall(pk)
 		s.close()
-		print ("Chiusura del demone tracker eseguito con successo, arrivederci.\n\n")
+		tfunc.success("Chiusura del demone tracker eseguito con successo, arrivederci.\n\n")

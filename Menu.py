@@ -7,14 +7,13 @@ import Search as src
 
 # MENU
 
-def menu():
+def menu(host, T, t_host):
 	while True:
 		print ("\n\nScegli azione PEER:\nlogin\t - Login\nquit\t - Quit\n\n")
 		choice = input()
 
 		if (choice == "login" or choice == "l"):
-			tfunc.warning("\nP2P >> PEER LOGIN")
-			sessionID = logi.login()
+			sessionID = logi.login(host, t_host)
 			if sessionID != bytes(const.ERROR_LOG, "ascii"):
 				tfunc.success("Session ID: " + str(sessionID, "ascii"))
 
@@ -23,22 +22,21 @@ def menu():
 					choice_after_log = input()
 
 					if (choice_after_log == "add" or choice_after_log == "a"):
-						tfunc.warning("\n>>> ADD FILE")
-						fileName = input("Quale file vuoi inserire?\n")
-						if fileName is not "0":
-							add.add(fileName, ip, sessionID, ipTracker)
+						add.add(host, sessionID, t_host)
 
 					elif (choice_after_log == "search" or choice_after_log == "s"):
+						"""
 						tfunc.warning("\n>>> SEARCH")
 						query = input("\nInserisci il nome del file da cercare: ")
 						while(len(query) > const.LENGTH_QUERY):
 							tfunc.error("Siamo spiacenti ma accettiamo massimo 20 caratteri.")
 							query = input("\nInserisci il nome del file da cercare: ")
+							"""
 						src.search()
 
 					elif (choice_after_log == "logout" or choice_after_log == "l"):
-						logo.logout(ip, ipTracker, sessionID)
-						break
+						if (logo.logout(host, t_host, sessionID) > 0):
+							break
 
 					else:
 						tfunc.error("Wrong Choice!")
@@ -47,6 +45,7 @@ def menu():
 				tfunc.error("Errore Login")	
 
 		elif (choice == "quit" or choice == "q"):
+			logo.quit(host)
 			break
 
 		else:
