@@ -17,6 +17,10 @@ def menu(host, T, t_host):
 			if sessionID != bytes(const.ERROR_LOG, "ascii"):
 				tfunc.success("Session ID: " + str(sessionID, "ascii"))
 
+				daemonThreadP = daemon.Daemon(host)
+				daemonThreadP.setName("DAEMON PEER")
+				daemonThreadP.start()
+
 				while True:
 					print ("\n\nScegli azione PEER LOGGATO:\nadd\t - Add File\nsearch\t - Search and Download\nlogout\t - Logout\n\n")
 					choice_after_log = input()

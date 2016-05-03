@@ -25,20 +25,10 @@ else:
 
 
 ####### DEMONI
-"""
 if T:
-	daemonThreadT = daemon.Daemon(host, True, sn_network, listPkt, listUsers, listFiles, True)
+	daemonThreadT = daemon.PeerDaemon(host)
 	daemonThreadT.setName("DAEMON T")
 	daemonThreadT.start()
 
-	daemonThreadP = daemon.Daemon(host, True, sn_network, listPkt, listUsers, listFiles, False)
-	daemonThreadP.setName("DAEMON PEER")
-	daemonThreadP.start()
-
-else:
-	daemonThreadP = daemon.Daemon(host, False, sn_network, listPkt, listUsers, listFiles, False)
-	daemonThreadP.setName("DAEMON PEER")
-	daemonThreadP.start()	
-"""
 
 m.menu(host, T, t_host)

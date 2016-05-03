@@ -1,4 +1,3 @@
-#from threading import Thread
 import threading
 import time
 import sys
@@ -8,13 +7,11 @@ import Function as func
 import Package as pack
 from threading import * 
 import time
-#from Thread import Timer 
+import TextFunc as tfunc
+import SocketFunc as sfunc
+import Upload as upl
 
-listResultQuery = []
-
-def sendAfin(conn):
-	time.sleep(const.MAX_TIME / 1000)
-	func.send_afin(conn, listResultQuery)
+"""
 
 class Daemon(Thread):
 
@@ -38,7 +35,7 @@ class Daemon(Thread):
 
 	def run(self):
 		# Creazione socket
-		s = func.create_socket_server(func.roll_the_dice(self.host), self.port)
+		s = sfunc.create_socket_server(func.roll_the_dice(self.host), self.port)
 
 		if s is None:
 			func.write_daemon_text(self.name, self.host, 'Error: Daemon could not open socket in upload.')
@@ -220,6 +217,35 @@ class Daemon(Thread):
 					else:
 						func.write_daemon_error(self.name, addr[0], "Ricevuto pacchetto sbagliato: " + str(ricevutoByte, "ascii"))
 			s.close()
+"""
 
+class PeerDaemon(Thread):
 
+	def __init__(self, host):
+		Thread.__init__(self)
+		self.host = host
+		self.port = const.PORT
 
+	def run(self):
+		# Creazione socket
+		s = sfunc.create_socket_server(func.roll_the_dice(self.host), self.port)
+		if s is None:
+			tfunc.write_daemon_text(self.name, self.host, 'Error: Daemon could not open socket in upload.')
+		else:
+			while 1:
+				conn, addr = s.accept()
+				ricevutoByte = conn.recv(const.LENGTH_PACK)
+				#print("\n")
+				#tfunc.write_daemon_text(self.name, addr[0], str(ricevutoByte, "ascii"))
+
+				if not ricevutoByte:
+					tfunc.write_daemon_error(self.name, addr[0], "Pacchetto errato")
+				elif (str(ricevutoByte[0:4], "ascii") == const.CODE_CLOSE):
+					break
+				else:
+					if str(ricevutoByte[0:4], "ascii") == const.CODE_DOWNLOAD: #UPLOAD
+						upl.upload(ricevutoByte[4:36], ricevutoByte[36:], conn)
+					else:
+						tfunc.write_daemon_error(self.name, addr[0], "Ricevuto pacchetto sbagliato: " + str(ricevutoByte, "ascii"))
+			s.close()
+		

@@ -1,7 +1,7 @@
 
 ###### UPLOAD FILE 
 
-def upload(nomeFile, ss):
+def upload(nomeFile, nPart, ss):
 	f = open((const.FILE_COND + nomeFile), 'rb')
 
 	fileLength = os.stat(const.FILE_COND + nomeFile).st_size
