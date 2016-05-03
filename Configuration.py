@@ -1,12 +1,21 @@
 import TextFunc as tfunc
+import Constant as const
+import sys
 
-def readArguments(argv):
+# FUNZIONI
+
+def readArgs(argv):
+
+	T = False
+	host = ""
 
 	for i in range(len(argv)):
 
+		# TRACKER
 		if argv[i] == "-t":
 			T = True
 
+		# IP
 		elif argv[i] == "-ip":
 			try:
 				nGroup = argv[i + 1]
@@ -20,6 +29,7 @@ def readArguments(argv):
 				tfunc.error("Errore inserimento dati")
 				writeHelp()
 
+		# PORT
 		elif argv[i] == "-p":
 			try:
 				const.PORT = argv[i + 1]
@@ -27,30 +37,12 @@ def readArguments(argv):
 				tfunc.error("Errore inserimento dati")
 				writeHelp()
 
-		elif argv[i] == "-pSN":
-			try:
-				const.PORT_SN = argv[i + 1]
-			except:
-				tfunc.error("Errore inserimento dati")
-				writeHelp()
-
-		elif argv[i] == "-t":
-			try:
-				const.MAX_TIME = int(argv[i + 1]) * 1000
-			except:
-				tfunc.error("Errore inserimento dati")
-				writeHelp()
-
-		elif argv[i] == "-ttl":
-			try:
-				const.TTL = argv[i + 1]
-			except:
-				tfunc.error("Errore inserimento dati")
-				writeHelp()
-
+		# HELP
 		elif argv[i] == "-h":
 			writeHelp()
-		return [T]
+	
+	# Return della lista della configurazione scelta
+	return [T, host]
 
 
 def writeHelp():
@@ -63,3 +55,9 @@ def writeHelp():
 	print("Change ttl\t-ttl ttl")
 	print("")
 	sys.exit(-1)
+
+# TEST
+
+[T, host] = readArgs(sys.argv)
+print(T)
+print(host)

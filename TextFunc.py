@@ -31,7 +31,7 @@ def reformat_string(text):
 
 def	write_right_text(text):
 	print("")
-	print(str(text).rjust(shutil.get_terminal_size((80, 20))[0]))
+	print(str(text).rjust(shutil.get_terminal_size((80, 0))[0]))
 
 def write_daemon_error(host, addr, text):
 	write_right_text(">>> " + host + " [" + addr + "]: " + START_RED + "ERROR: " + text + END_RED)
@@ -55,3 +55,15 @@ def gtext(text):
 	print (START_GREY + text + END_GREY)
 
 # TEST
+
+print("Prova format_string 100 caratteri - " + format_string("Ciao", 100, " "))
+print("Prova reverse_format_string 100 caratteri - " + reverse_format_string("Ciao", 100, " "))
+print("Prova reformat_string - " + reformat_string(format_string("Ciao", 100, " ")))
+write_right_text("Prova write_right_text")
+write_daemon_error("170:30:1:1", "170:30:2:3", "Prova write_daemon_error")
+write_daemon_success("170:30:1:1", "170:30:2:3", "Prova write_daemon_success")
+write_daemon_text("170:30:1:1", "170:30:2:3", "Prova write_daemon_text")
+error("Prova error")
+success("Prova success")
+warning("Prova warning")
+gtext("Prova gtext")

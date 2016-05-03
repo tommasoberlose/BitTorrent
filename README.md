@@ -18,4 +18,5 @@ https://confluence.atlassian.com/bitbucketserver/markdown-syntax-guide-776639995
     import Login as login
     import Logout as logout
 
-## 
+#### Configuration
+    function readArgs(sys.argv) return [boolean Tracker, String host] 
