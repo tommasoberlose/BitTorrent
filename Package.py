@@ -66,9 +66,6 @@ def answer_look(): # DA FARE
 	pack = ""
 	return pack
 
-# PKT SEARCH FASE 2
-
-
 # PKT LOGOUT
 def request_logout(sessionID):
 	pack = bytes(const.CODE_LOGOUT, "ascii") + sessionID
