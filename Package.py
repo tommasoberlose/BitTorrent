@@ -1,3 +1,6 @@
+import TextFunc as tfunc
+improt Function as func
+
 # COSTANTI
 
 CODE_LOOK = "LOOK"
@@ -25,35 +28,11 @@ CODE_LOGOUT_DENIED = "NLOG"
 CODE_CLOSE = "QUIT"
 
 
-
 # FUNZIONI
-
-# PKT SN
-def request_sn(ip, port):
-	pk_id = func.random_pktid(const.LENGTH_PKTID)
-	port = func.format_string(port, const.LENGTH_PORT, "0")
-	step = func.format_string(const.TTL_SN, const.LENGTH_TTL, "0")
-	pack = bytes(const.CODE_SN, "ascii") + bytes(pk_id, "ascii") + bytes(ip, "ascii") + bytes(port, "ascii") + bytes(step, "ascii")
-	return pack
-
-def answer_sn(pk_id, ip):
-	port = func.format_string(const.PORT_SN, const.LENGTH_PORT, "0")
-	pack = bytes(const.CODE_ANSWER_SN, "ascii") + pk_id + bytes(ip, "ascii") + bytes(port, "ascii")
-	return pack
-
-
-def forward_sn(pack):
-	step = modify_ttl(pack[80:82])
-	if step != 0:
-		step = func.format_string(str(step), const.LENGTH_TTL, "0")
-		pack = pack[0:80] + bytes(step, "ascii")
-		return pack
-	else: 
-		return bytes(const.ERROR_PKT, "ascii")
 
 # PKT LOGIN
 def request_login(ip):
-	port = func.format_string(const.PORT, const.LENGTH_PORT, "0")
+	port = tfunc.format_string(const.PORT, const.LENGTH_PORT, "0")
 	pack = bytes(const.CODE_LOGIN, "ascii") + bytes(ip, "ascii") + bytes(port, "ascii") 
 	return pack
 
@@ -62,63 +41,41 @@ def answer_login():
 	pack = bytes(const.CODE_ANSWER_LOGIN, "ascii") + bytes(sessionID, "ascii")
 	return pack
 
+# PKT ADD FILE
 def request_add_file(sessionID, md5, fileName):
-	fileName = func.format_string(fileName, const.LENGTH_FILENAME, " ")
+	fileName = tfunc.format_string(fileName, const.LENGTH_FILENAME, " ")
 	pack = bytes(const.CODE_ADDFILE, "ascii") + sessionID + bytes(md5, "ascii") + bytes(fileName, "ascii")
 	return pack
 
-def request_remove_file(sessionID, md5):
-	pack = bytes(const.CODE_REMOVEFILE, "ascii") + sessionID + bytes(md5, "ascii")
+def answer_add_file(nPart):
+	nPart = tfunc.format_string(str(nPart), const.LENGTH_NPART, "0")
+	pack = bytes(const.CODE_ANSWER_ADDFILE, "ascii") + bytes(nPart, "ascii")
 	return pack
 
+# PKT SEARCH FASE 1
+
+# PKT SEARCH FASE 2
+
+# PKT LOGOUT
 def request_logout(sessionID):
 	pack = bytes(const.CODE_LOGOUT, "ascii") + sessionID
 	return pack
 
-def answer_logout(nDelete):
-	nDelete = func.format_string(str(nDelete), const.LENGTH_ITEM_REMOVED, "0")
-	pack = bytes(const.CODE_ANSWER_LOGOUT, "ascii") + bytes(nDelete, "ascii")
+def answer_logout(nPart):
+	nPart = tfunc.format_string(str(nPart), const.LENGTH_ITEM_REMOVED, "0")
+	pack = bytes(const.CODE_ANSWER_LOGOUT, "ascii") + bytes(nPart, "ascii")
 	return pack
 
-
-# PKT del SN alla rete
-def query(ip, query):
-	pk_id = func.random_pktid(const.LENGTH_PKTID)
-	port = func.format_string(const.PORT, const.LENGTH_PORT, "0")
-	step = func.format_string(const.TTL, const.LENGTH_TTL, "0")
-	query = func.format_string(str(query, "ascii"), const.LENGTH_QUERY, " ")
-	pack = bytes(const.CODE_QUERY, "ascii") + bytes(pk_id, "ascii") + bytes(ip, "ascii") + bytes(port, "ascii") + bytes(step, "ascii") + bytes(query, "ascii")
+def reject_logout(nPart):
+	nPart = tfunc.format_string(str(nPart), const.LENGTH_ITEM_REMOVED, "0")
+	pack = bytes(const.CODE_LOGOUT_DENIED, "ascii") + bytes(nPart, "ascii")
 	return pack
 
-def forward_query(pack):
-	step = modify_ttl(pack[80:82])
-	if step > 0:
-		step = func.format_string(str(step), const.LENGTH_TTL, "0")
-		pack = pack[0:80] + bytes(step, "ascii") + pack[82:]
-		return pack
-	else: 
-		return bytes(const.ERROR_PKT, "ascii")
-
-
-def answer_query(pktID, ip, port, md5, fileName):
-	#port = func.format_string(const.PORT, const.LENGTH_PORT, "0")
-	fileName = func.format_string(fileName, const.LENGTH_FILENAME, " ")
-	return bytes(const.CODE_ANSWER_QUERY, "ascii") + pktID + ip + port + bytes(md5, "ascii") + bytes(fileName, "ascii")
-
-# PKT SEARCH PEER al SN
-def request_search(sessionID, query):
-	query = func.format_string(query, const.LENGTH_QUERY, " ")
-	pack = bytes(const.CODE_SEARCH, "ascii") + sessionID + bytes(query, "ascii")
-	return pack
-
-def modify_ttl(step):
-	step = int(step)
-	step = step - 1
-	return step
-
+# PKT CLOSE PROGRAM
 def close():
 	return bytes(const.CODE_CLOSE, "ascii")
 
-def request_download(md5):
+# PKT DOWNLOAD
+def request_download(md5, ):
 	pack = bytes(const.CODE_DOWNLOAD, "ascii") + md5
 	return pack
