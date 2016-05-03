@@ -17,7 +17,7 @@ def menu(host, T, t_host):
 			if sessionID != bytes(const.ERROR_LOG, "ascii"):
 				tfunc.success("Session ID: " + str(sessionID, "ascii"))
 
-				daemonThreadP = daemon.Daemon(host)
+				daemonThreadP = daemon.PeerDaemon(host)
 				daemonThreadP.setName("DAEMON PEER")
 				daemonThreadP.start()
 

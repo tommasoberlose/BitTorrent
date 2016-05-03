@@ -51,6 +51,11 @@ def readArgs(argv):
 						":" + func.format_string(nElement, const.LENGTH_SECTION_IPV6, "0"))
 	tfunc.gtext("IP: " + host)
 
+	if T:
+		tfunc.warning("\nP2P >> INIZIALIZZAZIONE COME TRACKER")
+	else:
+		tfunc.warning("\nP2P >> INIZIALIZZAZIONE COME PEER")
+
 	# Return della lista della configurazione scelta
 	return [T, host]
 

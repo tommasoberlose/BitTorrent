@@ -17,18 +17,11 @@ t_host = ["", const.TPORT]
 ####### INIZIALIZZAZIONE
 [T, host] = config.readArgs(sys.argv)
 
+####### DEMONE TRACKER
 if T:
-	tfunc.warning("\nP2P >> INIZIALIZZAZIONE COME TRACKER")
-else:
-	tfunc.warning("\nP2P >> INIZIALIZZAZIONE COME PEER")
-
-
-
-####### DEMONI
-if T:
-	daemonThreadT = daemon.PeerDaemon(host)
+	daemonThreadT = daemon.Daemon(host)
 	daemonThreadT.setName("DAEMON T")
 	daemonThreadT.start()
 
-
+####### MENU
 m.menu(host, T, t_host)

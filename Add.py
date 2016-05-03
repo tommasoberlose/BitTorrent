@@ -4,12 +4,13 @@ import Function as func
 import string
 import os
 import hashlib
+import TextFunc as tfunc
 
 # Le variabili in ingresso sono stringhe
 def add(ip55, sessionID, ipTracker55):
-	func.warning("\n>>> ADD FILE")
+	tfunc.warning("\n>>> ADD FILE")
 	fileName = input("Quale file vuoi inserire?\n")
-	if fileName is not "0":
+	if fileName != "0":
 		if os.path.exists(const.FILE_COND + fileName):
 			open((const.FILE_COND + fileName), 'ab').write(bytes(ip55, "ascii"))
 			md5File = hashlib.md5(open(("FileCondivisi/" + fileName),'rb').read()).hexdigest()
