@@ -17,22 +17,11 @@ def random_pktid(length):
 def random_sessionID(length):
    return ''.join(random.choice('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789') for i in range(length))
 
-def writeHelp():
-	func.warning("\nPOSSIBILI ARGOMENTI:")
-	print("Super Nodo\t-sn")
-	print("Set Default Ip\t-ip group identifier")
-	print("Change Port\t-p port")
-	print("Change Port SN\t-pSN port")
-	print("Change time\t-t time")
-	print("Change ttl\t-ttl ttl")
-	print("")
-	sys.exit(-1)
-
-
 ###### IP
 
 def roll_the_dice(ip):
-	return random.choice([ip[0:15], ip[16:55]])
+	return ip[16:55]
+	#return random.choice([ip[0:15], ip[16:55]])
 
 def get_ipv4(ip):
 	return ip[0:15]

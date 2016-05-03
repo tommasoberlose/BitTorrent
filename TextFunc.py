@@ -53,3 +53,5 @@ def warning(text):
 
 def gtext(text):
 	print (START_GREY + text + END_GREY)
+
+# TEST
