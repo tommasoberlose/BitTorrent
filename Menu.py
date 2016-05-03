@@ -7,7 +7,7 @@ import Search as src
 
 # MENU
 
-def menu:
+def menu():
 	while True:
 		print ("\n\nScegli azione PEER:\nlogin\t - Login\nquit\t - Quit\n\n")
 		choice = input()
