@@ -13,14 +13,14 @@ def add(fileName, ip55, sessionID, ipTracker55):
 		pk = pack.request_add_file(sessionID, md5File, sFunc.format_string(fileName, const.LENGTH_FILENAME, " "))
 		s = sFunc.create_socket_client(func.roll_the_dice(ipTracker55), const.TPORT);
 		if s is None:
-			func.error("Errore, tracker non attivo.")
+			tfunc.error("Errore, tracker non attivo.")
 		else:
 			s.sendall(pk)
 			ricevutoByte = s.recv(const.LENGTH_PACK)
-			if(ricevutoByte[:4].decode("ascii")) == const.CODE_ANSWER_ADDFILE):
-				func.success("Il file " + fileName + " è stato aggiunto con successo.\nÈ stato diviso in " + str(int(ricevutoByte[4:])) + " parti.")
+			if(ricevutoByte[:4].decode("ascii") == const.CODE_ANSWER_ADDFILE):
+				tfunc.success("Il file " + fileName + " è stato aggiunto con successo.\nÈ stato diviso in " + str(int(ricevutoByte[4:])) + " parti.")
 			else:
-				func.error("Errore nella ricezione del codice di aggiunta file.")
+				tfunc.error("Errore nella ricezione del codice di aggiunta file.")
 			s.close()
 	else:
-		func.error("Errore: file non esistente.")
+		tfunc.error("Errore: file non esistente.")

@@ -1,13 +1,10 @@
 import Function as func
 import Constant as const
-import Package as pack
 import Daemon as daemon
 import Configuration as config
+import TextFunc as tfunc
 import Menu as m
-import os
 import sys
-import time
-import hashlib
 
 ####### VARIABILI 
 
@@ -20,9 +17,9 @@ host = ""
 [T, host] = config.readArgs(sys.argv)
 
 if T:
-	func.warning("\nP2P >> INIZIALIZZAZIONE COME TRACKER")
+	tfunc.warning("\nP2P >> INIZIALIZZAZIONE COME TRACKER")
 else:
-	func.warning("\nP2P >> INIZIALIZZAZIONE COME PEER")
+	tfunc.warning("\nP2P >> INIZIALIZZAZIONE COME PEER")
 
 
 

@@ -49,7 +49,7 @@ def readArgs(argv):
 						"." + func.format_string(nElement, const.LENGTH_SECTION_IPV4, "0") + 
 						"|fc00:0000:0000:0000:0000:0000:" + func.format_string(nGroup, const.LENGTH_SECTION_IPV6, "0") + 
 						":" + func.format_string(nElement, const.LENGTH_SECTION_IPV6, "0"))
-	func.gtext("IP: " + host)
+	tfunc.gtext("IP: " + host)
 
 	# Return della lista della configurazione scelta
 	return [T, host]
