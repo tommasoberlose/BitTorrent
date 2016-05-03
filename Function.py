@@ -10,6 +10,8 @@ import Constant as const
 import Function as func
 import Package as pack
 
+import Libraries
+
 # Random Functions
 def random_string(length):
    return ''.join(random.choice('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789') for i in range(length))
@@ -28,6 +30,7 @@ def get_ipv6(ip):
 
 
 # TEST
-
+"""
 print("Random: " + random_string(const.LENGTH_SESSIONID))
 print("Roll the dice: " + roll_the_dice("172:030:001:002|fc00:0000:0000:0000:0000:0000:0001:0002"))
+"""
