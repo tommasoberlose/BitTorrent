@@ -55,7 +55,7 @@ def gtext(text):
 	print (START_GREY + text + END_GREY)
 
 # TEST
-
+"""
 print("Prova format_string 100 caratteri - " + format_string("Ciao", 100, " "))
 print("Prova reverse_format_string 100 caratteri - " + reverse_format_string("Ciao", 100, " "))
 print("Prova reformat_string - " + reformat_string(format_string("Ciao", 100, " ")))
@@ -67,3 +67,4 @@ error("Prova error")
 success("Prova success")
 warning("Prova warning")
 gtext("Prova gtext")
+"""

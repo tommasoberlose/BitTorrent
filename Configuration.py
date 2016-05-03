@@ -47,17 +47,16 @@ def readArgs(argv):
 
 def writeHelp():
 	func.warning("\nPOSSIBILI ARGOMENTI:")
-	print("Super Nodo\t-sn")
+	print("Tracker\t-t")
 	print("Set Default Ip\t-ip group identifier")
 	print("Change Port\t-p port")
-	print("Change Port SN\t-pSN port")
-	print("Change time\t-t time")
-	print("Change ttl\t-ttl ttl")
 	print("")
 	sys.exit(-1)
 
 # TEST
-
+"""
 [T, host] = readArgs(sys.argv)
 print(T)
 print(host)
+
+"""
