@@ -29,14 +29,7 @@ def menu(host, T, t_host):
 						add.add(host, sessionID, t_host)
 
 					elif (choice_after_log == "search" or choice_after_log == "s"):
-						"""
-						tfunc.warning("\n>>> SEARCH")
-						query = input("\nInserisci il nome del file da cercare: ")
-						while(len(query) > const.LENGTH_QUERY):
-							tfunc.error("Siamo spiacenti ma accettiamo massimo 20 caratteri.")
-							query = input("\nInserisci il nome del file da cercare: ")
-							"""
-						src.search()
+						src.search(sessionID, host, t_host)
 
 					elif (choice_after_log == "logout" or choice_after_log == "l"):
 						if (logo.logout(host, t_host, sessionID) > 0):
