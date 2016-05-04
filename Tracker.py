@@ -17,7 +17,7 @@ class TrackerDaemon(Thread):
 		self.port = const.TPORT
 
 	def run(self):
-		# Creazione socket
+		# Creazione socket provaprova
 		s = sfunc.create_socket_server(func.roll_the_dice(self.host), self.port)
 
 		if s is None:
