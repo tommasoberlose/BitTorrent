@@ -123,4 +123,6 @@ class TrackerDaemon(Thread):
 					else:
 						tfunc.write_daemon_error(self.name, addr[0], "Ricevuto pacchetto sbagliato: " + str(ricevutoByte, "ascii"))
 			s.close()
+
+			#ciaociao
 			
