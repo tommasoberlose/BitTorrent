@@ -54,11 +54,10 @@ class TrackerDaemon(Thread):
 						# Controllo presenza user
 						if ricevutoByte[4:20] in self.listUsers.values():
 							# Funzione che crea listPart tutta di 1
-							totalPartFile = fs.create_total_part(ricevutoByte[20:30], ricevutoByte[30:36])
-							fileToAdd = fs.FileStruct(ricevutoByte[36:136], ricevutoByte[20:30], ricevutoByte[30:36], [ricevutoByte[4:20], totalPartFile])
+							fileToAdd = fs.FileStruct(ricevutoByte[36:136], ricevutoByte[20:30], ricevutoByte[30:36], ricevutoByte[4:20])
 							self.listFile[ricevutoByte[-32:]] = fileToAdd 
 							tfunc.write_daemon_success(self.name, addr[0], "ADD FILE " + str(ricevutoByte[36:136], "ascii").strip())
-							pk = pack.answer_add_file(totalPartFile)
+							pk = pack.answer_add_file(fileToAdd.nPart)
 							conn.sendall(pk)
 						else:
 							tfunc.write_daemon_error(self.name, addr[0], "ADD FILE - User not logged")
