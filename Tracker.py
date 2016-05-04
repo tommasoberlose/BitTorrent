@@ -41,42 +41,27 @@ class TrackerDaemon(Thread):
 					break
 				else:
 					if str(ricevutoByte[0:4], "ascii") == pack.CODE_LOGIN: ### LOGIN
-						pk = func.reconnect_user(ricevutoByte[4:59], self.listUsers) #da fare reconnect
+						pk = func.reconnect_user(ricevutoByte[4:59], self.listUsers)
 						if pk == const.ERROR_PKT: 
-							pk = pack.answer_login()
-						conn.sendall(pk)
-						user = [ricevutoByte[4:59], ricevutoByte[59:], pk[4:]]
-						"""
-						if not user in self.listUsers:
-							self.listUsers.append(user)
 							tfunc.write_daemon_success(self.name, addr[0], "LOGIN OK")
-						else: tfunc.write_daemon_success(self.name, addr[0], "RECONNECT OK")
-						#print(self.listUsers)
-						"""
+							pk = pack.answer_login()
+						else:
+							tfunc.write_daemon_success(self.name, addr[0], "RECONNECT OK")
+						self.listUsers[pk[4:]] = [ricevutoByte[4:59], ricevutoByte[59:]]
+						conn.sendall(pk)
 
 					elif str(ricevutoByte[0:4], "ascii") == pack.CODE_ADDFILE:
 						# Controllo presenza user
-						if ricevutoByte[4:20] in listUsers.values():
+						if ricevutoByte[4:20] in self.listUsers.values():
 							# Funzione che crea listPart tutta di 1
 							totalPartFile = fs.create_total_part(ricevutoByte[20:30], ricevutoByte[30:36])
 							fileToAdd = fs.FileStruct(ricevutoByte[36:136], ricevutoByte[20:30], ricevutoByte[30:36], [ricevutoByte[4:20], totalPartFile])
 							self.listFile[ricevutoByte[-32:]] = fileToAdd 
+							tfunc.write_daemon_success(self.name, addr[0], "ADD FILE " + str(ricevutoByte[36:136], "ascii").strip())
 							pk = pack.answer_add_file(totalPartFile)
-							conn.send(pk)
-						else:
-							tfunc..write_daemon_error(self.name, addr[0], "ADD FILE - User not logged")
-
-
-						"""
-						if func.isUserLogged(ricevutoByte[4:20], self.listUsers):
-							if(func.check_file(self.listFiles, ricevutoByte)):
-								self.listFiles.insert(0, [ricevutoByte[20:52], ricevutoByte[52:152], ricevutoByte[4:20]])
-								tfunc.write_daemon_success(self.name, addr[0], "ADD FILE: " + str(ricevutoByte[52:152], "ascii").strip())
-							else:
-								tfunc.write_daemon_error(self.name, addr[0], "ADD FILE - File già inserito")
+							conn.sendall(pk)
 						else:
 							tfunc.write_daemon_error(self.name, addr[0], "ADD FILE - User not logged")
-						"""
 
 					elif(str(ricevutoByte[0:4], "ascii") == pack.CODE_LOOK): ### Richiesta di ricerca file da un peer
 						"""
@@ -116,6 +101,10 @@ class TrackerDaemon(Thread):
 					"""
 
 					elif str(ricevutoByte[0:4], "ascii") == pack.CODE_LOGOUT: ### LOGOUT
+						if ricevutoByte[4:] in self.listUsers.values():
+							### Da fare
+						else:
+							tfunc.write_daemon_error(self.name, addr[0], "User not logged")
 						"""
 						i = 0
 						for user in self.listUsers:
