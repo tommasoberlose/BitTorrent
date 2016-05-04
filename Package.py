@@ -42,6 +42,10 @@ def answer_login():
 	pack = bytes(const.CODE_ANSWER_LOGIN, "ascii") + bytes(sessionID, "ascii")
 	return pack
 
+def answer_login_old_user(sessionID):
+	pack = bytes(const.CODE_ANSWER_LOGIN, "ascii") + bytes(sessionID, "ascii")
+	return pack
+
 # PKT ADD FILE
 def request_add_file(sessionID, lenFile, md5, fileName):
 	lenFile = tfunc.format_string(lenFile, const.LENGTH_LENFILE, " ")

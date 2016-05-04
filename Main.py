@@ -1,8 +1,6 @@
-import Function as func
 import Constant as const
 import Daemon as daemon
 import Configuration as config
-import TextFunc as tfunc
 import Menu as m
 import sys
 
