@@ -8,7 +8,7 @@ class FileStruct:
 		self.lenFile = lenFile
 		self.lenParti = lenParti
 		self.sessionIDUploader = sessionIDUploader
-		self.listOwner = listOwner # [[sessionID1, parti], [sessionID2, parti], ecc]
+		self.listOwner = listOwner # [[sessionID1, parti], [sessionID2, parti], ecc ecc]
 
 	# Funzione per aggiungere un possessore alla lista
 	def add_owner(self, newOwner):
