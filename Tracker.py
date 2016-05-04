@@ -15,6 +15,7 @@ class TrackerDaemon(Thread):
 		Thread.__init__(self)
 		self.host = host
 		self.port = const.TPORT
+		listUsers = {}
 
 	def run(self):
 		# Creazione socket
@@ -43,7 +44,7 @@ class TrackerDaemon(Thread):
 							pk = pack.answer_login()
 						conn.sendall(pk)
 						user = [ricevutoByte[4:59], ricevutoByte[59:], pk[4:]]
-						"""da fare controllo utente loggato
+						"""
 						if not user in self.listUsers:
 							self.listUsers.append(user)
 							tfunc.write_daemon_success(self.name, addr[0], "LOGIN OK")

@@ -31,6 +31,18 @@ def progress():
 	print("|||", end = "")
 
 
+def reconnect_user(ip, port, listUsers):
+	pk = const.ERROR_PKT
+	listaUtenti = []
+	if [ip, port] in listUsers.values():
+		listaUtenti = list(listUsers.items())
+		for i in listaUtenti:
+			if i[1] = [ip,port]
+				pk = pack.answer_login()[:4] + i[0]
+		break
+	return pk
+
+
 # TEST
 """
 print("Random: " + random_string(const.LENGTH_SESSIONID))
