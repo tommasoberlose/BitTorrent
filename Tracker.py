@@ -4,6 +4,7 @@ import Function as func
 import Package as pack
 import TextFunc as tfunc
 import SocketFunc as sfunc
+import FileStruct as fs
 
 class TrackerDaemon(Thread):
 
@@ -15,6 +16,7 @@ class TrackerDaemon(Thread):
 		Thread.__init__(self)
 		self.host = host
 		self.port = const.TPORT
+		self.listFile = {}
 
 	def run(self):
 		# Creazione socket
@@ -52,6 +54,18 @@ class TrackerDaemon(Thread):
 						"""
 
 					elif str(ricevutoByte[0:4], "ascii") == pack.CODE_ADDFILE:
+						# Controllo presenza user
+						if ricevutoByte[4:20] in listUsers.values():
+							# Funzione che crea listPart tutta di 1
+							totalPartFile = fs.create_total_part(ricevutoByte[20:30], ricevutoByte[30:36])
+							fileToAdd = fs.FileStruct(ricevutoByte[36:136], ricevutoByte[20:30], ricevutoByte[30:36], [ricevutoByte[4:20], totalPartFile])
+							self.listFile[ricevutoByte[-32:]] = fileToAdd 
+							pk = pack.answer_add_file(totalPartFile)
+							conn.send(pk)
+						else:
+							tfunc..write_daemon_error(self.name, addr[0], "ADD FILE - User not logged")
+
+
 						"""
 						if func.isUserLogged(ricevutoByte[4:20], self.listUsers):
 							if(func.check_file(self.listFiles, ricevutoByte)):

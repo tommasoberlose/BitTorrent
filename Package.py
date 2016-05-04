@@ -51,7 +51,7 @@ def request_add_file(sessionID, lenFile, md5, fileName):
 	return pack
 
 def answer_add_file(nPart):
-	nPart = tfunc.format_string(str(nPart), const.LENGTH_NPART, "0")
+	nPart = tfunc.format_string(nPart, const.LENGTH_NPART, "0")
 	pack = bytes(const.CODE_ANSWER_ADDFILE, "ascii") + bytes(nPart, "ascii")
 	return pack
 
