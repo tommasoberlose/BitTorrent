@@ -17,7 +17,7 @@ class TrackerDaemon(Thread):
 		self.port = const.TPORT
 
 	def run(self):
-		# Creazione socket provaprova
+		# Creazione socket
 		s = sfunc.create_socket_server(func.roll_the_dice(self.host), self.port)
 
 		if s is None:
@@ -123,6 +123,4 @@ class TrackerDaemon(Thread):
 					else:
 						tfunc.write_daemon_error(self.name, addr[0], "Ricevuto pacchetto sbagliato: " + str(ricevutoByte, "ascii"))
 			s.close()
-
-			#ciaociao
 			
