@@ -22,3 +22,5 @@ def login(host, t_host):
 		sessionID = ricevutoByte[4:20]
 		s.close()
 		return sessionID
+
+
