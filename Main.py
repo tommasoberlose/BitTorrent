@@ -19,7 +19,7 @@ t_host = ["", const.TPORT]
 
 ####### DEMONE TRACKER
 if T:
-	daemonThreadT = daemon.Daemon(host)
+	daemonThreadT = daemon.TrackerDaemon(host)
 	daemonThreadT.setName("DAEMON T")
 	daemonThreadT.start()
 
