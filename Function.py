@@ -41,10 +41,3 @@ def reconnect_user(ip, port, listUsers):
 				pk = pack.answer_login_old_user(i[0])
 		break
 	return pk
-
-
-# TEST
-"""
-print("Random: " + random_string(const.LENGTH_SESSIONID))
-print("Roll the dice: " + roll_the_dice("172:030:001:002|fc00:0000:0000:0000:0000:0000:0001:0002"))
-"""

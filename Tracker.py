@@ -93,12 +93,13 @@ class TrackerDaemon(Thread):
 					elif(str(ricevutoByte[0:4], "ascii") == pack.CODE_FIND_PART): ### Richiesta conoscenza possesso parti del file cercato nella rete 
 
 					elif str(ricevutoByte[0:4], "ascii") == pack.CODE_UPDATE_PART: ### Aggiornamento parti scaricate
-					"""
-					tfunc.write_daemon_text(self.name, addr[0], "UPLOAD")
-					filef = func.find_file_by_md5(ricevutoByte[4:])
-					if filef != const.ERROR_FILE:
-						func.upload(filef, conn)
-					"""
+						# Controllo presenza user
+						if ricevutoByte[4:20] in self.listUsers.values():
+							nPart = self.listFile[ricevutoByte[20:52]].update_memory(ricevutoByte[4:20], ricevutoByte[52:])
+							pk = pack.answer_update_tracker(nPart)
+							conn.sendall(pk)
+						else:
+							tfunc.write_daemon_error(self.name, addr[0], "ADD FILE - User not logged")
 
 					elif str(ricevutoByte[0:4], "ascii") == pack.CODE_LOGOUT: ### LOGOUT
 						if ricevutoByte[4:] in self.listUsers.values():
