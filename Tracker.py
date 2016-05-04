@@ -27,7 +27,7 @@ class TrackerDaemon(Thread):
 			tfunc.write_daemon_text(self.name, self.host, 'Error: Daemon could not open socket in upload.')
 
 		else:
-			while 1:
+			while 1: #auuauaau
 
 				conn, addr = s.accept()
 				ricevutoByte = conn.recv(const.LENGTH_PACK)
