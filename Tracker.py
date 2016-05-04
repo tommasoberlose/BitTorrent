@@ -118,7 +118,6 @@ class TrackerDaemon(Thread):
 								nDelete += 1
 								i -= 1
 							i += 1
-aaa
 						pk = pack.answer_logout(nDelete)
 						conn.sendall(pk)
 						tfunc.write_daemon_success(self.name, addr[0], "LOGOUT OK")
