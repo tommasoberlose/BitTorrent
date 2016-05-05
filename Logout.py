@@ -35,6 +35,13 @@ def logout(ip55, t_host, sessionID):
 
 	return result
 
+def try_logout(sessionID, listFile):
+	nPart = fs.get_part_for_logout(sessionID, listFile)
+	if nPart != 0:
+		conn.sendall(pack.reject_logout(fs.get_part_from_string(fs.get_part_by_sessionID(ricevutoByte[4:])) - nPart))
+	else:
+		conn.sendall(pack.answer_logout(nPart))
+
 def quit(ip55):
 	tfunc.warning("\n>>> QUIT")
 	pk = pack.close()

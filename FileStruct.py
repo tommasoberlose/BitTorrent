@@ -49,6 +49,15 @@ class FileStruct:
 		else:
 			return False
  
+	def get_part_for_logout(self, sessionID, listFile):
+		listF = []
+		hitpeer = []
+		listF = list(listFile.values())
+		for file in listF:
+			hitpeer = list(listF.items())
+			for peer in hitpeer:
+		 
+
 
 	#def update_memory(self, sessionID, md5, partN):
 

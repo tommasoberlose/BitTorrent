@@ -43,7 +43,8 @@ def menu(host, T, t_host):
 				tfunc.error("Errore Login")	
 
 		elif (choice == "quit" or choice == "q"):
-			logo.quit(host)
+			if T:
+				logo.quit(host)
 			break
 
 		else:
