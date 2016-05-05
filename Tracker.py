@@ -41,7 +41,7 @@ class TrackerDaemon(Thread):
 					break
 				else:
 					if str(ricevutoByte[0:4], "ascii") == pack.CODE_LOGIN: ### LOGIN
-						pk = func.reconnect_user(ricevutoByte[4:59], self.listUsers)
+						pk = func.reconnect_user(ricevutoByte[4:59], ricevutoByte[59:], self.listUsers)
 						if pk == const.ERROR_PKT: 
 							tfunc.write_daemon_success(self.name, addr[0], "LOGIN OK")
 							pk = pack.answer_login()
