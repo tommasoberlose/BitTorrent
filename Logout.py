@@ -36,9 +36,9 @@ def logout(ip55, t_host, sessionID):
 	return result
 
 def try_logout(sessionID, listFile):
-	nPart = fs.get_part_for_logout(sessionID, listFile)
-	if nPart != 0:
-		conn.sendall(pack.reject_logout(fs.get_part_from_string(fs.get_part_by_sessionID(ricevutoByte[4:])) - nPart))
+	nPart, ndPart = fs.get_part_for_logout(sessionID, listFile)
+	if ndPart != 0:
+		conn.sendall(pack.reject_logout(nPart - ndPart))
 	else:
 		conn.sendall(pack.answer_logout(nPart))
 

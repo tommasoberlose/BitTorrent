@@ -64,15 +64,22 @@ def count_part(s):
 	for i in sl:
 		part += int(i)
 	return part
-
+		 
 def get_part_for_logout(self, sessionID, listFile):
 	listF = []
-	hitpeer = []
+	listHitpeer = []
+	nPart = 0
+	ndPart = 0
 	listF = list(listFile.values())
 	for file in listF:
-		hitpeer = list(listF.items())
-		for peer in hitpeer:
-		 
+		listHitpeer = list(file[4].items())
+		actual_str = file[4][sessionID]
+		nPart += count_part(file[4][sessionID])
+		for peer in listHitpeer:
+			if peer[0] != sessionID:
+				actual_str = tfunc.count_sub_string(actual_str, peer[1])
+		ndPart += count_part(actual_str) 		
 
+	return nPart, ndPart
 
 

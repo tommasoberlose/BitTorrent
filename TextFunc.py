@@ -54,6 +54,16 @@ def warning(text):
 def gtext(text):
 	print (START_GREY + text + END_GREY)
 
+def count_sub_string(s1, s2):
+	s1l = list(s1)
+	s2l = list(s2)
+	for x in range(0, len(s1l)):
+		if int(s1l[x]) and not int(s2l[x]):
+			s1l[x] = "1"
+		else:
+			s1l[x] = "0"
+	return "".join(s1l)
+
 # TEST
 """
 print("Prova format_string 100 caratteri - " + format_string("Ciao", 100, " "))
