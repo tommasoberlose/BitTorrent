@@ -5,11 +5,11 @@ import Constant as const
 import TextFunc as tfunc
 
 
-def logout(ip55, ipTracker55, sessionID):
+def logout(ip55, t_host, sessionID):
 	tfunc.warning("\n>>> LOGOUT")
 	result = -1
 	pk = pack.request_logout(sessionID)
-	s = sFunc.create_socket_client(func.roll_the_dice(ipTracker55), const.TPORT);
+	s = sFunc.create_socket_client(func.roll_the_dice(t_host[0]), t_host[1]);
 	if s is None:
 		tfunc.error("Errore nella creazione della socket per il logout.")
 	else:

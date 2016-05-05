@@ -17,7 +17,7 @@ def add(ip55, sessionID, t_host):
 			md5File = hashlib.md5(open((const.FILE_COND + fileName),'rb').read()).hexdigest()
 			lenFile = os.stat(const.FILE_COND + fileName).st_size
 			pk = pack.request_add_file(sessionID, lenFile, md5File, tfunc.format_string(fileName, const.LENGTH_FILENAME, " "))
-			s = sfunc.create_socket_client(func.roll_the_dice(t_host[0]), const.TPORT);
+			s = sfunc.create_socket_client(func.roll_the_dice(t_host[0]), t_host[1]);
 			if s is None:
 				tfunc.error("Errore, tracker non attivo.")
 			else:
