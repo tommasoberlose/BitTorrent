@@ -49,7 +49,20 @@ class FileStruct:
 		else:
 			return False
  
+def update_memory(sessionID, md5, partN, listFile):
+	file = listFile[md5]
+	memory_of_user = file.listOwner[sessionID]
+	sl = list(memory_of_user)
+	sl[partN - 1] = '1'
+	file.listOwner[sessionID] = "".join(sl)
+	return count_part(file.listOwner[sessionID])
 
-	#def update_memory(self, sessionID, md5, partN):
+def count_part(s):
+	sl = list(s)
+	part = 0
+	for i in sl:
+		part += int(i)
+	return part
+
 
 
