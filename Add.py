@@ -30,3 +30,11 @@ def add(ip55, sessionID, t_host):
 				s.close()
 		else:
 			tfunc.error("Errore: file non esistente.")
+
+
+def add_file_to_list(fileName, lenFile, lenPart, sessionIDUploader, md5, listFile, name, addr):
+	fileToAdd = fs.FileStruct(fileName, lenFile, lenPart, sessionIDUploader)
+	fileToAdd.add_owner_total()
+	listFile[md5] = fileToAdd 
+	tfunc.write_daemon_success(name, addr[0], "ADD FILE " + str(fileName, "ascii").strip())
+	return pack.answer_add_file(fileToAdd.nPart)

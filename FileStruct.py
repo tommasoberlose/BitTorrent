@@ -55,7 +55,8 @@ def update_memory(sessionID, md5, partN, listFile):
 	sl = list(memory_of_user)
 	sl[partN - 1] = '1'
 	file.listOwner[sessionID] = "".join(sl)
-	return count_part(file.listOwner[sessionID])
+	nPart = count_part(file.listOwner[sessionID])
+	return pack.answer_update_tracker(nPart)
 
 def count_part(s):
 	sl = list(s)
