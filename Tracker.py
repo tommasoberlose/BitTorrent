@@ -42,6 +42,8 @@ class TrackerDaemon(Thread):
 					tfunc.write_daemon_error(self.name, addr[0], "Pacchetto errato")
 				elif (str(ricevutoByte[0:4], "ascii") == pack.CODE_CLOSE):
 					break
+				elif (str(ricevutoByte[0:4], "ascii") == pack.CODE_CONF):
+					tfunc.write_daemon_error(self.name, addr[0], "Avvio demone Tracker")
 				else:
 					if str(ricevutoByte[0:4], "ascii") == pack.CODE_LOGIN: ### LOGIN
 						pk = logi.reconnect_user(ricevutoByte[4:59], ricevutoByte[59:], self.listUsers)

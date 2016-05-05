@@ -27,6 +27,7 @@ CODE_ANSWER_LOGOUT = "ALGO"
 CODE_LOGOUT_DENIED = "NLOG"
 
 CODE_CLOSE = "QUIT"
+CODE_CONFIRM = "CONF"
 
 
 # FUNZIONI
@@ -88,6 +89,10 @@ def reject_logout(nPart):
 # PKT CLOSE PROGRAM
 def close():
 	return bytes(CODE_CLOSE, "ascii")
+
+# PKT CONFIRM DAEMON
+def confirm():
+	return bytes(CODE_CONF, "ascii")
 
 # PKT DOWNLOAD
 def request_download(md5, partNum):

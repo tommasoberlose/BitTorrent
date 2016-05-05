@@ -3,6 +3,7 @@ import Tracker as tracker
 import Configuration as config
 import Menu as m
 import sys
+import Login as logi
 
 ####### VARIABILI 
 
@@ -21,7 +22,7 @@ if T:
 	daemonThreadT.setName("DAEMON T")
 	daemonThreadT.start()
 
-	
+	logi.try_connection(host)
 
 ####### MENU
 m.menu(host, T, t_host)

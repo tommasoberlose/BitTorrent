@@ -3,6 +3,7 @@ import Constant as const
 import SocketFunc as sfunc
 import TextFunc as tfunc
 import Function as func
+import sys
 
 def login(host, t_host):
 
@@ -43,3 +44,13 @@ def reconnect_user(ip, port, listUsers):
 	else:
 		tfunc.write_daemon_success(self.name, addr[0], "RECONNECT OK")
 	return pk
+
+
+def try_connection(host):
+	s = sfunc.create_socket_client(func.roll_the_dice(host), const.PORT)
+	pk = pack.confirm(host)
+	if s is None:
+		sys.exit(-1)
+	else:
+		s.sendall(pk)
+		s.close()
