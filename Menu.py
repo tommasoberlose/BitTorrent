@@ -10,7 +10,7 @@ import Daemon as daemon
 
 def menu(host, T, t_host):
 	while True:
-		print ("\n\nScegli azione PEER:\nlogin\t - Login\nquit\t - Quit\n\n")
+		print ("Scegli azione PEER:\nlogin\t - Login\nquit\t - Quit\n\n")
 		choice = input()
 
 		if (choice == "login" or choice == "l"):

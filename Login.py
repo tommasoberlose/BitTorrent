@@ -27,3 +27,19 @@ def login(host, t_host):
 		return t_host, sessionID
 
 
+def reconnect_user(ip, port, listUsers):
+	pk = const.ERROR_PKT
+	listaUtenti = []
+	if [ip, port] in listUsers.values():
+		listaUtenti = list(listUsers.items())
+		for i in listaUtenti:
+			if i[1] == [ip,port]:
+				pk = pack.answer_login_old_user(i[0])
+				break
+
+	if pk == const.ERROR_PKT: 
+		tfunc.write_daemon_success(self.name, addr[0], "LOGIN OK")
+		pk = pack.answer_login()
+	else:
+		tfunc.write_daemon_success(self.name, addr[0], "RECONNECT OK")
+	return pk

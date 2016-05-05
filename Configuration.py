@@ -57,7 +57,7 @@ def readArgs(argv):
 		tfunc.warning("\nP2P >> INIZIALIZZAZIONE COME PEER")
 
 	# Return della lista della configurazione scelta
-	return [T, host]
+	return T, host
 
 
 def writeHelp():
@@ -67,11 +67,3 @@ def writeHelp():
 	print("Change Port\t-p port")
 	print("")
 	sys.exit(-1)
-
-# TEST
-"""
-[T, host] = readArgs(sys.argv)
-print(T)
-print(host)
-
-"""

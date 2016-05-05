@@ -7,6 +7,7 @@ import SocketFunc as sfunc
 import FileStruct as fs
 from threading import *
 import Logout as logo
+import Login as logi
 
 class TrackerDaemon(Thread):
 
@@ -43,12 +44,7 @@ class TrackerDaemon(Thread):
 					break
 				else:
 					if str(ricevutoByte[0:4], "ascii") == pack.CODE_LOGIN: ### LOGIN
-						pk = func.reconnect_user(ricevutoByte[4:59], ricevutoByte[59:], self.listUsers)
-						if pk == const.ERROR_PKT: 
-							tfunc.write_daemon_success(self.name, addr[0], "LOGIN OK")
-							pk = pack.answer_login()
-						else:
-							tfunc.write_daemon_success(self.name, addr[0], "RECONNECT OK")
+						pk = logi.reconnect_user(ricevutoByte[4:59], ricevutoByte[59:], self.listUsers)
 						self.listUsers[pk[4:]] = [ricevutoByte[4:59], ricevutoByte[59:]]
 						conn.sendall(pk)
 
@@ -107,10 +103,10 @@ class TrackerDaemon(Thread):
 					elif str(ricevutoByte[0:4], "ascii") == pack.CODE_LOGOUT: ### LOGOUT
 						if ricevutoByte[4:] in self.listUsers:
 							nPart = logo.try_logout(ricevutoByte[4:])
-							if nPart > 0:
-								conn.sendall(pack.answer_logout(fs.get_part_from_string(fs.get_part_by_sessionID(ricevutoByte[4:])) - nPart))
+							if nPart != 0:
+								conn.sendall(pack.reject_logout(fs.get_part_from_string(fs.get_part_by_sessionID(ricevutoByte[4:])) - nPart))
 							else:
-								conn.sendall(pack.reject_logout(nPart))
+								conn.sendall(pack.answer_logout(nPart))
 						else:
 							tfunc.write_daemon_error(self.name, addr[0], "User not logged")
 						"""
