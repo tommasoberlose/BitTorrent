@@ -61,7 +61,7 @@ def readArgs(argv):
 
 
 def writeHelp():
-	func.warning("\nPOSSIBILI ARGOMENTI:")
+	tfunc.warning("\nPOSSIBILI ARGOMENTI:")
 	print("Tracker\t-t")
 	print("Set Default Ip\t-ip group identifier")
 	print("Change Port\t-p port")

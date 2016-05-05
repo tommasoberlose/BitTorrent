@@ -4,6 +4,7 @@ import Login as logi
 import Logout as logo
 import Add as add
 import Search as src
+import Daemon as daemon
 
 # MENU
 

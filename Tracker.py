@@ -5,6 +5,7 @@ import Package as pack
 import TextFunc as tfunc
 import SocketFunc as sfunc
 import FileStruct as fs
+from threading import *
 
 class TrackerDaemon(Thread):
 
@@ -52,9 +53,10 @@ class TrackerDaemon(Thread):
 
 					elif str(ricevutoByte[0:4], "ascii") == pack.CODE_ADDFILE:
 						# Controllo presenza user
-						if ricevutoByte[4:20] in self.listUsers.values():
+						if ricevutoByte[4:20] in self.listUsers:
 							# Funzione che crea listPart tutta di 1
 							fileToAdd = fs.FileStruct(ricevutoByte[36:136], ricevutoByte[20:30], ricevutoByte[30:36], ricevutoByte[4:20])
+							fileToAdd.add_owner_total()
 							self.listFile[ricevutoByte[-32:]] = fileToAdd 
 							tfunc.write_daemon_success(self.name, addr[0], "ADD FILE " + str(ricevutoByte[36:136], "ascii").strip())
 							pk = pack.answer_add_file(fileToAdd.nPart)
@@ -90,10 +92,11 @@ class TrackerDaemon(Thread):
 						"""
 
 					elif(str(ricevutoByte[0:4], "ascii") == pack.CODE_FIND_PART): ### Richiesta conoscenza possesso parti del file cercato nella rete 
+						print("Blabla")
 
 					elif str(ricevutoByte[0:4], "ascii") == pack.CODE_UPDATE_PART: ### Aggiornamento parti scaricate
 						# Controllo presenza user
-						if ricevutoByte[4:20] in self.listUsers.values():
+						if ricevutoByte[4:20] in self.listUsers:
 							nPart = self.listFile[ricevutoByte[20:52]].update_memory(ricevutoByte[4:20], ricevutoByte[52:])
 							pk = pack.answer_update_tracker(nPart)
 							conn.sendall(pk)
@@ -101,10 +104,10 @@ class TrackerDaemon(Thread):
 							tfunc.write_daemon_error(self.name, addr[0], "ADD FILE - User not logged")
 
 					elif str(ricevutoByte[0:4], "ascii") == pack.CODE_LOGOUT: ### LOGOUT
-						if ricevutoByte[4:] in self.listUsers.values():
+						if ricevutoByte[4:] in self.listUsers:
 							nPart = log.try_logout(ricevutoByte[4:])
 							if nPart > 0:
-								conn.sendall(pack.answer_logout(fs.get_part_from_string(fs.get_part_by_sessionID(ricevutoByte[4:])) - nPart)
+								conn.sendall(pack.answer_logout(fs.get_part_from_string(fs.get_part_by_sessionID(ricevutoByte[4:])) - nPart))
 							else:
 								conn.sendall(pack.reject_logout(nPart))
 						else:

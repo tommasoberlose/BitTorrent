@@ -37,7 +37,7 @@ def reconnect_user(ip, port, listUsers):
 	if [ip, port] in listUsers.values():
 		listaUtenti = list(listUsers.items())
 		for i in listaUtenti:
-			if i[1] = [ip,port]
+			if i[1] == [ip,port]:
 				pk = pack.answer_login_old_user(i[0])
-		break
+				break
 	return pk

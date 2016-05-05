@@ -1,5 +1,12 @@
 import string
 
+# Crea una stringa contenente tutte le parti a 1
+def create_total_part(lenFile, lenPart):
+	k = int(int(lenFile)/int(lenPart))
+	if (int(lenFile) % int(lenPart)) > 0:
+		k += 1 
+	return "1" * k 
+
 class FileStruct:
 	
 	# In teoria i dati salvati qui dentro dovrebbero essere byte
@@ -8,8 +15,10 @@ class FileStruct:
 		self.lenFile = lenFile
 		self.lenPart = lenPart
 		self.sessionIDUploader = sessionIDUploader
-		self.listOwner[sessionIDUploader] = create_total_part(lenFile, lenPart) # [[sessionID1, parti], [sessionID2, parti], ecc ecc] le parti sono una stringa
-		self.nPart = len(self.listOwner[sessionIDUploader])
+		self.listOwner = {}
+		self.nPart = 0
+		#self.listOwner[sessionIDUploader] = create_total_part(lenFile, lenPart) # [[sessionID1, parti], [sessionID2, parti], ecc ecc] le parti sono una stringa
+		#self.nPart = len(self.listOwner[sessionIDUploader])
 
 	# Funzione di stampa 
 	def printStruct(self):
@@ -27,6 +36,10 @@ class FileStruct:
 	def add_owner(self, sessionID, part):
 		self.listOwner[sessionID] = part
 
+	def add_owner_total(self):
+		self.listOwner[self.sessionIDUploader] = create_total_part(self.lenFile, self.lenPart)
+		self.nPart = len(self.listOwner[self.sessionIDUploader])
+
 	# Funzione che ritorna le parti per un dato sessionID (relativo a un file)
 	# Se non c'è ritorna False	
 	# Il controllo funziona a byte
@@ -35,14 +48,8 @@ class FileStruct:
 			return self.listOwner[sessionID]
 		else:
 			return False
+ 
 
-	# Crea una stringa contenente tutte le parti a 1
-	def create_total_part(lenFile, lenPart):
-		k = int(lenFile/lenPart)
-		if (lenFile % lenPart) > 0:
-			k += 1 
-		return "1" * k  
-
-	def update_memory(self, sessionID, md5, partN):
+	#def update_memory(self, sessionID, md5, partN):
 
 

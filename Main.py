@@ -1,5 +1,5 @@
 import Constant as const
-import Daemon as daemon
+import Tracker as tracker
 import Configuration as config
 import Menu as m
 import sys
@@ -17,7 +17,7 @@ t_host = ["", const.TPORT]
 
 ####### DEMONE TRACKER
 if T:
-	daemonThreadT = daemon.TrackerDaemon(host)
+	daemonThreadT = tracker.TrackerDaemon(host)
 	daemonThreadT.setName("DAEMON T")
 	daemonThreadT.start()
 
