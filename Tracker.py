@@ -96,7 +96,7 @@ class TrackerDaemon(Thread):
 					elif str(ricevutoByte[0:4], "ascii") == pack.CODE_UPDATE_PART: ### Aggiornamento parti scaricate
 						# Controllo presenza user
 						if ricevutoByte[4:20] in self.listUsers:
-							nPart = self.listFile[ricevutoByte[20:52]].update_memory(ricevutoByte[4:20], ricevutoByte[52:])
+							nPart = update_memory(ricevutoByte[4:20], ricevutoByte[20:52], ricevutoByte[52:], self.listFile)
 							pk = pack.answer_update_tracker(nPart)
 							conn.sendall(pk)
 						else:
