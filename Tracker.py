@@ -8,6 +8,7 @@ import FileStruct as fs
 from threading import *
 import Logout as logo
 import Login as logi
+import Search as search
 
 class TrackerDaemon(Thread):
 
@@ -64,6 +65,15 @@ class TrackerDaemon(Thread):
 							tfunc.write_daemon_error(self.name, addr[0], "ADD FILE - User not logged")
 
 					elif(str(ricevutoByte[0:4], "ascii") == pack.CODE_LOOK): ### Richiesta di ricerca file da un peer
+						# Controllo logon user
+						if ricevutoByte[4:20] in self.listUsers:
+							listMd5 = search.search_in_list_file(self.listFile, ricevutoByte[20:])
+							if len(listMd5) == 0:
+								tfunc.write_daemon_error(self.name, addr[0], "SEARCH FILE - Non è stato trovato nessun file con " + str(ricevutoByte[20:], "ascii") + " nel nome.")
+							pk = pack.answer_look(listMd5, self.listFile)
+							conn.sendall(pk)
+						else:
+							tfunc.write_daemon_error(self.name, addr[0], "SEARCH FILE - User not logged")
 						"""
 						del listResultQuery[:]
 						tfunc.write_daemon_text(self.name, addr[0], "INIZIO RICERCA DI: " + str(ricevutoByte[20:], "ascii").strip())
