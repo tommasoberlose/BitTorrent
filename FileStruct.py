@@ -78,6 +78,8 @@ def get_part_for_logout(sessionID, listFile):
 		for peer in listHitpeer:
 			if peer[0] != sessionID:
 				actual_str = tfunc.count_sub_string(actual_str, peer[1])
+				if count_part(actual_str) == 0:
+					break
 		ndPart += count_part(actual_str) 		
 
 	return nPart, ndPart
