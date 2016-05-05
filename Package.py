@@ -66,7 +66,9 @@ def request_look(sessionID, query):
 	pack = bytes(CODE_LOGOUT, "ascii") + sessionID + bytes(query, "ascii")
 	return pack
 
-def answer_look(): # DA FARE
+# Prende in ingresso la lista di md5 e la listfile
+# Da in uscita il pacchetto
+def answer_look(listMd5, listFile): # DA FARE
 	pack = ""
 	return pack
 

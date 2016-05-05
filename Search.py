@@ -63,3 +63,7 @@ def search(sessionID, ip55, ipTracker55):
 			else:
 				func.error("Non sono presenti file con questa query nel nome: " + query)
 		s.close()
+
+# Da in uscita la lista degli md5 
+def search_in_list_file(listFile, query):
+	# Da fare
