@@ -64,5 +64,14 @@ def count_part(s):
 		part += int(i)
 	return part
 
+def get_part_for_logout(self, sessionID, listFile):
+	listF = []
+	hitpeer = []
+	listF = list(listFile.values())
+	for file in listF:
+		hitpeer = list(listF.items())
+		for peer in hitpeer:
+		 
+
 
 
