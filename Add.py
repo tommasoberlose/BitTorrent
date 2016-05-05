@@ -6,6 +6,7 @@ import os
 import hashlib
 import TextFunc as tfunc
 import Package as pack
+import FileStruct as fs
 
 # Le variabili in ingresso sono stringhe
 def add(ip55, sessionID, t_host):

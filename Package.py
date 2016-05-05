@@ -94,7 +94,7 @@ def close():
 
 # PKT CONFIRM DAEMON
 def confirm():
-	return bytes(CODE_CONF, "ascii")
+	return bytes(CODE_CONFIRM, "ascii")
 
 # PKT DOWNLOAD
 def request_download(md5, partNum):

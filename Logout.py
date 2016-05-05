@@ -3,6 +3,7 @@ import Function as func
 import SocketFunc as sFunc
 import Constant as const
 import TextFunc as tfunc
+import FileStruct as fs
 
 
 def logout(ip55, t_host, sessionID):
@@ -15,10 +16,10 @@ def logout(ip55, t_host, sessionID):
 	else:
 		s.sendall(pk)
 		ricevutoByte = s.recv(const.LENGTH_PACK)
-		if ricevutoByte[:4].decode("ascii") == "NLOG":
-			tfunc.error("Siamo spiacenti ma il logout risulta impossibile poichè si è in possesso di parti di file uniche.\n" +
-				+ "Sono state scaricate " + str(int(ricevutoByte[4:])) + " parti del file, fatevi il conto di quante ne mancano.")
-		elif ricevutoByte[:4].decode("ascii") == "ALOG":	
+		if str(ricevutoByte[:4], "ascii") == pack.CODE_LOGOUT_DENIED:
+			tfunc.error("Siamo spiacenti ma il logout risulta impossibile poichè si è in possesso di parti di file uniche.\n" + \
+				"Sono state scaricate " + str(int(ricevutoByte[4:])) + " parti del file, fatevi il conto di quante ne mancano.")
+		elif str(ricevutoByte[:4], "ascii") == pack.CODE_ANSWER_LOGOUT:	
 			tfunc.success("Logout eseguito con successo.\nAvevi " + str(int(ricevutoByte[4:])) + " parti, peccato tu te ne vada, addio.")
 			pk = pack.close()
 			sD = sFunc.create_socket_client(func.roll_the_dice(ip55), const.PORT);
@@ -38,9 +39,9 @@ def logout(ip55, t_host, sessionID):
 def try_logout(sessionID, listFile):
 	nPart, ndPart = fs.get_part_for_logout(sessionID, listFile)
 	if ndPart != 0:
-		conn.sendall(pack.reject_logout(nPart - ndPart))
+		return pack.reject_logout(nPart - ndPart)
 	else:
-		conn.sendall(pack.answer_logout(nPart))
+		return pack.answer_logout(nPart)
 
 def quit(ip55):
 	tfunc.warning("\n>>> QUIT")

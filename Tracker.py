@@ -9,6 +9,7 @@ from threading import *
 import Logout as logo
 import Login as logi
 import Search as search
+import Add as add
 
 class TrackerDaemon(Thread):
 
@@ -43,7 +44,7 @@ class TrackerDaemon(Thread):
 					tfunc.write_daemon_error(self.name, addr[0], "Pacchetto errato")
 				elif (str(ricevutoByte[0:4], "ascii") == pack.CODE_CLOSE):
 					break
-				elif (str(ricevutoByte[0:4], "ascii") == pack.CODE_CONF):
+				elif (str(ricevutoByte[0:4], "ascii") == pack.CODE_CONFIRM):
 					tfunc.write_daemon_success(self.name, addr[0], "Avvio demone Tracker")
 				else:
 					if str(ricevutoByte[0:4], "ascii") == pack.CODE_LOGIN: ### LOGIN OK

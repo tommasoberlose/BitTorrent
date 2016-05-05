@@ -30,10 +30,10 @@ class PeerDaemon(Thread):
 
 				if not ricevutoByte:
 					tfunc.write_daemon_error(self.name, addr[0], "Pacchetto errato")
-				elif (str(ricevutoByte[0:4], "ascii") == const.CODE_CLOSE):
+				elif (str(ricevutoByte[0:4], "ascii") == pack.CODE_CLOSE):
 					break
 				else:
-					if str(ricevutoByte[0:4], "ascii") == const.CODE_DOWNLOAD: #UPLOAD
+					if str(ricevutoByte[0:4], "ascii") == pack.CODE_DOWNLOAD: #UPLOAD
 						upl.upload(ricevutoByte[4:36], ricevutoByte[36:], conn)
 					else:
 						tfunc.write_daemon_error(self.name, addr[0], "Ricevuto pacchetto sbagliato: " + str(ricevutoByte, "ascii"))

@@ -49,8 +49,8 @@ def reconnect_user(ip, port, listUsers, name, addr):
 
 
 def try_connection(host):
-	s = sfunc.create_socket_client(func.roll_the_dice(host), const.PORT)
-	pk = pack.confirm(host)
+	s = sfunc.create_socket_client(func.roll_the_dice(host), const.TPORT)
+	pk = pack.confirm()
 	if s is None:
 		sys.exit(-1)
 	else:
