@@ -43,7 +43,7 @@ def answer_login():
 	return pack
 
 def answer_login_old_user(sessionID):
-	pack = bytes(CODE_ANSWER_LOGIN, "ascii") + bytes(sessionID, "ascii")
+	pack = bytes(CODE_ANSWER_LOGIN, "ascii") + sessionID
 	return pack
 
 # PKT ADD FILE

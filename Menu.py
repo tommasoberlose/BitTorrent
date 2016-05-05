@@ -14,7 +14,7 @@ def menu(host, T, t_host):
 		choice = input()
 
 		if (choice == "login" or choice == "l"):
-			sessionID = logi.login(host, t_host)
+			t_host, sessionID = logi.login(host, t_host)
 			if sessionID != bytes(const.ERROR_LOG, "ascii"):
 				tfunc.success("Session ID: " + str(sessionID, "ascii"))
 

@@ -24,6 +24,6 @@ def login(host, t_host):
 		ricevutoByte = s.recv(const.LENGTH_PACK)
 		sessionID = ricevutoByte[4:20]
 		s.close()
-		return sessionID
+		return t_host, sessionID
 
 
