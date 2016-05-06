@@ -37,6 +37,21 @@ def readArgs(argv):
 				tfunc.error("Errore inserimento dati")
 				writeHelp()
 
+		# IP TRACKER
+		elif argv[i] == "-ipt":
+			try:
+				nGroupT = argv[i + 1]
+				nElementT = argv[i + 2]
+			
+				t_host = [("172.030." + tfunc.format_string(nGroupT, const.LENGTH_SECTION_IPV4, "0") + 
+							"." + tfunc.format_string(nElementT, const.LENGTH_SECTION_IPV4, "0") + 
+							"|fc00:0000:0000:0000:0000:0000:" + tfunc.format_string(nGroupT, const.LENGTH_SECTION_IPV6, "0") + 
+							":" + tfunc.format_string(nElementT, const.LENGTH_SECTION_IPV6, "0")), const.TPORT]
+			except:
+				tfunc.error("Errore inserimento dati")
+				writeHelp()
+		
+
 		# HELP
 		elif argv[i] == "-h":
 			writeHelp()
@@ -50,6 +65,8 @@ def readArgs(argv):
 						"|fc00:0000:0000:0000:0000:0000:" + func.format_string(nGroup, const.LENGTH_SECTION_IPV6, "0") + 
 						":" + func.format_string(nElement, const.LENGTH_SECTION_IPV6, "0"))
 	tfunc.gtext("IP: " + host)
+	if t_host[0] != 0:
+		tfunc.gtext("IP TRACKER: " + t_host[0])
 
 	if T:
 		tfunc.warning("\nP2P >> INIZIALIZZAZIONE COME TRACKER")
@@ -57,7 +74,7 @@ def readArgs(argv):
 		tfunc.warning("\nP2P >> INIZIALIZZAZIONE COME PEER")
 
 	# Return della lista della configurazione scelta
-	return T, host
+	return T, host, t_host
 
 
 def writeHelp():
