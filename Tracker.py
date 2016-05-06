@@ -8,7 +8,7 @@ import FileStruct as fs
 from threading import *
 import Logout as logo
 import Login as logi
-import Search as search
+import Search as src
 import Add as add
 
 class TrackerDaemon(Thread):
@@ -59,18 +59,15 @@ class TrackerDaemon(Thread):
 						else:
 							tfunc.write_daemon_error(self.name, addr[0], "ADD FILE - User not logged")
 
-					elif(str(ricevutoByte[0:4], "ascii") == pack.CODE_LOOK): ### Richiesta di ricerca file da un peer
+					elif(str(ricevutoByte[0:4], "ascii") == pack.CODE_LOOK): ### LOOK
 						# Controllo logon user
 						if ricevutoByte[4:20] in self.listUsers:
-							listMd5 = search.search_in_list_file(self.listFile, ricevutoByte[20:])
-							if len(listMd5) == 0:
-								tfunc.write_daemon_error(self.name, addr[0], "SEARCH FILE - Non è stato trovato nessun file con " + str(ricevutoByte[20:], "ascii") + " nel nome.")
-							pk = pack.answer_look(listMd5, self.listFile)
+							pk = src.search_in_list_file(self.listFile, ricevutoByte[20:])
 							conn.sendall(pk)
 						else:
 							tfunc.write_daemon_error(self.name, addr[0], "SEARCH FILE - User not logged")
 
-					elif(str(ricevutoByte[0:4], "ascii") == pack.CODE_FIND_PART): ### Richiesta conoscenza possesso parti del file cercato nella rete 
+					elif(str(ricevutoByte[0:4], "ascii") == pack.CODE_FIND_PART): ### SEARCH PART 
 						print("Blabla")
 
 					elif str(ricevutoByte[0:4], "ascii") == pack.CODE_UPDATE_PART: ### UPDATE MEMORY OK
@@ -82,7 +79,7 @@ class TrackerDaemon(Thread):
 							tfunc.write_daemon_error(self.name, addr[0], "ADD FILE - User not logged")
 
 					elif str(ricevutoByte[0:4], "ascii") == pack.CODE_LOGOUT: ### LOGOUT OK
-						if ricevutoByte[4:] in self.listUsers:
+						if ricevutoByte[4:20] in self.listUsers:
 							pk = logo.try_logout(ricevutoByte[4:], self.listFile)
 							conn.sendall(pk)
 						else:

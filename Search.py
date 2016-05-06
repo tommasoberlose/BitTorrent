@@ -67,5 +67,7 @@ def search(sessionID, host, t_host):
 
 # Da in uscita la lista degli md5 
 def search_in_list_file(listFile, query):
-	# Da fare
-	return []
+	if len(listMd5) == 0:
+		tfunc.write_daemon_error(self.name, addr[0], "SEARCH FILE - Non è stato trovato nessun file con " + str(ricevutoByte[20:], "ascii").strip() + " nel nome.")
+	pk = pack.answer_look(listFounded)
+	return pk

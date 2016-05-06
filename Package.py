@@ -64,13 +64,14 @@ def answer_add_file(nPart):
 
 def request_look(sessionID, query):
 	query = tfunc.format_string(query, const.LENGTH_QUERY, " ")
-	pack = bytes(CODE_LOGOUT, "ascii") + sessionID + bytes(query, "ascii")
+	pack = bytes(CODE_LOOK, "ascii") + sessionID + bytes(query, "ascii")
 	return pack
 
-# Prende in ingresso la lista di md5 e la listfile
-# Da in uscita il pacchetto
-def answer_look(listMd5, listFile): # DA FARE
-	pack = ""
+def answer_look(listFounded):
+	nidmd5 = len(listFounded)
+	pack = bytes(CODE_ANSWER_LOOK, "ascii") + bytes(tfunc.format_string(str(nidmd5), const.LENGTH_NIDMD5, "0"), "ascii") 
+	for x in range(0, nidmd5):
+		pack += bytes(listFounded[x][0], "ascii") + bytes(listFounded[x][1], "ascii") + bytes(listFounded[x][2], "ascii") + bytes(listFounded[x][3], "ascii")
 	return pack
 
 # PKT LOGOUT

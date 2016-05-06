@@ -14,7 +14,7 @@ host = ""
 t_host = ["", const.TPORT]
 
 ####### INIZIALIZZAZIONE
-T, host = config.readArgs(sys.argv)
+T, host, t_host = config.readArgs(sys.argv)
 
 ####### DEMONE TRACKER
 if T:
