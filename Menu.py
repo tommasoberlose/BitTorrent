@@ -18,7 +18,9 @@ def menu(host, T, t_host):
 			if sessionID != bytes(const.ERROR_LOG, "ascii"):
 				tfunc.success("Session ID: " + str(sessionID, "ascii"))
 
-				daemonThreadP = daemon.PeerDaemon(host)
+				listPartOwned = {}
+
+				daemonThreadP = daemon.PeerDaemon(host, listPartOwned)
 				daemonThreadP.setName("DAEMON PEER")
 				daemonThreadP.start()
 
@@ -27,7 +29,7 @@ def menu(host, T, t_host):
 					choice_after_log = input()
 
 					if (choice_after_log == "add" or choice_after_log == "a"):
-						add.add(host, sessionID, t_host)
+						add.add(host, sessionID, t_host, listPartOwned)
 
 					elif (choice_after_log == "search" or choice_after_log == "s"):
 						src.search(sessionID, host, t_host)

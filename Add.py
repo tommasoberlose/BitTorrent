@@ -7,9 +7,10 @@ import hashlib
 import TextFunc as tfunc
 import Package as pack
 import FileStruct as fs
+import PackFunc as pfunc
 
 # Le variabili in ingresso sono stringhe
-def add(ip55, sessionID, t_host):
+def add(ip55, sessionID, t_host, listPartOwned):
 	tfunc.warning("\n>>> ADD FILE")
 	fileName = input("Quale file vuoi inserire?\n")
 	if fileName != "0":
@@ -26,6 +27,7 @@ def add(ip55, sessionID, t_host):
 				ricevutoByte = s.recv(const.LENGTH_PACK)
 				if(ricevutoByte[:4].decode("ascii") == pack.CODE_ANSWER_ADDFILE):
 					tfunc.success("Il file " + fileName + " è stato aggiunto con successo.\nÈ stato diviso in " + str(int(ricevutoByte[4:])) + " parti.")
+					pfunc.add_to_list_owner(md5File, lenFile, listPartOwned)
 				else:
 					tfunc.error("Errore nella ricezione del codice di aggiunta file.")
 				s.close()

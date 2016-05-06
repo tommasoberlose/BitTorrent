@@ -27,7 +27,7 @@ def search(sessionID, host, t_host):
 
 		ricevutoByte = s.recv(4 * const.LENGTH_PACK)
 
-		if str(ricevutoByte[0:4],"ascii") == pack.CODE_ANSWER_LOOK:
+		if str(ricevutoByte[0:4], "ascii") == pack.CODE_ANSWER_LOOK:
 			nIdmd5 = int(ricevutoByte[4:7])
 			if(nIdmd5 != 0):
 				tfunc.success("Ricerca completata.")
@@ -53,13 +53,21 @@ def search(sessionID, host, t_host):
 				
 				selectId = input("\nInserire il numero di file che vuoi scaricare (0 per uscire): ")
 				
-				if(selectId != "0"):
+				if selectId != "0" :
 					for i in range (0, id):
 						if listFile[i][0] == int(selectId):
 							selectFile = listFile[i]
 							break
 
 					# FASE 2 dnl.download(selectFile)
+
+					pk = pack.update_knowledge(sessionID, selectFile[1])
+					s.sendall(pk)
+
+					ricevutoByte = s.recv(4 * const.LENGTH_PACK)
+
+					if str(ricevutoByte[0:4], "ascii") == pack.CODE_ANSWER_FIND_PART:
+
 
 			else:
 				func.error("Non sono presenti file con questa query nel nome: " + query)

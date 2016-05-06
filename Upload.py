@@ -1,25 +1,40 @@
-
+import Constant as const
+import TextFunc as tfunc
+import Package as pack
+import hashlib
+import os
 ###### UPLOAD FILE 
 
-def upload(nomeFile, nPart, ss):
+def upload(md5, nPart, ss, listPartOwned):
 	f = open((const.FILE_COND + nomeFile), 'rb')
 
 	fileLength = os.stat(const.FILE_COND + nomeFile).st_size
-	nChunk = int(fileLength / const.LENGTH_PACK) + 1 
 
-	nChunk = format_string(str(nChunk), const.LENGTH_NCHUNKS, "0")
-	pk = bytes(const.CODE_ANSWER_DOWNLOAD, "ascii") + bytes(nChunk, "ascii")
+	lenPart = fileLength / len(listPartOwned[md5])
+
+	if (lenPart % const.LENGTH_PACK) > 0:
+		nChunk = int(lenPart / const.LENGTH_PACK) + 1 
+	else:
+		nChunk = int(lenPart / const.LENGTH_PACK)
+
+	nChunk = tfunc.format_string(str(nChunk), const.LENGTH_NCHUNKS, "0")
+	pk = bytes(pack.CODE_ANSWER_DOWNLOAD, "ascii") + bytes(nChunk, "ascii")
 	ss.sendall(pk)
+
+	f.seek(int(nPart) * lenPart, 0)
 
 	i = 0
 	while True:
 		line = f.read(const.LENGTH_PACK)
-		dimLine = format_string(str(len(line)), const.LENGTH_NCHUNK, "0")
+		dimLine = tfunc.format_string(str(len(line)), const.LENGTH_NCHUNK, "0")
 		pk = bytes(dimLine, "ascii") + line
 		ss.sendall(pk)
-		#print(pack)
 		i = i + 1
-		if i == int(nChunk):
+		if (i == (int(nChunk) - 1)):
+			line = f.read(const.LENGTH_PACK - (lenPart % const.LENGTH_PACK))
+			dimLine = tfunc.format_string(str(len(line)), const.LENGTH_NCHUNK, "0")
+			pk = bytes(dimLine, "ascii") + line
+			ss.sendall(pk)
 			break
 
 def find_file_by_md5(md5):
