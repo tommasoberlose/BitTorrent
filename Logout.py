@@ -36,11 +36,12 @@ def logout(ip55, t_host, sessionID):
 
 	return result
 
-def try_logout(sessionID, listFile):
+def try_logout(sessionID, listFile, listUsers):
 	nPart, ndPart = fs.get_part_for_logout(sessionID, listFile)
 	if ndPart != 0:
 		return pack.reject_logout(nPart - ndPart)
 	else:
+		remove_user()
 		return pack.answer_logout(nPart)
 
 def quit(ip55):
@@ -53,3 +54,12 @@ def quit(ip55):
 		s.sendall(pk)
 		s.close()
 		tfunc.success("Chiusura del demone tracker eseguito con successo, arrivederci.\n\n")
+
+def remove_user(sessionID, listFile, listUsers):
+	del listUsers[sessionID]
+	list_file_from_dict = list(listFile.items())
+	for file in list_file_from_dict:
+		del file[1].listOwner[sessionID]
+
+	d = {key: value for (key, value) in list_file_from_dict}
+	return d
