@@ -4,6 +4,7 @@ import Package as pack
 import SocketFunc as sfunc
 import Download as dnl
 import string
+import Function as func
 
 # MACROFUNZIONE DI SISTEMA
 
@@ -17,7 +18,7 @@ def search(sessionID, ip55, ipTracker55):
 
 	# Fase 1
 	ricevutoByte = b''
-	pk = pack.request_search(sessionID, query)
+	pk = pack.request_look(sessionID, query)
 	s = sfunc.create_socket_client(func.roll_the_dice(ipTracker55), const.TPORT);
 	if s is None:
 		tfunc.error("Tracker non attivo.")
