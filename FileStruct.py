@@ -93,3 +93,23 @@ def find_file_from_string(listFile, query):
 			listFounded.append([file[0], file[1].filename, file[1].lenFile, file[1].lenPart])
 
 	return listFounded
+
+def find_hitpeer_from_md5(listFile, listUsers, sessionID, md5):
+	file = listFile[md5]
+	listFounded = []
+	listP = list(file.listOwner.items())
+	for part in listP:
+		if part[0] != sessionID:
+			listFounded.append([listUsers[sessionID][0], listUsers[sessionID][1], part[1]])
+
+	return listFounded
+
+
+def get_bytes_from_partlist(part):
+	partS = ""
+	lenP = len(part) / 8
+	if (len(part) % 8) != 0:
+		lenP += 1
+	for x in range(0, lenP):
+		partS += chr(int(part[x:x+8], 2))
+	return partS

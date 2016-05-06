@@ -72,3 +72,11 @@ def search_in_list_file(listFile, query, name, addr):
 		tfunc.write_daemon_error(name, addr[0], "SEARCH FILE - Nessun file con " + str(query, "ascii").strip() + " nel nome.")
 	pk = pack.answer_look(listFounded)
 	return pk
+
+
+def find_hitpeer(listFile, listUsers, sessionID, md5, name, addr):
+	listFounded = fs.find_hitpeer_from_md5(listFile, listUsers, sessionID, md5)
+	if len(listFounded) == 0:
+		tfunc.write_daemon_error(name, addr[0], "REQUEST FILEPART - Nessun file con md5: " + str(md5, "ascii"))
+	pk = pack.answer_hitpeer(listFounded)
+	return pk

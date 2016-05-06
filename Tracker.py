@@ -68,7 +68,12 @@ class TrackerDaemon(Thread):
 							tfunc.write_daemon_error(self.name, addr[0], "SEARCH FILE - User not logged")
 
 					elif(str(ricevutoByte[0:4], "ascii") == pack.CODE_FIND_PART): ### SEARCH PART 
-						print("Blabla")
+						# Controllo presenza user
+						if ricevutoByte[4:20] in self.listUsers:
+							pk = src.find_hitpeer(self.listFile, self.listUsers, ricevutoByte[4:20], ricevutoByte[20:], self.name, addr)
+							conn.sendall(pk)
+						else:
+							tfunc.write_daemon_error(self.name, addr[0], "REQUEST FILEPART - User not logged")
 
 					elif str(ricevutoByte[0:4], "ascii") == pack.CODE_UPDATE_PART: ### UPDATE MEMORY OK
 						# Controllo presenza user

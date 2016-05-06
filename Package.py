@@ -74,6 +74,19 @@ def answer_look(listFounded):
 		pack += bytes(listFounded[x][0], "ascii") + bytes(listFounded[x][1], "ascii") + bytes(listFounded[x][2], "ascii") + bytes(listFounded[x][3], "ascii")
 	return pack
 
+# PKT SEARCH FASE 2
+
+def request_hitpeer(sessionID, md5):
+	pack = bytes(CODE_FIND_PART, "ascii") + sessionID + md5
+	return pack
+
+def answer_hitpeer(listFounded):
+	nHitPeer = len(listFounded)
+	pack = bytes(CODE_ANSWER_FIND_PART, "ascii") + bytes(tfunc.format_string(str(nHitPeer), const.LENGTH_NIDMD5, "0"), "ascii") 
+	for x in range(0, nHitPeer):
+		pack += bytes(listFounded[x][0], "ascii") + bytes(listFounded[x][1], "ascii") + bytes(fs.get_bytes_from_partlist(listFounded[x][2]), "ascii")
+	return pack
+
 # PKT LOGOUT
 def request_logout(sessionID):
 	pack = bytes(CODE_LOGOUT, "ascii") + sessionID
