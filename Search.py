@@ -8,8 +8,8 @@ import Function as func
 import FileStruct as fs
 
 # MACROFUNZIONE DI SISTEMA
-
-def search(sessionID, host, t_host):
+# >> PEER
+def search(sessionID, host, t_host, listPartOwned):
 
 	tfunc.warning("\n>>> SEARCH")
 	query = input("\nInserisci il nome del file da cercare: ")
@@ -60,26 +60,17 @@ def search(sessionID, host, t_host):
 							selectFile = listFile[i]
 							break
 
-					# FASE 2 dnl.download(selectFile)
+					# FASE 2 
 
-					s.close()
-					s = sfunc.create_socket_client(func.roll_the_dice(t_host[0]), t_host[1]);
-					if s is None:
-						tfunc.error("Tracker non attivo.")
-					else:
-						pk = pack.request_hitpeer(sessionID, selectFile[1])
-						s.sendall(pk)
-
-						ricevutoByte = s.recv(4 * const.LENGTH_PACK)
-
-						if str(ricevutoByte[0:4], "ascii") == pack.CODE_ANSWER_FIND_PART:
-							print("Ciao")
+					print ("\n>>> DOWNLOAD")
+					dnl.download(host, t_host, selectFile, sessionID, listPartOwned)
 
 			else:
 				tfunc.error("Non sono presenti file con questa query nel nome: " + query)
 		s.close()
 
 # Da in uscita la lista degli md5 
+# >> TRACKER
 def search_in_list_file(listFile, sessionID, query, name, addr):
 	listFounded = fs.find_file_from_string(listFile, sessionID, query)
 	if len(listFounded) == 0:
@@ -88,6 +79,7 @@ def search_in_list_file(listFile, sessionID, query, name, addr):
 	return pk
 
 
+# >> TRACKER
 def find_hitpeer(listFile, listUsers, sessionID, md5, name, addr):
 	listFounded = fs.find_hitpeer_from_md5(listFile, listUsers, sessionID, md5)
 	if len(listFounded) == 0:

@@ -32,7 +32,7 @@ def menu(host, T, t_host):
 						add.add(host, sessionID, t_host, listPartOwned)
 
 					elif (choice_after_log == "search" or choice_after_log == "s"):
-						src.search(sessionID, host, t_host)
+						src.search(sessionID, host, t_host, listPartOwned)
 
 					elif (choice_after_log == "logout" or choice_after_log == "l"):
 						if (logo.logout(host, t_host, sessionID) > 0):

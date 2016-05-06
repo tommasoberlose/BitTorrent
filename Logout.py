@@ -6,6 +6,7 @@ import TextFunc as tfunc
 import FileStruct as fs
 
 
+# >> PEER
 def logout(ip55, t_host, sessionID):
 	tfunc.warning("\n>>> LOGOUT")
 	result = -1
@@ -36,6 +37,7 @@ def logout(ip55, t_host, sessionID):
 
 	return result
 
+# >> TRACKER
 def try_logout(sessionID, listFile, listUsers):
 	nPart, ndPart = fs.get_part_for_logout(sessionID, listFile)
 	if ndPart != 0:
@@ -44,6 +46,7 @@ def try_logout(sessionID, listFile, listUsers):
 		remove_user(sessionID, listFile, listUsers)
 		return pack.answer_logout(nPart)
 
+# >> PEER
 def quit(ip55):
 	tfunc.warning("\n>>> QUIT")
 	pk = pack.close()
@@ -55,6 +58,7 @@ def quit(ip55):
 		s.close()
 		tfunc.success("Chiusura del demone tracker eseguito con successo, arrivederci.\n\n")
 
+# >> TRACKER
 def remove_user(sessionID, listFile, listUsers):
 	del listUsers[sessionID]
 	list_file_from_dict = list(listFile.items())
