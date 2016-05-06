@@ -8,6 +8,7 @@ def readArgs(argv):
 
 	T = False
 	host = ""
+	t_host = ["", const.TPORT]
 
 	for i in range(len(argv)):
 

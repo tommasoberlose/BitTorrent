@@ -34,6 +34,7 @@ def add(ip55, sessionID, t_host):
 
 
 def add_file_to_list(fileName, lenFile, lenPart, sessionIDUploader, md5, listFile, name, addr):
+	print(md5)
 	fileToAdd = fs.FileStruct(fileName, lenFile, lenPart, sessionIDUploader)
 	fileToAdd.add_owner_total()
 	listFile[md5] = fileToAdd 

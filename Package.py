@@ -52,7 +52,7 @@ def request_add_file(sessionID, lenFile, md5, fileName):
 	lenFile = tfunc.format_string(str(lenFile), const.LENGTH_LENFILE, " ")
 	lenPart = tfunc.format_string(str(const.LENGTH_PART), const.LENGTH_LENPART, " ")
 	fileName = tfunc.format_string(fileName, const.LENGTH_FILENAME, " ")
-	pack = bytes(CODE_ADDFILE, "ascii") + sessionID + bytes(lenFile, "ascii") + bytes(lenPart, "ascii") + bytes(md5, "ascii") + bytes(fileName, "ascii")
+	pack = bytes(CODE_ADDFILE, "ascii") + sessionID + bytes(lenFile, "ascii") + bytes(lenPart, "ascii") + bytes(fileName, "ascii") + bytes(md5, "ascii") 
 	return pack
 
 def answer_add_file(nPart):
@@ -71,7 +71,7 @@ def answer_look(listFounded):
 	nidmd5 = len(listFounded)
 	pack = bytes(CODE_ANSWER_LOOK, "ascii") + bytes(tfunc.format_string(str(nidmd5), const.LENGTH_NIDMD5, "0"), "ascii") 
 	for x in range(0, nidmd5):
-		pack += bytes(listFounded[x][0], "ascii") + bytes(listFounded[x][1], "ascii") + bytes(listFounded[x][2], "ascii") + bytes(listFounded[x][3], "ascii")
+		pack += listFounded[x][0] + listFounded[x][1] + listFounded[x][2] + listFounded[x][3]
 	return pack
 
 # PKT SEARCH FASE 2

@@ -5,6 +5,7 @@ import SocketFunc as sfunc
 import Download as dnl
 import string
 import Function as func
+import FileStruct as fs
 
 # MACROFUNZIONE DI SISTEMA
 
@@ -62,7 +63,7 @@ def search(sessionID, host, t_host):
 					# FASE 2 dnl.download(selectFile)
 
 			else:
-				func.error("Non sono presenti file con questa query nel nome: " + query)
+				tfunc.error("Non sono presenti file con questa query nel nome: " + query)
 		s.close()
 
 # Da in uscita la lista degli md5 
