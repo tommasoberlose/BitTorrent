@@ -5,6 +5,7 @@ import hashlib
 import os
 ###### UPLOAD FILE 
 
+# >> PEER
 def upload(md5, nPart, ss, listPartOwned):
 	f = open((const.FILE_COND + nomeFile), 'rb')
 
@@ -37,6 +38,8 @@ def upload(md5, nPart, ss, listPartOwned):
 			ss.sendall(pk)
 			break
 
+# >> PEER
+# Usata?
 def find_file_by_md5(md5):
 	file_list = os.listdir(const.FILE_COND)
 	for filef in file_list:

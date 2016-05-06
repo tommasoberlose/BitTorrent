@@ -10,6 +10,7 @@ import FileStruct as fs
 import PartFunc as pfunc
 
 # Le variabili in ingresso sono stringhe
+# >> PEER
 def add(ip55, sessionID, t_host, listPartOwned):
 	tfunc.warning("\n>>> ADD FILE")
 	fileName = input("Quale file vuoi inserire?\n")
@@ -35,6 +36,7 @@ def add(ip55, sessionID, t_host, listPartOwned):
 			tfunc.error("Errore: file non esistente.")
 
 
+# >> TRACKER
 def add_file_to_list(fileName, lenFile, lenPart, sessionIDUploader, md5, listFile, name, addr):
 	print(md5)
 	print(listFile)

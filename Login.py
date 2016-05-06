@@ -5,6 +5,7 @@ import TextFunc as tfunc
 import Function as func
 import sys
 
+# >> PEER
 def login(host, t_host):
 
 	if t_host[0] == "":
@@ -28,7 +29,7 @@ def login(host, t_host):
 		s.close()
 		return t_host, sessionID
 
-
+# >> TRACKER
 def reconnect_user(ip, port, listUsers, name, addr):
 	pk = const.ERROR_PKT
 	listaUtenti = []
@@ -49,6 +50,7 @@ def reconnect_user(ip, port, listUsers, name, addr):
 	return pk
 
 
+# >> PEER
 def try_connection(host):
 	s = sfunc.create_socket_client(func.roll_the_dice(host), const.TPORT)
 	pk = pack.confirm()

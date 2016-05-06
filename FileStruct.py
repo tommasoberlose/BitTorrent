@@ -1,6 +1,7 @@
 import string
 
 # Crea una stringa contenente tutte le parti a 1
+# >> TRACKER
 def create_total_part(lenFile, lenPart):
 	k = int(int(lenFile)/int(lenPart))
 	if (int(lenFile) % int(lenPart)) > 0:
@@ -49,6 +50,7 @@ class FileStruct:
 		else:
 			return False
  
+# >> TRACKER
 def update_memory(sessionID, md5, partN, listFile):
 	file = listFile[md5]
 	memory_of_user = file.listOwner[sessionID]
@@ -58,13 +60,15 @@ def update_memory(sessionID, md5, partN, listFile):
 	nPart = count_part(file.listOwner[sessionID])
 	return pack.answer_update_tracker(nPart)
 
+# >> PEER, TRACKER
 def count_part(s):
 	sl = list(s)
 	part = 0
 	for i in sl:
 		part += int(i)
 	return part
-		 
+
+# >> TRACKER
 def get_part_for_logout(sessionID, listFile):
 	listF = []
 	listHitpeer = []
@@ -85,7 +89,7 @@ def get_part_for_logout(sessionID, listFile):
 
 	return nPart, ndPart
 
-
+# >> TRACKER
 def find_file_from_string(listFile, sessionID, query):
 	listFounded = []
 	listF = list(listFile.items())
@@ -96,6 +100,7 @@ def find_file_from_string(listFile, sessionID, query):
 
 	return listFounded
 
+# >> TRACKER
 def find_hitpeer_from_md5(listFile, listUsers, sessionID, md5):
 	fileC = listFile[md5]
 	print(listFile)
@@ -109,7 +114,7 @@ def find_hitpeer_from_md5(listFile, listUsers, sessionID, md5):
 
 	return listFounded
 
-
+# >> TRACKER
 def get_bytes_from_partlist(part):
 	partS = ""
 	lenP = len(part) / 8
@@ -118,3 +123,9 @@ def get_bytes_from_partlist(part):
 	for x in range(0, lenP):
 		partS += chr(int(part[x:x+8], 2))
 	return partS
+
+# >> PEER
+def find_part_from_hitpeer(nHitPeer, part):
+	listPart = []
+	for x in range(0, nHitPeer):
+		
