@@ -1,4 +1,3 @@
-import socket
 import Constant as const
 import Function as func
 import Package as pack
