@@ -8,13 +8,15 @@ from threading import *
 import TextFunc as tfunc
 import SocketFunc as sfunc
 import Upload as upl
+import PartFunc as pfunc
 
 class PeerDaemon(Thread):
 
-	def __init__(self, host):
+	def __init__(self, host, listPartOwned):
 		Thread.__init__(self)
 		self.host = host
 		self.port = const.PORT
+		self.listPartOwned = listPartOwned
 
 	def run(self):
 		# Creazione socket
@@ -25,8 +27,6 @@ class PeerDaemon(Thread):
 			while 1:
 				conn, addr = s.accept()
 				ricevutoByte = conn.recv(const.LENGTH_PACK)
-				#print("\n")
-				#tfunc.write_daemon_text(self.name, addr[0], str(ricevutoByte, "ascii"))
 
 				if not ricevutoByte:
 					tfunc.write_daemon_error(self.name, addr[0], "Pacchetto errato")
@@ -34,7 +34,10 @@ class PeerDaemon(Thread):
 					break
 				else:
 					if str(ricevutoByte[0:4], "ascii") == pack.CODE_DOWNLOAD: #UPLOAD
-						upl.upload(ricevutoByte[4:36], ricevutoByte[36:], conn)
+						if pfunc.check_presence(int(ricevutoByte[36:]), ricevutoByte[4:36], listPartOwned):
+							upl.upload(ricevutoByte[4:36], ricevutoByte[36:], conn, listPartOwned)
+						else:
+							tfunc.write_daemon_error(self.name, addr[0], "Errore, la parte " + str(int(ricevutoByte[36:])) + " non è presente.")
 					else:
 						tfunc.write_daemon_error(self.name, addr[0], "Ricevuto pacchetto sbagliato: " + str(ricevutoByte, "ascii"))
 			s.close()
