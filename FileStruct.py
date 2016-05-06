@@ -85,3 +85,11 @@ def get_part_for_logout(sessionID, listFile):
 	return nPart, ndPart
 
 
+def find_file_from_string(listFile, query):
+	listFounded = []
+	listF = list(listFile.items())
+	for file in listF:
+		if query in file[1].filename:
+			listFounded.append([file[0], file[1].filename, file[1].lenFile, file[1].lenPart])
+
+	return listFounded
