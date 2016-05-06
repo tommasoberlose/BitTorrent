@@ -8,7 +8,7 @@ import Function as func
 
 # MACROFUNZIONE DI SISTEMA
 
-def search(sessionID, ip55, ipTracker55):
+def search(sessionID, host, t_host):
 
 	tfunc.warning("\n>>> SEARCH")
 	query = input("\nInserisci il nome del file da cercare: ")
@@ -19,7 +19,7 @@ def search(sessionID, ip55, ipTracker55):
 	# Fase 1
 	ricevutoByte = b''
 	pk = pack.request_look(sessionID, query)
-	s = sfunc.create_socket_client(func.roll_the_dice(ipTracker55), const.TPORT);
+	s = sfunc.create_socket_client(func.roll_the_dice(t_host[0]), t_host[1]);
 	if s is None:
 		tfunc.error("Tracker non attivo.")
 	else:
