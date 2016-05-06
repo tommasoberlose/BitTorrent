@@ -71,16 +71,17 @@ def get_part_for_logout(sessionID, listFile):
 	nPart = 0
 	ndPart = 0
 	listF = list(listFile.values())
-	for file in listF:
-		listHitpeer = list(file.listOwner.items())
-		actual_str = file.listOwner[sessionID]
-		nPart += count_part(file.listOwner[sessionID])
-		for peer in listHitpeer:
-			if peer[0] != sessionID:
-				actual_str = tfunc.count_sub_string(actual_str, peer[1])
-				if count_part(actual_str) == 0:
-					break
-		ndPart += count_part(actual_str) 		
+	for fileC in listF:
+		listHitpeer = list(fileC.listOwner.items())
+		if sessionID in fileC.listOwner:
+			actual_str = fileC.listOwner[sessionID]
+			nPart += count_part(fileC.listOwner[sessionID])
+			for peer in listHitpeer:
+				if peer[0] != sessionID:
+					actual_str = tfunc.count_sub_string(actual_str, peer[1])
+					if count_part(actual_str) == 0:
+						break
+			ndPart += count_part(actual_str) 		
 
 	return nPart, ndPart
 
@@ -88,10 +89,10 @@ def get_part_for_logout(sessionID, listFile):
 def find_file_from_string(listFile, sessionID, query):
 	listFounded = []
 	listF = list(listFile.items())
-	for file in listF:
-		if sessionID != file[1].sessionIDUploader:
-			if query in file[1].filename:
-				listFounded.append([file[0], file[1].filename, file[1].lenFile, file[1].lenPart])
+	for fileC in listF:
+		if sessionID != fileC[1].sessionIDUploader:
+			if query in fileC[1].filename:
+				listFounded.append([fileC[0], fileC[1].filename, fileC[1].lenFile, fileC[1].lenPart])
 
 	return listFounded
 

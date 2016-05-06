@@ -58,8 +58,9 @@ def quit(ip55):
 def remove_user(sessionID, listFile, listUsers):
 	del listUsers[sessionID]
 	list_file_from_dict = list(listFile.items())
-	for file in list_file_from_dict:
-		del file[1].listOwner[sessionID]
+	for fileC in list_file_from_dict:
+		if sessionID in fileC[1].listOwner:
+			del fileC[1].listOwner[sessionID]
 
 	d = {key: value for (key, value) in list_file_from_dict}
 	return d
