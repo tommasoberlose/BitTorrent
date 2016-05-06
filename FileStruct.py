@@ -95,9 +95,12 @@ def find_file_from_string(listFile, query):
 	return listFounded
 
 def find_hitpeer_from_md5(listFile, listUsers, sessionID, md5):
-	file = listFile[md5]
+	fileC = listFile[md5]
+	print(listFile)
+	print(md5)
+	fileC.printStruct()
 	listFounded = []
-	listP = list(file.listOwner.items())
+	listP = list(fileC.listOwner.items())
 	for part in listP:
 		if part[0] != sessionID:
 			listFounded.append([listUsers[sessionID][0], listUsers[sessionID][1], part[1]])

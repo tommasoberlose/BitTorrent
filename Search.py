@@ -62,13 +62,18 @@ def search(sessionID, host, t_host):
 
 					# FASE 2 dnl.download(selectFile)
 
-					pk = pack.update_knowledge(sessionID, selectFile[1])
-					s.sendall(pk)
+					s.close()
+					s = sfunc.create_socket_client(func.roll_the_dice(t_host[0]), t_host[1]);
+					if s is None:
+						tfunc.error("Tracker non attivo.")
+					else:
+						pk = pack.request_hitpeer(sessionID, selectFile[1])
+						s.sendall(pk)
 
-					ricevutoByte = s.recv(4 * const.LENGTH_PACK)
+						ricevutoByte = s.recv(4 * const.LENGTH_PACK)
 
-					if str(ricevutoByte[0:4], "ascii") == pack.CODE_ANSWER_FIND_PART:
-
+						if str(ricevutoByte[0:4], "ascii") == pack.CODE_ANSWER_FIND_PART:
+							print("Ciao")
 
 			else:
 				tfunc.error("Non sono presenti file con questa query nel nome: " + query)

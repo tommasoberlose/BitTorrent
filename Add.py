@@ -7,7 +7,7 @@ import hashlib
 import TextFunc as tfunc
 import Package as pack
 import FileStruct as fs
-import PackFunc as pfunc
+import PartFunc as pfunc
 
 # Le variabili in ingresso sono stringhe
 def add(ip55, sessionID, t_host, listPartOwned):

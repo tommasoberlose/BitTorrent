@@ -41,7 +41,7 @@ def try_logout(sessionID, listFile, listUsers):
 	if ndPart != 0:
 		return pack.reject_logout(nPart - ndPart)
 	else:
-		remove_user()
+		remove_user(sessionID, listFile, listUsers)
 		return pack.answer_logout(nPart)
 
 def quit(ip55):
