@@ -80,8 +80,8 @@ def search(sessionID, host, t_host):
 		s.close()
 
 # Da in uscita la lista degli md5 
-def search_in_list_file(listFile, query, name, addr):
-	listFounded = fs.find_file_from_string(listFile, query)
+def search_in_list_file(listFile, sessionID, query, name, addr):
+	listFounded = fs.find_file_from_string(listFile, sessionID, query)
 	if len(listFounded) == 0:
 		tfunc.write_daemon_error(name, addr[0], "SEARCH FILE - Nessun file con " + str(query, "ascii").strip() + " nel nome.")
 	pk = pack.answer_look(listFounded)

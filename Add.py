@@ -36,9 +36,11 @@ def add(ip55, sessionID, t_host, listPartOwned):
 
 
 def add_file_to_list(fileName, lenFile, lenPart, sessionIDUploader, md5, listFile, name, addr):
-	print(md5)
-	fileToAdd = fs.FileStruct(fileName, lenFile, lenPart, sessionIDUploader)
-	fileToAdd.add_owner_total()
-	listFile[md5] = fileToAdd 
-	tfunc.write_daemon_success(name, addr[0], "ADD FILE " + str(fileName, "ascii").strip())
-	return pack.answer_add_file(fileToAdd.nPart)
+	if md5 not in listFile:
+		fileToAdd = fs.FileStruct(fileName, lenFile, lenPart, sessionIDUploader)
+		fileToAdd.add_owner_total()
+		listFile[md5] = fileToAdd 
+		tfunc.write_daemon_success(name, addr[0], "ADD FILE " + str(fileName, "ascii").strip())
+		return pack.answer_add_file(fileToAdd.nPart)
+	else:
+		return pack.answer_add_file(listFile[md5].nPart)

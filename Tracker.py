@@ -61,7 +61,7 @@ class TrackerDaemon(Thread):
 					elif(str(ricevutoByte[0:4], "ascii") == pack.CODE_LOOK): ### LOOK
 						# Controllo presenza user
 						if ricevutoByte[4:20] in self.listUsers:
-							pk = src.search_in_list_file(self.listFile, ricevutoByte[20:], self.name, addr)
+							pk = src.search_in_list_file(self.listFile, ricevutoByte[4:20], ricevutoByte[20:], self.name, addr)
 							conn.sendall(pk)
 						else:
 							tfunc.write_daemon_error(self.name, addr[0], "SEARCH FILE - User not logged")
