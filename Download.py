@@ -1,5 +1,12 @@
 import DaemonDownload as daemonDnl
 import Search as src
+import FileStruct as fs
+import Package as pack
+import SocketFunc as sfunc
+import threading
+from threading import *
+import TextFunction as tfunc
+import Constant as const
 
 ###### DOWNLOAD FILE
 
@@ -7,9 +14,9 @@ import Search as src
 # >> PEER
 def start_download(host, t_host, selectFile, sessionID, listPartOwned):	
 
-	md5 = selectFile[0]
-	fileName = selectFile[1]
-	ricevutoByte = request_memory_of_hitpeer(t_host, sessionID, fileName)
+	md5 = selectFile[1]
+	fileName = selectFile[2]
+	ricevutoByte = request_memory_of_hitpeer(t_host, sessionID, md5)
 
 	if str(ricevutoByte[0:4], "ascii") == pack.CODE_ANSWER_FIND_PART:
 		nHitPeer = int(ricevutoByte[4:7])

@@ -35,16 +35,20 @@ class TrackerDaemon(Thread):
 
 				conn, addr = s.accept()
 				ricevutoByte = conn.recv(const.LENGTH_PACK)
-				#print("\n")
-				#tfunc.write_daemon_text(self.name, addr[0], str(ricevutoByte, "ascii"))
-
 
 				if not ricevutoByte:
 					tfunc.write_daemon_error(self.name, addr[0], "Pacchetto errato")
+
+				# Chiusura del demone
 				elif (str(ricevutoByte[0:4], "ascii") == pack.CODE_CLOSE):
+					tfunc.write_daemon_success(self.name, addr[0], "Chiusura del demone Tracker")
 					break
+
+				# Test corretto avvio demone
 				elif (str(ricevutoByte[0:4], "ascii") == pack.CODE_CONFIRM):
 					tfunc.write_daemon_success(self.name, addr[0], "Avvio demone Tracker")
+
+				# Reale funzionamento
 				else:
 					if str(ricevutoByte[0:4], "ascii") == pack.CODE_LOGIN: ### LOGIN OK
 						pk = logi.reconnect_user(ricevutoByte[4:59], ricevutoByte[59:], self.listUsers, self.name, addr)

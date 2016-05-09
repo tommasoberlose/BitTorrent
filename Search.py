@@ -63,7 +63,7 @@ def search(sessionID, host, t_host, listPartOwned):
 					# FASE 2 
 
 					print ("\n>>> DOWNLOAD")
-					dnl.download(host, t_host, selectFile, sessionID, listPartOwned)
+					dnl.start_download(host, t_host, selectFile, sessionID, listPartOwned)
 
 			else:
 				tfunc.error("Non sono presenti file con questa query nel nome: " + query)
