@@ -21,10 +21,10 @@ def start_download(host, t_host, selectFile, sessionID, listPartOwned):
 	if str(ricevutoByte[0:4], "ascii") == pack.CODE_ANSWER_FIND_PART:
 		nHitPeer = int(ricevutoByte[4:7])
 		if nHitPeer != 0:
-			listPart = fs.find_part_from_hitpeer(int(ricevutoByte[4:7]), ricevutoByte[7:])
+			listPart = fs.find_part_from_hitpeer(int(ricevutoByte[4:7]), ricevutoByte[7:], listPartOwned)
 
 			for part in list(listPart.items()):
-				daemonThreadD = daemonDnl.DaemonDownload(host, t_host, sessionID, fileName, md5, part, listPartOwned)
+				daemonThreadD = daemonDnl.DaemonDownload(host, t_host, sessionID, fileName, md5, part[0], part[1], listPartOwned)
 				daemonThreadD.setName("DAEMON DOWNLOAD PART " + part[0] " di " + fileName)
 				daemonThreadD.start()
 
