@@ -53,10 +53,7 @@ class FileStruct:
 # >> TRACKER
 def update_memory(sessionID, md5, partN, listFile):
 	file = listFile[md5]
-	memory_of_user = file.listOwner[sessionID]
-	sl = list(memory_of_user)
-	sl[partN - 1] = '1'
-	file.listOwner[sessionID] = "".join(sl)
+	file.listOwner[sessionID][partN - 1] = '1'
 	nPart = count_part(file.listOwner[sessionID])
 	return pack.answer_update_tracker(nPart)
 
@@ -94,8 +91,8 @@ def find_file_from_string(listFile, sessionID, query):
 	listFounded = []
 	listF = list(listFile.items())
 	for fileC in listF:
-		if (sessionID != fileC[1].sessionIDUploader) or (query == "*"):
-			if (query in fileC[1].filename) or (query == "*"):
+		if (sessionID != fileC[1].sessionIDUploader) or (query.strip() == "*"):
+			if (query.strip() in str(fileC[1].filename, "ascii")) or (query.strip() == "*"):
 				listFounded.append([fileC[0], fileC[1].filename, fileC[1].lenFile, fileC[1].lenPart])
 
 	return listFounded
@@ -103,9 +100,6 @@ def find_file_from_string(listFile, sessionID, query):
 # >> TRACKER
 def find_hitpeer_from_md5(listFile, listUsers, sessionID, md5):
 	fileC = listFile[md5]
-	print(listFile)
-	print(md5)
-	fileC.printStruct()
 	listFounded = []
 	listP = list(fileC.listOwner.items())
 	for part in listP:
@@ -120,9 +114,9 @@ def get_bytes_from_partlist(part):
 	lenP = len(part) / 8
 	if (len(part) % 8) != 0:
 		lenP += 1
-	for x in range(0, lenP):
+	for x in range(0, int(lenP)):
 		partS += chr(int(part[x:x+8], 2))
-	return partS
+	return bytes(partS, "ascii")
 
 # >> PEER
 def find_part_from_hitpeer(nHitPeer, part):

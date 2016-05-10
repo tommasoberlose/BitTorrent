@@ -21,7 +21,7 @@ def login(host, t_host):
 	pk = pack.request_login(host)
 	if s is None:
 		tfunc.error("Errore nell'apertura della socket per il login")
-		return const.ERROR_LOG
+		return t_host, const.ERROR_LOG
 	else:
 		s.sendall(pk)
 		ricevutoByte = s.recv(const.LENGTH_PACK)
@@ -40,11 +40,11 @@ def reconnect_user(ip, port, listUsers, name, addr):
 				pk = pack.answer_login_old_user(i[0])
 				break
 
-	if pk == const.ERROR_PKT: 
-		tfunc.write_daemon_success(name, addr[0], "LOGIN OK")
+	if pk == const.ERROR_PKT:
 		pk = pack.answer_login()
+		tfunc.write_daemon_success(name, addr[0], "LOGIN OK: " + str(pk[4:20], "ascii"))
 	else:
-		tfunc.write_daemon_success(name, addr[0], "RECONNECT OK")
+		tfunc.write_daemon_success(name, addr[0], "RECONNECT OK: " + str(pk[4:20], "ascii"))
 
 	listUsers[pk[4:]] = [ip, port]
 	return pk

@@ -81,7 +81,7 @@ class TrackerDaemon(Thread):
 					elif str(ricevutoByte[0:4], "ascii") == pack.CODE_UPDATE_PART: ### UPDATE MEMORY OK
 						# Controllo presenza user
 						if ricevutoByte[4:20] in self.listUsers:
-							pk = update_memory(ricevutoByte[4:20], ricevutoByte[20:52], ricevutoByte[52:], self.listFile)
+							pk = fs.update_memory(ricevutoByte[4:20], ricevutoByte[20:52], ricevutoByte[52:], self.listFile)
 							conn.sendall(pk)
 						else:
 							tfunc.write_daemon_error(self.name, addr[0], "ADD FILE - User not logged")

@@ -1,6 +1,7 @@
 import TextFunc as tfunc
 import Function as func
 import Constant as const
+import FileStruct as fs
 
 # COSTANTI
 
@@ -91,7 +92,7 @@ def answer_hitpeer(listFounded):
 	nHitPeer = len(listFounded)
 	pack = bytes(CODE_ANSWER_FIND_PART, "ascii") + bytes(tfunc.format_string(str(nHitPeer), const.LENGTH_NIDMD5, "0"), "ascii") 
 	for x in range(0, nHitPeer):
-		pack += bytes(listFounded[x][0], "ascii") + bytes(listFounded[x][1], "ascii") + bytes(fs.get_bytes_from_partlist(listFounded[x][2]), "ascii")
+		pack += listFounded[x][0] + listFounded[x][1] + fs.get_bytes_from_partlist(listFounded[x][2])
 	return pack
 
 # PKT LOGOUT
