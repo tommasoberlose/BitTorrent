@@ -82,6 +82,7 @@ def writeHelp():
 	tfunc.warning("\nPOSSIBILI ARGOMENTI:")
 	print("Tracker\t-t")
 	print("Set Default Ip\t-ip group identifier")
+	print("Set Default Tracker Ip\t-ipt group identifier")
 	print("Change Port\t-p port")
 	print("")
 	sys.exit(-1)

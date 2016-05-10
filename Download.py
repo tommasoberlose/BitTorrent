@@ -5,7 +5,7 @@ import Package as pack
 import SocketFunc as sfunc
 import threading
 from threading import *
-import TextFunction as tfunc
+import TextFunc as tfunc
 import Constant as const
 
 ###### DOWNLOAD FILE
@@ -25,14 +25,15 @@ def start_download(host, t_host, selectFile, sessionID, listPartOwned):
 
 			for part in list(listPart.items()):
 				daemonThreadD = daemonDnl.DaemonDownload(host, t_host, sessionID, fileName, md5, part[0], part[1], listPartOwned)
-				daemonThreadD.setName("DAEMON DOWNLOAD PART " + part[0] " di " + fileName)
+				daemonThreadD.setName("DAEMON DOWNLOAD PART " + part[0] + " di " + fileName)
 				daemonThreadD.start()
 
 
 			# Controllo se ho finito di scaricare il file
 			if not check_ended_download(fileName, md5, listPartOwned):
-		    	threading.Timer(60, start_download).start()
-		    else:
+				#threading.Timer(60, start_download(host, t_host, selectFile, sessionID, listPartOwned)).start()
+				print("")
+			else:
 				save_and_open_file(fileName)
 		else:
 			tfunc.error("Non ci sono hitpeer disponibili da cui scaricare il file.")

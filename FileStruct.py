@@ -127,5 +127,6 @@ def get_bytes_from_partlist(part):
 # >> PEER
 def find_part_from_hitpeer(nHitPeer, part):
 	listPart = []
-	for x in range(0, nHitPeer):
+	return listPart
+	#for x in range(0, nHitPeer):
 		
