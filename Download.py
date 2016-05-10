@@ -9,6 +9,7 @@ from threading import *
 import TextFunc as tfunc
 import Constant as const
 import Function as func
+import os
 
 ###### DOWNLOAD FILE
 
@@ -18,6 +19,8 @@ def start_download(host, t_host, selectFile, sessionID, listPartOwned):
 
 	md5 = selectFile[1]
 	fileName = selectFile[2]
+	lenFile = selectFile[3]
+	lenPart = selectFile[4]
 	ricevutoByte = request_memory_of_hitpeer(t_host, sessionID, md5)
 
 	if str(ricevutoByte[0:4], "ascii") == pack.CODE_ANSWER_FIND_PART:
@@ -26,13 +29,15 @@ def start_download(host, t_host, selectFile, sessionID, listPartOwned):
 			listPart = fs.find_part_from_hitpeer(int(ricevutoByte[4:7]), ricevutoByte[7:], listPartOwned, md5)
 
 			for part in listPart:
-				daemonThreadD = daemonDnl.DaemonDownload(host, t_host, sessionID, fileName, md5, part[0], part[1], listPartOwned)
+				daemonThreadD = daemonDnl.DaemonDownload(host, t_host, sessionID, fileName, md5, part[0], part[1], listPartOwned, lenFile, lenPart)
 				daemonThreadD.setName("DAEMON DOWNLOAD PART " + str(part[0]) + " di " + str(fileName, "ascii"))
 				daemonThreadD.start()
 
 
 			# Controllo se ho finito di scaricare il file
 			if not check_ended_download(fileName, md5, listPartOwned):
+				# Si potrebbe avviare un thread che si sospende 60 sec e poi rifa la start download che quindi avvia un thread ecc. 
+				# Se quando creiamo un thread lo settiamo come daemon al termine del programma principale dovrebbe morire male. (Recente scoperta) 
 				#threading.Timer(60, start_download(host, t_host, selectFile, sessionID, listPartOwned)).start()
 				print("")
 			else:
@@ -90,16 +95,14 @@ def save_and_open_file(fileName):
 	
 
 # >> PEER
-def create_part(ricevutoByte, fileName, md5, partN):  se il file non esiste, creo il file intero vuoto e mi sposto sulla parte e ci scrivo sopra. Poi se cè già mi sposto e scrivo. 
+def create_part(ricevutoByte, fileName, partN, lenFile, lenPart):  #se il file non esiste, creo il file intero vuoto e mi sposto sulla parte e ci scrivo sopra. Poi se cè già mi sposto e scrivo. 
 	if os.path.exists(const.FILE_COND + fileName):
 		fileDnl = open((const.FILE_COND + fileName), 'w+b')
-		startPos = LENGTH_PART * (partN -1)
-		fileDnl.seek(startPos, 0)
-		fileDnl.write(ricevutoByte)
-		fileDnl.close()
 	else:
-		fileDnl = open((const.FILE_COND + fileName),'wb').write(ricevutoByte)
-		fileDnl.close()
+		fileDnl = open((const.FILE_COND + fileName),'w+b').write(b'\x00' * lenFile)
+	startPos = int(lenPart * (partN -1))
+	fileDnl.seek(startPos, 0)
+	fileDnl.write(ricevutoByte)
 
 # >> PEER NON DA CONSIDERARE
 def check_ended_download(fileName, md5, listPartOwned):

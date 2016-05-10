@@ -13,7 +13,7 @@ import Download as dnl
 
 class DaemonDownload(Thread):
 
-	def __init__(self, host, t_host, sessionID, fileName, md5, partN, peer, listPartOwned):
+	def __init__(self, host, t_host, sessionID, fileName, md5, partN, peer, listPartOwned, lenFile, lenPart):
 		Thread.__init__(self)
 		self.host = host
 		self.t_host = t_host
@@ -24,6 +24,8 @@ class DaemonDownload(Thread):
 		self.md5 = md5
 		self.partN = partN
 		self.listPartOwned = listPartOwned
+		self.lenFile = lenFile
+		self.lenPart = lenPart
 
 	def run(self):
 		
@@ -53,8 +55,8 @@ class DaemonDownload(Thread):
 
 				sP.close()
 
-				# Creo il file .part
-				dnl.create_part(ricevutoByte, self.fileName, self.md5, self.partN)
+				# Modifico nel file la parte che ho appena scaricato, se il file non esiste lo creo (es b'00000')
+				dnl.create_part(ricevutoByte, self.fileName, self.partN, self.lenFile, self.lenPart)
 
 				# Aggiorno la mia memoria
 				dnl.update_own_memory(self.md5, self.partN, self.listPartOwned)
