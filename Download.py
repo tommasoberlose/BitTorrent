@@ -1,4 +1,5 @@
 import DaemonDownload as daemonDnl
+import Function as func
 import Search as src
 import FileStruct as fs
 import Package as pack
@@ -62,26 +63,45 @@ def update_own_memory(md5, partN, listPartOwned):
 
 # >> PEER
 def save_and_open_file(fileName):
-	# Salvare il file data aprirlo??
-	print("prima o poi aprirò il file e te lo farò vedere stronzo")
+	
 	#### OPEN TUTTE LE PART, PRENDO, CREO FILE, APRO E POI CHIEDO SE DEVO ELIMINARLO
-	"""
-	open((const.FILE_COND + nomeFile),'wb').write(ricevutoByte)
-	print("File scaricato correttamente, apertura in corso...")
-	try:
-		os.system("open " + const.FILE_COND + nomeFile)
-	except:
+	
+	fileDnl = open((const.FILE_COND + fileName),'r+b')
+	lenFile = (os.stat(const.FILE_COND + fileName).st_size) - const.LENGTH_HOST
+	s = fileDnl.read(lenFile)
+	open((const.FILE_COPY + fileName), 'wb').write(s)
+	
+	print("File scaricato correttamente, desideri aprirlo? S/N \n\n")
+	choice = input()
+	if (choice == "S" or choice == "s"):
 		try:
-			os.system("start " + const.FILE_COND + nomeFile)
+			os.system("open " + const.FILE_COPY + nomeFile)
 		except:
-			print("Apertura non riuscita")
-	"""
+			try:
+				os.system("start " + const.FILE_COPY + nomeFile)
+			except:
+				print("Apertura non riuscita")
+
+	print ("Vuoi eliminare il file appena scaricato? S/N \n\n")
+	choiceDel = input()
+	if (choiceDel == "S" or choiceDel == "s"):
+		os.remove(const.FILE_COPY + nomeFile)
+		print ("File rimosso con successo.")
+	
 
 # >> PEER
-def create_part(ricevutoByte, fileName, md5, partN):
-	open((const.FILE_COND + fileName + const.EXT_PART),'wb').write(ricevutoByte)
+def create_part(ricevutoByte, fileName, md5, partN):  se il file non esiste, creo il file intero vuoto e mi sposto sulla parte e ci scrivo sopra. Poi se cè già mi sposto e scrivo. 
+	if os.path.exists(const.FILE_COND + fileName):
+		fileDnl = open((const.FILE_COND + fileName), 'w+b')
+		startPos = LENGTH_PART * (partN -1)
+		fileDnl.seek(startPos, 0)
+		fileDnl.write(ricevutoByte)
+		fileDnl.close()
+	else:
+		fileDnl = open((const.FILE_COND + fileName),'wb').write(ricevutoByte)
+		fileDnl.close()
 
-# >> PEER
+# >> PEER NON DA CONSIDERARE
 def check_ended_download(fileName, md5, listPartOwned):
 	if len(listPartOwned[md5]) == fs.count_part(listPartOwned[md5]):
 		tfunc.success("Download del file completato.")
