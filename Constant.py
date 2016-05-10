@@ -43,7 +43,7 @@ MAX_TIME = 20 * 1000
 LENGTH_CODE = 4
 
 FILE_COND = "FileCondivisi/"
-FILE_COPY = "FileCopia"
+FILE_COPY = "FileCopia/"
 ERROR_FILE = "FILE_NOT_FOUND"
 
 EXT_PART = ".part"
