@@ -27,11 +27,11 @@ class DaemonDownload(Thread):
 
 	def run(self):
 		
-		sP = func.create_socket_client(func.roll_the_dice(self.peer[0]), self.peer[1])
+		sP = sfunc.create_socket_client(func.roll_the_dice(self.peer[0]), self.peer[1])
 		if sP is None:
 		    print ('Error: could not open socket in download')
 		else:
-			listPartOwned[self.md5][partN - 1] = '2'
+			self.listPartOwned[self.md5][self.partN - 1] = "2" #da sistemare con list e join
 
 			pk = pack.request_download(self.md5, self.partN)
 			sP.sendall(pk)
@@ -65,7 +65,7 @@ class DaemonDownload(Thread):
 
 # >> PEER
 def send_update(t_host, sessionID, md5, partN):
-	s = func.create_socket_client(func.roll_the_dice(t_host[0]), t_host[1])
+	s = sfunc.create_socket_client(func.roll_the_dice(t_host[0]), t_host[1])
 	if s is None:
 	    print ('Error: could not open socket to update Tracker')
 	else:

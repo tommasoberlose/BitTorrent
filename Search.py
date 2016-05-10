@@ -62,6 +62,8 @@ def search(sessionID, host, t_host, listPartOwned):
 
 					# FASE 2 
 
+					if not selectFile[1] in listPartOwned:
+						listPartOwned[selectFile[1]] = fs.create_empty_part(selectFile[3], selectFile[4])
 					print ("\n>>> DOWNLOAD")
 					dnl.start_download(host, t_host, selectFile, sessionID, listPartOwned)
 

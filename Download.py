@@ -7,6 +7,7 @@ import threading
 from threading import *
 import TextFunc as tfunc
 import Constant as const
+import Function as func
 
 ###### DOWNLOAD FILE
 
@@ -23,9 +24,9 @@ def start_download(host, t_host, selectFile, sessionID, listPartOwned):
 		if nHitPeer != 0:
 			listPart = fs.find_part_from_hitpeer(int(ricevutoByte[4:7]), ricevutoByte[7:], listPartOwned, md5)
 
-			for part in list(listPart.items()):
+			for part in listPart:
 				daemonThreadD = daemonDnl.DaemonDownload(host, t_host, sessionID, fileName, md5, part[0], part[1], listPartOwned)
-				daemonThreadD.setName("DAEMON DOWNLOAD PART " + part[0] + " di " + fileName)
+				daemonThreadD.setName("DAEMON DOWNLOAD PART " + str(part[0]) + " di " + str(fileName, "ascii"))
 				daemonThreadD.start()
 
 
@@ -57,7 +58,7 @@ def request_memory_of_hitpeer(t_host, sessionID, md5):
 
 # >> PEER
 def update_own_memory(md5, partN, listPartOwned):
-	listPartOwned[md5][partN - 1] = '1'
+	listPartOwned[md5][partN - 1] = "1" #da sistemare con list e join
 
 # >> PEER
 def save_and_open_file(fileName):
