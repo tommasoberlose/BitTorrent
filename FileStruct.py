@@ -1,4 +1,5 @@
 import string
+import Constant as const
 
 # Crea una stringa contenente tutte le parti a 1
 # >> TRACKER
@@ -119,8 +120,31 @@ def get_bytes_from_partlist(part):
 	return bytes(partS, "ascii")
 
 # >> PEER
-def find_part_from_hitpeer(nHitPeer, part):
-	listPart = []
-	return listPart
-	#for x in range(0, nHitPeer):
-		
+def find_part_from_hitpeer(nHitPeer, part, listPartOwned, md5):
+	listPart = {}
+	myPart = listPartOwned[md5]
+
+	listHitpeer = []
+	for n in range(0, nHitPeer):
+		pointer = n * (60 + len(myPart))
+		ip = part[0 + pointer:55 + pointer]
+		port = part[55 + pointer:60 + pointer]
+		partList = bin(ord(part[60 + pointer:60 + len(myPart) + pointer]))[2:]
+		partList = tfunc.format_string(str(partList, "ascii"), const.LENGTH_NPART, 0)
+
+		listHitpeer.append([[ip, port], partList])
+
+	for x in range(0, len(myPart)):
+		if myPart[x] == '0':
+			listPart[x] = []
+			for p in range(0, nHitPeer):
+				if listHitpeer[p][1][x] == "1":
+					listPart[x].append(listHitpeer[p][0])
+
+	listResult = []
+	listPartSorted = sorted(listPart.items(), key=lambda x:len(x[1]))
+	for el in listPartSorted:
+		listResult[0] = el[0]
+		listResult[1] = random.choice(el[1])
+
+	return listResult

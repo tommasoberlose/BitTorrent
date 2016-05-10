@@ -21,7 +21,7 @@ def start_download(host, t_host, selectFile, sessionID, listPartOwned):
 	if str(ricevutoByte[0:4], "ascii") == pack.CODE_ANSWER_FIND_PART:
 		nHitPeer = int(ricevutoByte[4:7])
 		if nHitPeer != 0:
-			listPart = fs.find_part_from_hitpeer(int(ricevutoByte[4:7]), ricevutoByte[7:], listPartOwned)
+			listPart = fs.find_part_from_hitpeer(int(ricevutoByte[4:7]), ricevutoByte[7:], listPartOwned, md5)
 
 			for part in list(listPart.items()):
 				daemonThreadD = daemonDnl.DaemonDownload(host, t_host, sessionID, fileName, md5, part[0], part[1], listPartOwned)
@@ -57,7 +57,7 @@ def request_memory_of_hitpeer(t_host, sessionID, md5):
 
 # >> PEER
 def update_own_memory(md5, partN, listPartOwned):
-	listPartOwned[md5][partN - 1] = "1"
+	listPartOwned[md5][partN - 1] = '1'
 
 # >> PEER
 def save_and_open_file(fileName):
@@ -84,8 +84,6 @@ def create_part(ricevutoByte, fileName, md5, partN):
 def check_ended_download(fileName, md5, listPartOwned):
 	if len(listPartOwned[md5]) == fs.count_part(listPartOwned[md5]):
 		tfunc.success("Download del file completato.")
-		c = input("Aprire il file? (S/N)")
-		if (c == "s") or (c == "S"):
-			return True
-		else:
-			return False
+		return True
+	else:
+		return False

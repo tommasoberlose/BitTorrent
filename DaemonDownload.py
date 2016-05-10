@@ -31,6 +31,8 @@ class DaemonDownload(Thread):
 		if sP is None:
 		    print ('Error: could not open socket in download')
 		else:
+			listPartOwned[self.md5][partN - 1] = '2'
+
 			pk = pack.request_download(self.md5, self.partN)
 			sP.sendall(pk)
 			ricevutoByte = sP.recv(const.LENGTH_HEADER)
