@@ -94,8 +94,8 @@ def find_file_from_string(listFile, sessionID, query):
 	listFounded = []
 	listF = list(listFile.items())
 	for fileC in listF:
-		if sessionID != fileC[1].sessionIDUploader:
-			if query in fileC[1].filename:
+		if (sessionID != fileC[1].sessionIDUploader) or (query == "*"):
+			if (query in fileC[1].filename) or (query == "*"):
 				listFounded.append([fileC[0], fileC[1].filename, fileC[1].lenFile, fileC[1].lenPart])
 
 	return listFounded
