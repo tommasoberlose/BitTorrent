@@ -97,12 +97,16 @@ def save_and_open_file(fileName):
 # >> PEER
 def create_part(ricevutoByte, fileName, partN, lenFile, lenPart):  #se il file non esiste, creo il file intero vuoto e mi sposto sulla parte e ci scrivo sopra. Poi se cè già mi sposto e scrivo. 
 	if os.path.exists(const.FILE_COND + fileName):
-		fileDnl = open((const.FILE_COND + fileName), 'w+b')
+		fileDnl = open((const.FILE_COND + fileName), 'r+b')
 	else:
-		fileDnl = open((const.FILE_COND + fileName),'w+b').write(b'\x00' * lenFile)
+		fileDnl = open((const.FILE_COND + fileName),'w+b')
+		fileDnl.write(b'\x00' * lenFile)
+
 	startPos = int(lenPart * (partN -1))
+	tail = extract_tail(lenPart, partN, fileDnl, lenFile)
 	fileDnl.seek(startPos, 0)
-	fileDnl.write(ricevutoByte)
+
+	fileDnl.write(ricevutoByte + tail)
 
 # >> PEER NON DA CONSIDERARE
 def check_ended_download(fileName, md5, listPartOwned):
@@ -111,3 +115,12 @@ def check_ended_download(fileName, md5, listPartOwned):
 		return True
 	else:
 		return False
+
+def extract_tail(lenPart, partN, fileDnl, lenFile):
+	startPos = int(lenPart * (partN))
+	fileDnl.seek(startPos, 0)
+	return fileDnl.read(lenFile - startPos)
+
+
+
+
