@@ -47,3 +47,5 @@ FILE_COPY = "FileCopia/"
 ERROR_FILE = "FILE_NOT_FOUND"
 
 EXT_PART = ".part"
+
+TIME_TO_UPDATE = 60

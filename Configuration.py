@@ -51,6 +51,14 @@ def readArgs(argv):
 			except:
 				tfunc.error("Errore inserimento dati")
 				writeHelp()
+
+		# TIME TO UPDATE
+		elif argv[i] == "-ttu":
+			try:
+				const.TIME_TO_UPDATE = argv[i + 1]
+			except:
+				tfunc.error("Errore inserimento dati")
+				writeHelp()
 		
 
 		# HELP
@@ -84,5 +92,6 @@ def writeHelp():
 	print("Set Default Ip\t-ip group identifier")
 	print("Set Default Tracker Ip\t-ipt group identifier")
 	print("Change Port\t-p port")
+	print("Change Time To Update\t-ttu seconds")
 	print("")
 	sys.exit(-1)

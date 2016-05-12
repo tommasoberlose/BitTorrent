@@ -65,7 +65,9 @@ def search(sessionID, host, t_host, listPartOwned):
 					if not selectFile[1] in listPartOwned:
 						listPartOwned[selectFile[1]] = fs.create_empty_part(selectFile[3], selectFile[4])
 					print ("\n>>> DOWNLOAD")
-					dnl.start_download(host, t_host, selectFile, sessionID, listPartOwned)
+					daemonThreadD = dnl.DaemonMasterOfDownloads(host, t_host, selectFile, sessionID, listPartOwned)
+					daemonThreadD.setName("ONE DOWNLOAD TO RULE THEM ALL")
+					daemonThreadD.start()
 
 			else:
 				tfunc.error("Non sono presenti file con questa query nel nome: " + query)
