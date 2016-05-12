@@ -56,6 +56,7 @@ class DaemonDownload(Thread):
 				sP.close()
 
 				# Modifico nel file la parte che ho appena scaricato, se il file non esiste lo creo (es b'00000')
+				# Finita e testata
 				dnl.create_part(ricevutoByte, self.fileName, self.partN, self.lenFile, self.lenPart)
 
 				# Aggiorno la mia memoria
