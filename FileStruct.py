@@ -63,7 +63,10 @@ class FileStruct:
 # >> TRACKER
 def update_memory(sessionID, md5, partN, listFile):
 	file = listFile[md5]
-	file.listOwner[sessionID][partN - 1] = '1'
+
+	listToUpdate = list(file.listOwner[sessionID])
+	listToUpdate[partN - 1] = "1"
+	file.listOwner[sessionID] = "".join(listToUpdate)
 	nPart = count_part(file.listOwner[sessionID])
 	return pack.answer_update_tracker(nPart)
 
