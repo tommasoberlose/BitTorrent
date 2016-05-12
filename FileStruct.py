@@ -131,6 +131,7 @@ def get_bytes_from_partlist(part):
 		lenP += 1
 	for x in range(0, int(lenP)):
 		partS += chr(int(part[x:x+8], 2))
+	print(partS)
 	return bytes(partS, "UTF-8")
 
 # >> PEER
@@ -138,15 +139,21 @@ def find_part_from_hitpeer(nHitPeer, part, listPartOwned, md5):
 	listPart = {}
 	myPart = listPartOwned[md5]
 	listHitpeer = []
+
+	print(part)
 	
 	for n in range(0, nHitPeer):
 		pointer = n * (60 + len(myPart))
 		ip = part[0 + pointer:55 + pointer]
 		port = part[55 + pointer:60 + pointer]
-		partList = bin(ord(part[60 + pointer:60 + len(myPart) + pointer]))[2:]
-		partList = tfunc.format_string(partList, len(myPart), "0")
+		memory = part[60 + pointer:60 + len(myPart) + pointer]
+		for j in range(0, len(memory)):
+			partList = bin(ord(memory[j:j+1]))[2:]
+			partList = tfunc.format_string(partList, len(myPart), "0")
 
 		listHitpeer.append([[ip, port], partList])
+
+	print(listHitpeer)
 
 	for x in range(0, len(myPart)):
 		if list(myPart)[x] == '0':
@@ -154,10 +161,15 @@ def find_part_from_hitpeer(nHitPeer, part, listPartOwned, md5):
 			for p in range(0, nHitPeer):
 				if list(listHitpeer[p][1])[x] == "1":
 					listPart[x + 1].append(listHitpeer[p][0])
-	
+				else:
+					del listPart[x + 1]
+	print(listPart)
+
 	listResult = []
 	listPartSorted = sorted(listPart.items(), key=lambda x:len(x[1]))
 	for el in listPartSorted:
 		listResult.append([el[0], random.choice(el[1])])
+
+
 
 	return listResult
