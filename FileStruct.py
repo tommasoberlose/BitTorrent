@@ -141,13 +141,13 @@ def find_part_from_hitpeer(nHitPeer, part, listPartOwned, md5):
 		partList = tfunc.format_string(partList, len(myPart), "0")
 
 		listHitpeer.append([[ip, port], partList])
-	
+
 	for x in range(0, len(myPart)):
-		if myPart[x] == '0':
-			listPart[x] = []
+		if list(myPart)[x] == '0':
+			listPart[x + 1] = []
 			for p in range(0, nHitPeer):
-				if listHitpeer[p][1][x] == "1":
-					listPart[x].append(listHitpeer[p][0])
+				if list(listHitpeer[p][1])[x] == "1":
+					listPart[x + 1].append(listHitpeer[p][0])
 	
 	listResult = []
 	listPartSorted = sorted(listPart.items(), key=lambda x:len(x[1]))
