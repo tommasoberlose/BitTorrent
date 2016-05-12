@@ -131,7 +131,7 @@ def get_bytes_from_partlist(part):
 		lenP += 1
 	for x in range(0, int(lenP)):
 		partS += chr(int(part[x:x+8], 2))
-	return bytes(partS, "ascii")
+	return bytes(partS, "UTF-8")
 
 # >> PEER
 def find_part_from_hitpeer(nHitPeer, part, listPartOwned, md5):

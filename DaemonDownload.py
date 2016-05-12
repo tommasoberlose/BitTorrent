@@ -74,7 +74,7 @@ def send_update(t_host, sessionID, md5, partN):
 	else:
 		pk = pack.request_update_tracker(sessionID, md5, partN)
 		s.sendall(pk)
-		ricevutoByte = s.recv(const.LENGTH_LONG_HEADER)
+		ricevutoByte = s.recv(const.LENGTH_PACK)
 		if str(ricevutoByte[0:4], "ascii") == pack.CODE_ANSWER_UPDATE_PART:
 			tfunc.success("Download parte completato.\nAttualemente in possesso di " + str(int(ricevutoByte[4:])) + " parti del file.")
 		s.close()

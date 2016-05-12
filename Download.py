@@ -64,7 +64,7 @@ def request_memory_of_hitpeer(t_host, sessionID, md5):
 	s = sfunc.create_socket_client(func.roll_the_dice(t_host[0]), t_host[1]);
 	if s is None:
 		tfunc.error("Tracker non attivo.")
-		return byte(const.ERROR_PKT, "ascii")
+		return bytes(const.ERROR_PKT, "ascii")
 	else:
 		pk = pack.request_hitpeer(sessionID, md5)
 		s.sendall(pk)
@@ -100,7 +100,7 @@ def save_and_open_file(fileN):
 			print("Apertura non riuscita")
 
 	
-	os.remove(const.FILE_COPY + fileName)
+	#os.remove(const.FILE_COPY + fileName)
 	
 	
 
