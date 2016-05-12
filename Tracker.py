@@ -59,7 +59,6 @@ class TrackerDaemon(Thread):
 						if ricevutoByte[4:20] in self.listUsers:
 							pk = add.add_file_to_list(ricevutoByte[36:136], ricevutoByte[20:30], ricevutoByte[30:36], ricevutoByte[4:20], ricevutoByte[-32:], self.listFile, self.name, addr)
 							conn.sendall(pk)
-							print(self.listFile)
 						else:
 							tfunc.write_daemon_error(self.name, addr[0], "ADD FILE - User not logged")
 

@@ -2,6 +2,7 @@ import string
 import random
 import Constant as const
 import TextFunc as tfunc
+import Package as pack
 
 # Crea una stringa contenente tutte le parti a 1
 # >> TRACKER
@@ -63,9 +64,11 @@ class FileStruct:
 # >> TRACKER
 def update_memory(sessionID, md5, partN, listFile):
 	file = listFile[md5]
+	if not sessionID in file.listOwner:
+		file.listOwner[sessionID] = create_empty_part(file.lenFile, file.lenPart)
 
 	listToUpdate = list(file.listOwner[sessionID])
-	listToUpdate[partN - 1] = "1"
+	listToUpdate[int(partN) - 1] = "1"
 	file.listOwner[sessionID] = "".join(listToUpdate)
 	nPart = count_part(file.listOwner[sessionID])
 	return pack.answer_update_tracker(nPart)
