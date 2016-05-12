@@ -65,7 +65,6 @@ class TrackerDaemon(Thread):
 
 					elif(str(ricevutoByte[0:4], "ascii") == pack.CODE_LOOK): ### LOOK
 						# Controllo presenza user
-						print(self.listFile)
 						if ricevutoByte[4:20] in self.listUsers:
 							pk = src.search_in_list_file(self.listFile, ricevutoByte[4:20], ricevutoByte[20:], self.name, addr)
 							conn.sendall(pk)
