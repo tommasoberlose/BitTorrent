@@ -55,7 +55,7 @@ def readArgs(argv):
 		# TIME TO UPDATE
 		elif argv[i] == "-ttu":
 			try:
-				const.TIME_TO_UPDATE = argv[i + 1]
+				const.TIME_TO_UPDATE = int(argv[i + 1])
 			except:
 				tfunc.error("Errore inserimento dati")
 				writeHelp()

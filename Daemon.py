@@ -34,7 +34,7 @@ class PeerDaemon(Thread):
 					break
 				else:
 					if str(ricevutoByte[0:4], "ascii") == pack.CODE_DOWNLOAD: #UPLOAD
-						if pfunc.check_presence(int(ricevutoByte[36:]), ricevutoByte[4:36], listPartOwned):
+						if pfunc.check_presence(int(ricevutoByte[36:]), ricevutoByte[4:36], self.listPartOwned):
 							upl.upload(ricevutoByte[4:36], ricevutoByte[36:], conn, listPartOwned)
 						else:
 							tfunc.write_daemon_error(self.name, addr[0], "Errore, la parte " + str(int(ricevutoByte[36:])) + " non è presente.")
