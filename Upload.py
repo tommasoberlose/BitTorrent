@@ -7,39 +7,40 @@ import os
 
 # >> PEER
 def upload(md5, nPart, ss, listPartOwned):
-	f = open((const.FILE_COND + nomeFile), 'rb')
+	nomeFile = find_file_by_md5(md5)
+	if nomeFile != const.ERROR_FILE:
+		f = open((const.FILE_COND + nomeFile), 'rb')
 
-	fileLength = os.stat(const.FILE_COND + nomeFile).st_size
+		fileLength = os.stat(const.FILE_COND + nomeFile).st_size
 
-	lenPart = fileLength / len(listPartOwned[md5])
+		lenPart = fileLength / len(listPartOwned[md5])
 
-	if (lenPart % const.LENGTH_PACK) > 0:
-		nChunk = int(lenPart / const.LENGTH_PACK) + 1 
-	else:
-		nChunk = int(lenPart / const.LENGTH_PACK)
+		if (lenPart % const.LENGTH_PACK) > 0:
+			nChunk = int(lenPart / const.LENGTH_PACK) + 1 
+		else:
+			nChunk = int(lenPart / const.LENGTH_PACK)
 
-	nChunk = tfunc.format_string(str(nChunk), const.LENGTH_NCHUNKS, "0")
-	pk = bytes(pack.CODE_ANSWER_DOWNLOAD, "ascii") + bytes(nChunk, "ascii")
-	ss.sendall(pk)
-
-	f.seek(int(nPart) * lenPart, 0)
-
-	i = 0
-	while True:
-		line = f.read(const.LENGTH_PACK)
-		dimLine = tfunc.format_string(str(len(line)), const.LENGTH_NCHUNK, "0")
-		pk = bytes(dimLine, "ascii") + line
+		nChunk = tfunc.format_string(str(nChunk), const.LENGTH_NCHUNKS, "0")
+		pk = bytes(pack.CODE_ANSWER_DOWNLOAD, "ascii") + bytes(nChunk, "ascii")
 		ss.sendall(pk)
-		i = i + 1
-		if (i == (int(nChunk) - 1)):
-			line = f.read(const.LENGTH_PACK - (lenPart % const.LENGTH_PACK))
+
+		f.seek(int(nPart) * int(lenPart), 0)
+
+		i = 0
+		while True:
+			line = f.read(const.LENGTH_PACK)
 			dimLine = tfunc.format_string(str(len(line)), const.LENGTH_NCHUNK, "0")
 			pk = bytes(dimLine, "ascii") + line
 			ss.sendall(pk)
-			break
+			i = i + 1
+			if (i == (int(nChunk) - 1)):
+				line = f.read(const.LENGTH_PACK - (int(lenPart) % const.LENGTH_PACK))
+				dimLine = tfunc.format_string(str(len(line)), const.LENGTH_NCHUNK, "0")
+				pk = bytes(dimLine, "ascii") + line
+				ss.sendall(pk)
+				break
 
 # >> PEER
-# Usata?
 def find_file_by_md5(md5):
 	file_list = os.listdir(const.FILE_COND)
 	for filef in file_list:
