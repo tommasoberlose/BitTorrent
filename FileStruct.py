@@ -71,6 +71,8 @@ def update_memory(sessionID, md5, partN, listFile):
 	listToUpdate[int(partN) - 1] = "1"
 	file.listOwner[sessionID] = "".join(listToUpdate)
 	nPart = count_part(file.listOwner[sessionID])
+	print(file.listOwner)
+	print(nPart)
 	return pack.answer_update_tracker(nPart)
 
 # >> PEER, TRACKER

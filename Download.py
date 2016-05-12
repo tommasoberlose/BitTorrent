@@ -87,6 +87,7 @@ def save_and_open_file(fileN):
 	
 	fileDnl = open((const.FILE_COND + fileName),'r+b')
 	lenFile = (os.stat(const.FILE_COND + fileName).st_size) - const.LENGTH_HOST
+	print(lenFile)
 	s = fileDnl.read(lenFile)
 	open((const.FILE_COPY + fileName), 'wb').write(s)
 	
@@ -112,8 +113,6 @@ def save_and_open_file(fileN):
 def create_part(ricevutoByte, fileName, partN, lenFile, lenPart):  #se il file non esiste, creo il file intero vuoto e mi sposto sulla parte e ci scrivo sopra. Poi se cè già mi sposto e scrivo. 
 	notExists = False
 	startPos = int(lenPart) * (partN - 1)
-	print(lenPart)
-	print(partN)
 	if os.path.exists(const.FILE_COND + str(fileName, "ascii")):
 		fileDnl = open((const.FILE_COND + str(fileName, "ascii")), 'r+b')
 	else:
