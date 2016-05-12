@@ -83,41 +83,37 @@ def save_and_open_file(fileN):
 	
 	#### OPEN TUTTE LE PART, PRENDO, CREO FILE, APRO E POI CHIEDO SE DEVO ELIMINARLO
 
-	fileName = str(fileN, "ascii")
+	fileName = str(fileN, "ascii").strip()
 	
 	fileDnl = open((const.FILE_COND + fileName),'r+b')
 	lenFile = (os.stat(const.FILE_COND + fileName).st_size) - const.LENGTH_HOST
-	print(lenFile)
 	s = fileDnl.read(lenFile)
 	open((const.FILE_COPY + fileName), 'wb').write(s)
 	
-	print("File scaricato correttamente, desideri aprirlo? S/N \n\n")
-	choice = input()
-	if (choice == "S" or choice == "s"):
+	
+	try:
+		os.system("open " + const.FILE_COPY + fileName)
+	except:
 		try:
-			os.system("open " + const.FILE_COPY + fileName)
+			os.system("start " + const.FILE_COPY + fileName)
 		except:
-			try:
-				os.system("start " + const.FILE_COPY + fileName)
-			except:
-				print("Apertura non riuscita")
+			print("Apertura non riuscita")
 
-	print ("Vuoi eliminare il file appena scaricato? S/N \n\n")
-	choiceDel = input()
-	if (choiceDel == "S" or choiceDel == "s"):
-		os.remove(const.FILE_COPY + fileName)
-		print ("File rimosso con successo.")
+	
+	os.remove(const.FILE_COPY + fileName)
+	
 	
 
 # >> PEER
-def create_part(ricevutoByte, fileName, partN, lenFile, lenPart):  #se il file non esiste, creo il file intero vuoto e mi sposto sulla parte e ci scrivo sopra. Poi se cè già mi sposto e scrivo. 
+def create_part(ricevutoByte, fileN, partN, lenFile, lenPart):  #se il file non esiste, creo il file intero vuoto e mi sposto sulla parte e ci scrivo sopra. Poi se cè già mi sposto e scrivo. 
 	notExists = False
 	startPos = int(lenPart) * (partN - 1)
-	if os.path.exists(const.FILE_COND + str(fileName, "ascii")):
-		fileDnl = open((const.FILE_COND + str(fileName, "ascii")), 'r+b')
+	fileName = str(fileN, "ascii").strip()
+	if os.path.exists(const.FILE_COND + fileName):
+		fileDnl = open((const.FILE_COND + fileName), 'r+b')
 	else:
 		notExists = True
-		fileDnl = open((const.FILE_COND + str(fileName, "ascii")),'w+b')
+		fileDnl = open((const.FILE_COND + fileName),'w+b')
 		fileDnl.write(b'\x00' * startPos)
 
 	#tail = extract_tail(lenPart, partN, fileDnl, lenFile)

@@ -71,8 +71,6 @@ def update_memory(sessionID, md5, partN, listFile):
 	listToUpdate[int(partN) - 1] = "1"
 	file.listOwner[sessionID] = "".join(listToUpdate)
 	nPart = count_part(file.listOwner[sessionID])
-	print(file.listOwner)
-	print(nPart)
 	return pack.answer_update_tracker(nPart)
 
 # >> PEER, TRACKER
@@ -159,7 +157,6 @@ def find_part_from_hitpeer(nHitPeer, part, listPartOwned, md5):
 	
 	listResult = []
 	listPartSorted = sorted(listPart.items(), key=lambda x:len(x[1]))
-	print(listPartSorted)
 	for el in listPartSorted:
 		listResult.append([el[0], random.choice(el[1])])
 
