@@ -10,8 +10,24 @@ import TextFunc as tfunc
 import Constant as const
 import Function as func
 import os
+import time
 
 ###### DOWNLOAD FILE
+
+class DaemonMasterOfDownloads(Thread):
+
+	def __init__(self, host, t_host, selectFile, sessionID, listPartOwned):
+		Thread.__init__(self)
+		self.host = host
+		self.t_host = t_host
+		self.selectFile = selectFile
+		self.sessionID = sessionID
+		self.listPartOwned = listPartOwned
+
+	def run(self):
+		while start_download(self.host, self.t_host, self.selectFile, self.sessionID, self.listPartOwned):
+			time.sleep(const.TIME_TO_UPDATE)
+
 
 # Funzione di download
 # >> PEER
@@ -33,21 +49,14 @@ def start_download(host, t_host, selectFile, sessionID, listPartOwned):
 				daemonThreadD.setName("DAEMON DOWNLOAD PART " + str(part[0]) + " di " + str(fileName, "ascii"))
 				daemonThreadD.start()
 
-
 			# Controllo se ho finito di scaricare il file
-			if not check_ended_download(fileName, md5, listPartOwned):
-				# Si potrebbe avviare un thread che si sospende 60 sec e poi rifa la start download che quindi avvia un thread ecc. 
-				# Se quando creiamo un thread lo settiamo come daemon al termine del programma principale dovrebbe morire male. (Recente scoperta) 
-				#threading.Timer(60, start_download(host, t_host, selectFile, sessionID, listPartOwned)).start()
-				print("")
-			else:
+			if check_ended_download(fileName, md5, listPartOwned):
 				save_and_open_file(fileName)
+				return False
 		else:
 			tfunc.error("Non ci sono hitpeer disponibili da cui scaricare il file.")
 
-
-	
-		
+	return True
 
 
 # >> PEER
@@ -63,8 +72,11 @@ def request_memory_of_hitpeer(t_host, sessionID, md5):
 		return s.recv(4 * const.LENGTH_PACK)
 
 # >> PEER
-def update_own_memory(md5, partN, listPartOwned):
-	listPartOwned[md5][partN - 1] = "1" #da sistemare con list e join
+def update_own_memory(md5, partN, listPartOwned, value):
+	listToUpdate = list(listPartOwned[md5])
+	listToUpdate[partN - 1] = value
+	listPartOwned[md5] = "".join(listToUpdate)
+
 
 # >> PEER
 def save_and_open_file(fileName):

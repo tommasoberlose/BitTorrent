@@ -33,7 +33,7 @@ class DaemonDownload(Thread):
 		if sP is None:
 		    print ('Error: could not open socket in download')
 		else:
-			self.listPartOwned[self.md5][self.partN - 1] = "2" #da sistemare con list e join
+			dnl.update_own_memory(self.md5, self.partN, self.listPartOwned, "2")
 
 			pk = pack.request_download(self.md5, self.partN)
 			sP.sendall(pk)
@@ -59,7 +59,7 @@ class DaemonDownload(Thread):
 				dnl.create_part(ricevutoByte, self.fileName, self.partN, self.lenFile, self.lenPart)
 
 				# Aggiorno la mia memoria
-				dnl.update_own_memory(self.md5, self.partN, self.listPartOwned)
+				dnl.update_own_memory(self.md5, self.partN, self.listPartOwned, "1")
 
 				# Invio l'update al tracker
 				send_update(self.t_host, self.sessionID, self.md5, self.partN)
