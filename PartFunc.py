@@ -12,3 +12,9 @@ def check_presence(nPart, md5, listPartOwned):
 	if list(listPartOwned[md5])[nPart - 1] == "1":
 		return True
 	else: return False
+
+def calculate_part8(part):
+	lenP = int(len(part) / 8)
+	if (len(part) % 8) != 0:
+		lenP += 1
+	return lenP
