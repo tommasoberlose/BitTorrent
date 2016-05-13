@@ -157,9 +157,8 @@ def find_part_from_hitpeer(nHitPeer, part, listPartOwned, md5, lenFile, lenPart)
 			partL = bin(ord(memory[j:j+1]))[2:]
 			partList += tfunc.reverse_format_string(partL, const.LENGTH_NPART, "0")
 			print(partList)
-
-		partList = partList[0:-(8 - ((int(lenFile) / int(lenPart)) % 8))]
-		print(((int(lenFile) / int(lenPart)) % 8))
+		print((int((int(lenFile) / int(lenPart))) % 8))
+		partList = partList[0:-(8 - (int((int(lenFile) / int(lenPart))) % 8))]
 		print(partList)
 
 			
