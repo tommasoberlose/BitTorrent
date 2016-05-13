@@ -129,9 +129,12 @@ def get_bytes_from_partlist(part):
 	lenP = len(part) / 8
 	if (len(part) % 8) != 0:
 		lenP += 1
-	tfunc.reverse_format_string(part, int(lenP * 8), "0")
+	print(part)
+	partNew = tfunc.reverse_format_string(part, int(lenP) * 8, "0")
+	print(partNew)
 	for x in range(0, int(lenP)):
-		partS += chr(int(part[x:x+8], 2))
+		partS += chr(int(partNew[x:x+8], 2))
+		print(partNew[x:x+8])
 	print(partS)
 	return bytes(partS, "latin")
 
