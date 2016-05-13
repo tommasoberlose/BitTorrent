@@ -33,6 +33,8 @@ class DaemonMasterOfDownloads(Thread):
 # >> PEER
 def start_download(host, t_host, selectFile, sessionID, listPartOwned):	
 
+	print(listPartOwned)
+
 	md5 = selectFile[1]
 	fileName = selectFile[2]
 	lenFile = selectFile[3]
@@ -43,6 +45,8 @@ def start_download(host, t_host, selectFile, sessionID, listPartOwned):
 		nHitPeer = int(ricevutoByte[4:7])
 		if nHitPeer != 0:
 			listPart = fs.find_part_from_hitpeer(int(ricevutoByte[4:7]), ricevutoByte[7:], listPartOwned, md5, lenFile, lenPart)
+
+			print(listPart)
 
 			for part in listPart:
 				daemonThreadD = daemonDnl.DaemonDownload(host, t_host, sessionID, fileName, md5, part[0], part[1], listPartOwned, lenFile, lenPart)

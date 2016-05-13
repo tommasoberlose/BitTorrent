@@ -18,8 +18,8 @@ def random_string(length):
 ###### IP
 
 def roll_the_dice(ip):
-	return ip[16:55]
-	#return random.choice([ip[0:15], ip[16:55]])
+	#return ip[16:55]
+	return random.choice([ip[0:15], ip[16:55]])
 
 def get_ipv4(ip):
 	return ip[0:15]

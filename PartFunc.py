@@ -18,3 +18,10 @@ def calculate_part8(part):
 	if (len(part) % 8) != 0:
 		lenP += 1
 	return lenP
+
+def calculate_part(lenFile, lenPart):
+	lenP = int(int(lenFile) / int(lenPart))
+	if (int(lenFile) % int(lenPart)) != 0:
+		lenP += 1
+	return lenP
+

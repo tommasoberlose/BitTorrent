@@ -26,6 +26,7 @@ class PeerDaemon(Thread):
 		else:
 			while 1:
 				conn, addr = s.accept()
+				
 				ricevutoByte = conn.recv(const.LENGTH_PACK)
 
 				if not ricevutoByte:

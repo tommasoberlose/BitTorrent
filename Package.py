@@ -128,14 +128,14 @@ def confirm():
 # PKT DOWNLOAD
 # >> PEER
 def request_download(md5, partNum):
-	partNum = tfunc.format_string(str(partNum), const.LENGTH_NPART, "0")
+	partNum = tfunc.format_string(str(int(partNum) - 1), const.LENGTH_NPART, "0")
 	pack = bytes(CODE_DOWNLOAD, "ascii") + md5 + bytes(partNum, "ascii")
 	return pack
 
 # PKT UPDATE TRACKER
 # >> PEER
 def request_update_tracker(sessionID, md5, partNum):
-	partNum = tfunc.format_string(str(partNum), const.LENGTH_NPART, "0")
+	partNum = tfunc.format_string(str(int(partNum) - 1), const.LENGTH_NPART, "0")
 	pack = bytes(CODE_UPDATE_PART, "ascii") + sessionID + md5 + bytes(partNum, "ascii")
 	return pack
 

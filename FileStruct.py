@@ -144,8 +144,6 @@ def find_part_from_hitpeer(nHitPeer, part, listPartOwned, md5, lenFile, lenPart)
 	listPart = {}
 	myPart = listPartOwned[md5]
 	listHitpeer = []
-
-	print(part)
 	
 	for n in range(0, nHitPeer):
 		pointer = n * (60 + pfunc.calculate_part8(myPart))
@@ -154,10 +152,14 @@ def find_part_from_hitpeer(nHitPeer, part, listPartOwned, md5, lenFile, lenPart)
 		memory = part[60 + pointer:60 + pfunc.calculate_part8(myPart) + pointer]
 		partList = ""
 
+		print(memory)
+
 		for j in range(0, len(memory)):
 			partL = bin(ord(memory[j:j+1]))[2:]
 			partList += tfunc.reverse_format_string(partL, const.LENGTH_NPART, "0")
-		partList = partList[0:-(8 - (int((int(lenFile) / int(lenPart))) % 8))]
+		partList = partList[0:-(8 - (pfunc.calculate_part(lenFile, lenPart) % 8))]
+
+		print(partList)
 
 			
 		listHitpeer.append([[ip, port], partList])
@@ -171,6 +173,8 @@ def find_part_from_hitpeer(nHitPeer, part, listPartOwned, md5, lenFile, lenPart)
 				if list(listHitpeer[p][1])[x] == "1":
 					listPart[x + 1].append(listHitpeer[p][0])
 				else:
+					print(listPart)
+					print(x)
 					del listPart[x + 1]
 	print(listPart)
 
