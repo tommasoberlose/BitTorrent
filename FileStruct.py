@@ -3,6 +3,7 @@ import random
 import Constant as const
 import TextFunc as tfunc
 import Package as pack
+import PartFunc as pfunc
 
 # Crea una stringa contenente tutte le parti a 1
 # >> TRACKER
@@ -144,22 +145,21 @@ def find_part_from_hitpeer(nHitPeer, part, listPartOwned, md5, lenFile, lenPart)
 	print(part)
 	
 	for n in range(0, nHitPeer):
-		pointer = n * (60 + len(myPart))
+		pointer = n * (60 + pfunc.calculate_part8(myPart))
 		ip = part[0 + pointer:55 + pointer]
 		port = part[55 + pointer:60 + pointer]
-		memory = part[60 + pointer:60 + int(len(myPart)/8) + pointer]
+		memory = part[60 + pointer:60 + pfunc.calculate_part8(myPart) + pointer]
 		partList = ""
 
 		for j in range(0, len(memory)):
 			partL = bin(ord(memory[j:j+1]))[2:]
 			partList += tfunc.reverse_format_string(partL, const.LENGTH_NPART, "0")
-			print(partList)
-		print((int((int(lenFile) / int(lenPart))) % 8))
 		partList = partList[0:-(8 - (int((int(lenFile) / int(lenPart))) % 8))]
-		print(partList)
 
 			
 		listHitpeer.append([[ip, port], partList])
+
+	print(listHitpeer)
 
 	for x in range(0, len(myPart)):
 		if list(myPart)[x] == '0':
