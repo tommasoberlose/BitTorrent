@@ -42,7 +42,7 @@ def start_download(host, t_host, selectFile, sessionID, listPartOwned):
 	if str(ricevutoByte[0:4], "ascii") == pack.CODE_ANSWER_FIND_PART:
 		nHitPeer = int(ricevutoByte[4:7])
 		if nHitPeer != 0:
-			listPart = fs.find_part_from_hitpeer(int(ricevutoByte[4:7]), ricevutoByte[7:], listPartOwned, md5)
+			listPart = fs.find_part_from_hitpeer(int(ricevutoByte[4:7]), ricevutoByte[7:], listPartOwned, md5, lenFile, lenPart)
 
 			for part in listPart:
 				daemonThreadD = daemonDnl.DaemonDownload(host, t_host, sessionID, fileName, md5, part[0], part[1], listPartOwned, lenFile, lenPart)
@@ -120,7 +120,7 @@ def create_part(ricevutoByte, fileN, partN, lenFile, lenPart):  #se il file non 
 	fileDnl.seek(startPos, 0)
 	fileDnl.write(ricevutoByte)
 	if notExists:
-		fileDnl.write(b'\x00' * (lenFile - startPos - lenPart))
+		fileDnl.write(b'\x00' * (int(lenFile) - int(startPos) - int(lenPart)))
 	fileDnl.close()
 	#fileDnl.write(ricevutoByte + tail)
 

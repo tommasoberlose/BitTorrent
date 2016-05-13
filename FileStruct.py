@@ -129,13 +129,14 @@ def get_bytes_from_partlist(part):
 	lenP = len(part) / 8
 	if (len(part) % 8) != 0:
 		lenP += 1
+	tfunc.reverse_format_string(part, lenP * 8, "0")
 	for x in range(0, int(lenP)):
 		partS += chr(int(part[x:x+8], 2))
 	print(partS)
-	return bytes(partS, "UTF-8")
+	return bytes(partS, "latin")
 
 # >> PEER
-def find_part_from_hitpeer(nHitPeer, part, listPartOwned, md5):
+def find_part_from_hitpeer(nHitPeer, part, listPartOwned, md5, lenFile, lenPart):
 	listPart = {}
 	myPart = listPartOwned[md5]
 	listHitpeer = []
@@ -146,14 +147,20 @@ def find_part_from_hitpeer(nHitPeer, part, listPartOwned, md5):
 		pointer = n * (60 + len(myPart))
 		ip = part[0 + pointer:55 + pointer]
 		port = part[55 + pointer:60 + pointer]
-		memory = part[60 + pointer:60 + len(myPart) + pointer]
+		memory = part[60 + pointer:60 + int(len(myPart)/8) + pointer]
+		partList = ""
+
 		for j in range(0, len(memory)):
-			partList = bin(ord(memory[j:j+1]))[2:]
-			partList = tfunc.format_string(partList, len(myPart), "0")
+			partL = bin(ord(memory[j:j+1]))[2:]
+			partList += tfunc.reverse_format_string(partL, const.LENGTH_NPART, "0")
+			print(partList)
 
+		partList = partList[0:-(8 - ((int(lenFile) / int(lenPart)) % 8))]
+		print(((int(lenFile) / int(lenPart)) % 8))
+		print(partList)
+
+			
 		listHitpeer.append([[ip, port], partList])
-
-	print(listHitpeer)
 
 	for x in range(0, len(myPart)):
 		if list(myPart)[x] == '0':
