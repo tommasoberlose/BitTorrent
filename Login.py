@@ -21,7 +21,7 @@ def login(host, t_host):
 	pk = pack.request_login(host)
 	if s is None:
 		tfunc.error("Errore nell'apertura della socket per il login")
-		return t_host, const.ERROR_LOG
+		return t_host, bytes(const.ERROR_LOG, "ascii")
 	else:
 		s.sendall(pk)
 		ricevutoByte = s.recv(const.LENGTH_PACK)

@@ -53,22 +53,27 @@ def search(sessionID, host, t_host, listPartOwned):
 					print(nomeFile + str(row[0]) + "\t" + str(int(row[3])))
 				
 				selectId = input("\nInserire il numero di file che vuoi scaricare (0 per uscire): ")
+
+				try:
+					selectId = int(selectId)
 				
-				if selectId != "0" :
-					for i in range (0, id):
-						if listFile[i][0] == int(selectId):
-							selectFile = listFile[i]
-							break
+					if selectId != "0" :
+						for i in range (0, id):
+							if listFile[i][0] == selectId:
+								selectFile = listFile[i]
+								break
 
-					# FASE 2 
+						# FASE 2 
 
-					if not selectFile[1] in listPartOwned:
-						listPartOwned[selectFile[1]] = [fs.create_empty_part(selectFile[3], selectFile[4]), selectFile[3], selectFile[4]]
-					print ("\n>>> DOWNLOAD")
-					daemonThreadD = dnl.DaemonMasterOfDownloads(host, t_host, selectFile, sessionID, listPartOwned)
-					daemonThreadD.setName("ONE THREAD TO RULE THEM ALL")
-					daemonThreadD.setDaemon(True)
-					daemonThreadD.start()
+						if not selectFile[1] in listPartOwned:
+							listPartOwned[selectFile[1]] = [fs.create_empty_part(selectFile[3], selectFile[4]), selectFile[3], selectFile[4]]
+						print ("\n>>> DOWNLOAD")
+						daemonThreadD = dnl.DaemonMasterOfDownloads(host, t_host, selectFile, sessionID, listPartOwned)
+						daemonThreadD.setName("ONE THREAD TO RULE THEM ALL")
+						daemonThreadD.setDaemon(True)
+						daemonThreadD.start()
+				except:
+					tfunc.error("Inserisci un intero. Pirla")
 
 			else:
 				tfunc.error("Non sono presenti file con questa query nel nome: " + query)
