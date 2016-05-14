@@ -10,13 +10,18 @@ def upload(md5, nPart, ss, listPartOwned):
 	nomeFile = find_file_by_md5(md5)
 	if nomeFile != const.ERROR_FILE:
 
-		print("Upload parte " + nPart)
+		print("Upload parte " + str(int(nPart)))
 
 		f = open((const.FILE_COND + nomeFile), 'rb')
 
 		fileLength = os.stat(const.FILE_COND + nomeFile).st_size
 
+		print(fileLength)
+		print(len(listPartOwned[md5]))
+
 		lenPart = fileLength / len(listPartOwned[md5])
+
+		print(lenPart)
 
 		if (lenPart % const.LENGTH_PACK) > 0:
 			nChunk = int(lenPart / const.LENGTH_PACK) + 1 
@@ -33,6 +38,7 @@ def upload(md5, nPart, ss, listPartOwned):
 		while True:
 			line = f.read(const.LENGTH_PACK)
 			dimLine = tfunc.format_string(str(len(line)), const.LENGTH_NCHUNK, "0")
+			#print(len(line) * int(nChunk))
 			pk = bytes(dimLine, "ascii") + line
 			ss.sendall(pk)
 			i = i + 1
