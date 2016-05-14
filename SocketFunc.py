@@ -13,7 +13,7 @@ def create_socket_server(myHost, port):
 	    	continue
 	    try:
 	    	s.bind(sa)
-	    	s.listen(1000)
+	    	s.listen(100)
 	    except socket.error as msg:
 	    	s.close()
 	    	s = None
