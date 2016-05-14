@@ -62,9 +62,7 @@ def request_add_file(sessionID, lenFile, md5, fileName):
 
 # >> TRACKER
 def answer_add_file(nPart):
-	print(nPart)
 	nPart = tfunc.format_string(str(nPart), const.LENGTH_NPART, "0")
-	print(nPart)
 	pack = bytes(CODE_ANSWER_ADDFILE, "ascii") + bytes(nPart, "ascii")
 	return pack
 

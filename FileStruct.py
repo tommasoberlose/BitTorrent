@@ -63,7 +63,7 @@ class FileStruct:
 			return False
  
 # >> TRACKER
-def update_memory(sessionID, md5, partN, listFile):
+def update_memory(sessionID, md5, partN, listFile, name, addr):
 	file = listFile[md5]
 	if not sessionID in file.listOwner:
 		file.listOwner[sessionID] = create_empty_part(file.lenFile, file.lenPart)
@@ -72,7 +72,7 @@ def update_memory(sessionID, md5, partN, listFile):
 	listToUpdate[int(partN)] = "1"
 	file.listOwner[sessionID] = "".join(listToUpdate)
 	nPart = count_part(file.listOwner[sessionID])
-	tfunc.write_right_text("Parte " + partN + " scaricata. (" + ((100 * nPart)/len(file.listOwner[sessionID])) + ")")
+	tfunc.write_daemon_success(name, addr[0], "Parte " + str(int(partN)) + " scaricata. (" + str(int((100 * nPart)/len(file.listOwner[sessionID]))) + "%)")
 	return pack.answer_update_tracker(nPart)
 
 # >> PEER, TRACKER
@@ -131,13 +131,9 @@ def get_bytes_from_partlist(part):
 	lenP = len(part) / 8
 	if (len(part) % 8) != 0:
 		lenP += 1
-	print(part)
 	partNew = tfunc.reverse_format_string(part, int(lenP) * 8, "0")
-	print(partNew)
 	for x in range(0, int(lenP)):
-		partS += chr(int(partNew[x:x+8], 2))
-		print(partNew[x:x+8])
-	print(partS)
+		partS += chr(int(partNew[x*8:(x*8)+8], 2))
 	return bytes(partS, "latin")
 
 # >> PEER
