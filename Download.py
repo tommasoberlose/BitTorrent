@@ -47,6 +47,7 @@ def start_download(host, t_host, selectFile, sessionID, listPartOwned):
 			for part in listPart:
 				daemonThreadD = daemonDnl.DaemonDownload(host, t_host, sessionID, fileName, md5, part[0], part[1], listPartOwned, lenFile, lenPart)
 				daemonThreadD.setName("DAEMON DOWNLOAD PART " + str(part[0]) + " di " + str(fileName, "ascii"))
+				daemonThreadD.setDaemon(True)
 				daemonThreadD.start()
 
 			# Controllo se ho finito di scaricare il file

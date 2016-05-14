@@ -20,6 +20,7 @@ T, host, t_host = config.readArgs(sys.argv)
 if T:
 	daemonThreadT = tracker.TrackerDaemon(host)
 	daemonThreadT.setName("DAEMON T")
+	daemonThreadT.setDaemon(True)
 	daemonThreadT.start()
 
 	logi.try_connection(host)

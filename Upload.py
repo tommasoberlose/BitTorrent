@@ -6,22 +6,17 @@ import os
 ###### UPLOAD FILE 
 
 # >> PEER
-def upload(md5, nPart, ss, listPartOwned):
+def upload(md5, nPart, ss, listPartOwned, name, addr):
 	nomeFile = find_file_by_md5(md5)
 	if nomeFile != const.ERROR_FILE:
 
-		print("Upload parte " + str(int(nPart)))
+		tfunc.write_daemon_success(name, addr[0], "Upload parte " + str(int(nPart)))
 
 		f = open((const.FILE_COND + nomeFile), 'rb')
 
 		fileLength = os.stat(const.FILE_COND + nomeFile).st_size
 
-		print(fileLength)
-		print(len(listPartOwned[md5][0]))
-
-		lenPart = listPartOwned[md5][2]
-
-		print(lenPart)
+		lenPart = int(listPartOwned[md5][2])
 
 		if (lenPart % const.LENGTH_PACK) > 0:
 			nChunk = int(lenPart / const.LENGTH_PACK) + 1 

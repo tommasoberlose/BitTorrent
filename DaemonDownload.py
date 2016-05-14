@@ -36,7 +36,7 @@ class DaemonDownload(Thread):
 			try:
 				dnl.update_own_memory(self.md5, self.partN, self.listPartOwned, "2")
 
-				print("Start download della parte " + str(self.partN) + "\n" + self.listPartOwned[self.md5][0])
+				tfunc.gtext("Start download della parte " + str(self.partN) + "\n" + self.listPartOwned[self.md5][0])
 
 				pk = pack.request_download(self.md5, self.partN)
 				sP.sendall(pk)
@@ -65,7 +65,7 @@ class DaemonDownload(Thread):
 					# Aggiorno la mia memoria
 					dnl.update_own_memory(self.md5, self.partN, self.listPartOwned, "1")
 
-					print("Download eseguito della parte " + str(self.partN) + "\n" + self.listPartOwned[self.md5][0])
+					tfunc.success("Download eseguito della parte " + str(self.partN) + "\n" + self.listPartOwned[self.md5][0])
 
 					# Invio l'update al tracker
 					send_update(self.t_host, self.sessionID, self.md5, self.partN)
