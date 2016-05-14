@@ -73,9 +73,9 @@ def request_memory_of_hitpeer(t_host, sessionID, md5):
 
 # >> PEER
 def update_own_memory(md5, partN, listPartOwned, value):
-	listToUpdate = list(listPartOwned[md5])
+	listToUpdate = list(listPartOwned[md5][0])
 	listToUpdate[partN] = value
-	listPartOwned[md5] = "".join(listToUpdate)
+	listPartOwned[md5][0] = "".join(listToUpdate)
 
 
 # >> PEER
@@ -126,7 +126,7 @@ def create_part(ricevutoByte, fileN, partN, lenFile, lenPart):  #se il file non 
 
 # >> PEER NON DA CONSIDERARE
 def check_ended_download(fileName, md5, listPartOwned):
-	if len(listPartOwned[md5]) == fs.count_part(listPartOwned[md5]):
+	if len(listPartOwned[md5][0]) == fs.count_part(listPartOwned[md5][0]):
 		tfunc.success("Download del file completato.")
 		return True
 	else:

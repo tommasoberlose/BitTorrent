@@ -63,7 +63,7 @@ def search(sessionID, host, t_host, listPartOwned):
 					# FASE 2 
 
 					if not selectFile[1] in listPartOwned:
-						listPartOwned[selectFile[1]] = fs.create_empty_part(selectFile[3], selectFile[4])
+						listPartOwned[selectFile[1]] = [fs.create_empty_part(selectFile[3], selectFile[4]), selectFile[3], selectFile[4]]
 					print ("\n>>> DOWNLOAD")
 					daemonThreadD = dnl.DaemonMasterOfDownloads(host, t_host, selectFile, sessionID, listPartOwned)
 					daemonThreadD.setName("ONE DOWNLOAD TO RULE THEM ALL")

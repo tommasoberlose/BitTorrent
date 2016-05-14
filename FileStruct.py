@@ -139,7 +139,7 @@ def get_bytes_from_partlist(part):
 # >> PEER
 def find_part_from_hitpeer(nHitPeer, part, listPartOwned, md5, lenFile, lenPart):
 	listPart = {}
-	myPart = listPartOwned[md5]
+	myPart = listPartOwned[md5][0]
 	listHitpeer = []
 	
 	for n in range(0, nHitPeer):

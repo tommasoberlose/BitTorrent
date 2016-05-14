@@ -17,9 +17,9 @@ def upload(md5, nPart, ss, listPartOwned):
 		fileLength = os.stat(const.FILE_COND + nomeFile).st_size
 
 		print(fileLength)
-		print(len(listPartOwned[md5]))
+		print(len(listPartOwned[md5][0]))
 
-		lenPart = fileLength / len(listPartOwned[md5])
+		lenPart = listPartOwned[md5][2]
 
 		print(lenPart)
 
