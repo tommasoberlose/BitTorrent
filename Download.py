@@ -118,6 +118,7 @@ def create_part(ricevutoByte, fileN, partN, lenFile, lenPart):
 		fileDnl.write(b'\x00' * startPos)
 
 	fileDnl.seek(startPos, 0)
+	fileDnl.write(ricevutoByte)
 	if notExists:
 		fileDnl.write(b'\x00' * (int(lenFile) - int(startPos) - int(lenPart)))
 	fileDnl.close()

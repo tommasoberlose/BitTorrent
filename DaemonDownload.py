@@ -36,7 +36,7 @@ class DaemonDownload(Thread):
 			try:
 				dnl.update_own_memory(self.md5, self.partN, self.listPartOwned, "2")
 
-				tfunc.gtext("Start download della parte " + str(self.partN) + "\n" + self.listPartOwned[self.md5][0] + " da " + self.peer[0])
+				tfunc.gtext("Start download della parte " + str(self.partN) + "\n" + self.listPartOwned[self.md5][0] + " da " + str(self.peer[0], "ascii"))
 
 				pk = pack.request_download(self.md5, self.partN)
 				sP.sendall(pk)
