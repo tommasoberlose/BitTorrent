@@ -57,7 +57,7 @@ def search(sessionID, host, t_host, listPartOwned):
 				try:
 					selectId = int(selectId)
 				
-					if selectId != "0" :
+					if selectId != 0:
 						for i in range (0, id):
 							if listFile[i][0] == selectId:
 								selectFile = listFile[i]
