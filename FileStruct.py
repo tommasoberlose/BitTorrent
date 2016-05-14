@@ -69,9 +69,10 @@ def update_memory(sessionID, md5, partN, listFile):
 		file.listOwner[sessionID] = create_empty_part(file.lenFile, file.lenPart)
 
 	listToUpdate = list(file.listOwner[sessionID])
-	listToUpdate[int(partN) - 1] = "1"
+	listToUpdate[int(partN)] = "1"
 	file.listOwner[sessionID] = "".join(listToUpdate)
 	nPart = count_part(file.listOwner[sessionID])
+	tfunc.write_right_text("Parte " + partN + " scaricata. (" + ((100 * nPart)/len(file.listOwner[sessionID])) + ")")
 	return pack.answer_update_tracker(nPart)
 
 # >> PEER, TRACKER
@@ -168,14 +169,14 @@ def find_part_from_hitpeer(nHitPeer, part, listPartOwned, md5, lenFile, lenPart)
 
 	for x in range(0, len(myPart)):
 		if list(myPart)[x] == '0':
-			listPart[x + 1] = []
+			listPart[x] = []
 			for p in range(0, nHitPeer):
 				if list(listHitpeer[p][1])[x] == "1":
-					listPart[x + 1].append(listHitpeer[p][0])
+					listPart[x].append(listHitpeer[p][0])
 				else:
 					print(listPart)
 					print(x)
-					del listPart[x + 1]
+					del listPart[x]
 	print(listPart)
 
 	listResult = []

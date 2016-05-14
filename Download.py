@@ -78,7 +78,7 @@ def request_memory_of_hitpeer(t_host, sessionID, md5):
 # >> PEER
 def update_own_memory(md5, partN, listPartOwned, value):
 	listToUpdate = list(listPartOwned[md5])
-	listToUpdate[partN - 1] = value
+	listToUpdate[partN] = value
 	listPartOwned[md5] = "".join(listToUpdate)
 
 
@@ -111,7 +111,7 @@ def save_and_open_file(fileN):
 # >> PEER
 def create_part(ricevutoByte, fileN, partN, lenFile, lenPart):  #se il file non esiste, creo il file intero vuoto e mi sposto sulla parte e ci scrivo sopra. Poi se cè già mi sposto e scrivo. 
 	notExists = False
-	startPos = int(lenPart) * (partN - 1)
+	startPos = int(lenPart) * (partN)
 	fileName = str(fileN, "ascii").strip()
 	if os.path.exists(const.FILE_COND + fileName):
 		fileDnl = open((const.FILE_COND + fileName), 'r+b')
