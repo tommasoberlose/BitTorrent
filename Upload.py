@@ -9,6 +9,9 @@ import os
 def upload(md5, nPart, ss, listPartOwned):
 	nomeFile = find_file_by_md5(md5)
 	if nomeFile != const.ERROR_FILE:
+
+		print("Upload parte " + nPart)
+
 		f = open((const.FILE_COND + nomeFile), 'rb')
 
 		fileLength = os.stat(const.FILE_COND + nomeFile).st_size

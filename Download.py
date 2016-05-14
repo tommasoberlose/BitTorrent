@@ -81,6 +81,9 @@ def update_own_memory(md5, partN, listPartOwned, value):
 	listToUpdate[partN] = value
 	listPartOwned[md5] = "".join(listToUpdate)
 
+	print("Download eseguito della parte " + partN)
+	print(listPartOwned[md5])
+
 
 # >> PEER
 def save_and_open_file(fileN):
