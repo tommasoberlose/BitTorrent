@@ -4,6 +4,7 @@ import SocketFunc as sFunc
 import Constant as const
 import TextFunc as tfunc
 import FileStruct as fs
+import time
 
 
 # >> PEER

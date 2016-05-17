@@ -64,6 +64,13 @@ def count_sub_string(s1, s2):
 			s1l[x] = "0"
 	return "".join(s1l)
 
+def format_filename(fileName, ip55):
+	for i in range(0, len(fileName)):
+		if(fileName[i] == "."):
+			fileName = fileName[:i] + ip55[9:11] + ip55[13:15] + fileName[i:]
+			break
+	return fileName
+
 # TEST
 """
 print("Prova format_string 100 caratteri - " + format_string("Ciao", 100, " "))

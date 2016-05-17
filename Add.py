@@ -51,15 +51,16 @@ def add_file_to_list(fileName, lenFile, lenPart, sessionIDUploader, md5, listFil
 
 # >> PEER
 def check_add(fileName, ip55):
+	exFileName = fileName
 	f = open((const.FILE_COND + fileName),'rb')
 	f.seek(-len(ip55), 2)
 	read = f.read(len(ip55))
 	if ((read != bytes(ip55,"ascii")) and (read[0:7] == b"172.030")):
-		fileName = fileName + "_" + ip55[10:12] + "_" + ip55[13:15]
-		f1 = open((const.FILE_COND + fileName),'r+b')
+		fileName = tfunc.format_filename(fileName, ip55)
+		f1 = open((const.FILE_COND + fileName),'w+b')
 		f.seek(0, 0)
-		f1.write(f.read(os.stat(const.FILE_COND + fileName).st_size - len(ip55)))
-		f1.write(ip55)
+		f1.write(f.read(os.stat(const.FILE_COND + exFileName).st_size - len(ip55)))
+		f1.write(bytes(ip55,"ascii"))
 		return True, fileName
 	elif read == bytes(ip55,"ascii"):
 		return True, fileName
