@@ -44,7 +44,8 @@ def upload(md5, nPart, ss, listPartOwned, name, addr):
 					pk = bytes(dimLine, "ascii") + line
 					ss.sendall(pk)
 					break
-			except:
+			except Exception as e:
+				print(e)
 				continue
 
 # >> PEER
