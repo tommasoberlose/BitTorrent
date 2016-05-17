@@ -31,18 +31,21 @@ def upload(md5, nPart, ss, listPartOwned, name, addr):
 
 		i = 0
 		while True:
-			line = f.read(const.LENGTH_PACK)
-			dimLine = tfunc.format_string(str(len(line)), const.LENGTH_NCHUNK, "0")
-			#print(len(line) * int(nChunk))
-			pk = bytes(dimLine, "ascii") + line
-			ss.sendall(pk)
-			i = i + 1
-			if (i == (int(nChunk) - 1)):
-				line = f.read(const.LENGTH_PACK - (int(lenPart) % const.LENGTH_PACK))
+			try:
+				line = f.read(const.LENGTH_PACK)
 				dimLine = tfunc.format_string(str(len(line)), const.LENGTH_NCHUNK, "0")
+				#print(len(line) * int(nChunk))
 				pk = bytes(dimLine, "ascii") + line
 				ss.sendall(pk)
-				break
+				i = i + 1
+				if (i == (int(nChunk) - 1)):
+					line = f.read(const.LENGTH_PACK - (int(lenPart) % const.LENGTH_PACK))
+					dimLine = tfunc.format_string(str(len(line)), const.LENGTH_NCHUNK, "0")
+					pk = bytes(dimLine, "ascii") + line
+					ss.sendall(pk)
+					break
+			except:
+				continue
 
 # >> PEER
 def find_file_by_md5(md5):
