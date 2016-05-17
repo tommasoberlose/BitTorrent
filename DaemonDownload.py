@@ -70,7 +70,8 @@ class DaemonDownload(Thread):
 					# Invio l'update al tracker
 					send_update(self.t_host, self.sessionID, self.md5, self.partN)
 
-			except:
+			except Exception as e:
+				print(e)
 				dnl.update_own_memory(self.md5, self.partN, self.listPartOwned, "0")
 
 
