@@ -3,6 +3,8 @@ import TextFunc as tfunc
 import Package as pack
 import hashlib
 import os
+import FileStruct as fs
+
 ###### UPLOAD FILE 
 
 # >> PEER
@@ -10,7 +12,7 @@ def upload(md5, nPart, ss, listPartOwned, name, addr):
 	nomeFile = find_file_by_md5(md5)
 	if nomeFile != const.ERROR_FILE:
 
-		tfunc.write_daemon_success(name, addr[0], "Upload parte " + str(int(nPart)))
+		tfunc.write_daemon_success(name, addr[0], "Upload parte " + str(int(nPart)) + " (" + str(len(listPartOwned[md5][0])) + ")")
 
 		f = open((const.FILE_COND + nomeFile), 'rb')
 
