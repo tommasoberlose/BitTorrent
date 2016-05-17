@@ -118,8 +118,6 @@ def find_file_from_string(listFile, sessionID, query):
 # >> TRACKER
 def find_hitpeer_from_md5(listFile, listUsers, sessionID, md5):
 	fileC = listFile[md5]
-	print(listFile)
-	print(md5)
 	listFounded = []
 	listP = list(fileC.listOwner.items())
 	for part in listP:
