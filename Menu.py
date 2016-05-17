@@ -5,6 +5,7 @@ import Logout as logo
 import Add as add
 import Search as src
 import Daemon as daemon
+import time
 
 # MENU
 
@@ -36,6 +37,7 @@ def menu(host, T, t_host):
 
 					elif (choice_after_log == "logout" or choice_after_log == "l"):
 						if (logo.logout(host, t_host, sessionID) > 0):
+
 							break
 
 					else:

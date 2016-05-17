@@ -22,6 +22,7 @@ def logout(ip55, t_host, sessionID):
 				"Sono state scaricate " + str(int(ricevutoByte[4:])) + " parti del file, fatevi il conto di quante ne mancano.")
 		elif str(ricevutoByte[:4], "ascii") == pack.CODE_ANSWER_LOGOUT:	
 			tfunc.success("Logout eseguito con successo.\nAvevi " + str(int(ricevutoByte[4:])) + " parti, peccato tu te ne vada, addio.")
+			time.sleep(const.TIME_TO_UPDATE)
 			pk = pack.close()
 			sD = sFunc.create_socket_client(func.roll_the_dice(ip55), const.PORT);
 			if sD is None:

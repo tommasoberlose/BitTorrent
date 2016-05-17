@@ -59,7 +59,6 @@ class DaemonDownload(Thread):
 					sP.close()
 
 					# Modifico nel file la parte che ho appena scaricato, se il file non esiste lo creo (es b'00000')
-					# Finita e testata
 					dnl.create_part(ricevutoByte, self.fileName, self.partN, self.lenFile, self.lenPart)
 
 					# Aggiorno la mia memoria
@@ -71,7 +70,7 @@ class DaemonDownload(Thread):
 					send_update(self.t_host, self.sessionID, self.md5, self.partN)
 
 			except Exception as e:
-				print(e)
+				tfunc.write_daemon_error("ERRORE DOWNLOAD: {0}".format(e))
 				dnl.update_own_memory(self.md5, self.partN, self.listPartOwned, "0")
 
 

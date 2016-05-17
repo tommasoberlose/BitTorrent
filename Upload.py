@@ -45,7 +45,7 @@ def upload(md5, nPart, ss, listPartOwned, name, addr):
 					ss.sendall(pk)
 					break
 			except Exception as e:
-				print(e)
+				tfunc.write_daemon_error(name, addr[0], "ERRORE UPLAD: {0}".format(e))
 				continue
 
 # >> PEER
