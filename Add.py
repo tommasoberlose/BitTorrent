@@ -16,7 +16,8 @@ def add(ip55, sessionID, t_host, listPartOwned):
 	fileName = input("Quale file vuoi inserire?\n")
 	if fileName != "0":
 		if os.path.exists(const.FILE_COND + fileName):
-			if not check_add(fileName, ip55):
+			result, fileName = check_add(fileName, ip55)
+			if not result:
 				open((const.FILE_COND + fileName), 'ab').write(bytes(ip55, "ascii"))
 			md5File = hashlib.md5(open((const.FILE_COND + fileName),'rb').read()).hexdigest()
 			lenFile = os.stat(const.FILE_COND + fileName).st_size
@@ -53,10 +54,14 @@ def check_add(fileName, ip55):
 	f = open((const.FILE_COND + fileName),'rb')
 	f.seek(-len(ip55), 2)
 	read = f.read(len(ip55))
-	if ((read != bytes(ip55,"ascii")) && (read[0:7] == b"172.030")):
-		f1 = open((const.FILE_COND + fileName + "_" + ip55[11:12] + "_" + ip55[14:15]),'rb')
-		return True
+	if ((read != bytes(ip55,"ascii")) and (read[0:7] == b"172.030")):
+		fileName = fileName + "_" + ip55[10:12] + "_" + ip55[13:15]
+		f1 = open((const.FILE_COND + fileName),'r+b')
+		f.seek(0, 0)
+		f1.write(f.read(os.stat(const.FILE_COND + fileName).st_size - len(ip55)))
+		f1.write(ip55)
+		return True, fileName
 	elif read == bytes(ip55,"ascii"):
-		return True
+		return True, fileName
 	else:
-		return False
+		return False, fileName
