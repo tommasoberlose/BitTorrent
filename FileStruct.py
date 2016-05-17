@@ -158,16 +158,17 @@ def find_part_from_hitpeer(nHitPeer, part, listPartOwned, md5, lenFile, lenPart)
 
 			
 		listHitpeer.append([[ip, port], partList])
-	print(listHitpeer)
-	print(len(listHitpeer))
+
 	for x in range(0, len(myPart)):
 		if list(myPart)[x] == '0':
 			listPart[x] = []
+
 			for p in range(0, len(listHitpeer)):
 				if list(listHitpeer[p][1])[x] == "1":
 					listPart[x].append(listHitpeer[p][0])
-				else:
-					del listPart[x]
+		
+			if len(listPart[x]) == 0:	
+				del listPart[x]
 
 	listResult = []
 	listPartSorted = sorted(listPart.items(), key=lambda x:len(x[1]))
