@@ -52,7 +52,11 @@ def add_file_to_list(fileName, lenFile, lenPart, sessionIDUploader, md5, listFil
 def check_add(fileName, ip55):
 	f = open((const.FILE_COND + fileName),'rb')
 	f.seek(-len(ip55), 2)
-	if (f.read(len(ip55)) == bytes(ip55,"ascii")):
+	read = f.read(len(ip55))
+	if ((read != bytes(ip55,"ascii")) && (read[0:7] == b"172.030")):
+		f1 = open((const.FILE_COND + fileName + "_" + ip55[11:12] + "_" + ip55[14:15]),'rb')
+		return True
+	elif read == bytes(ip55,"ascii"):
 		return True
 	else:
 		return False
