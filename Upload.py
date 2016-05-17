@@ -46,7 +46,7 @@ def upload(md5, nPart, ss, listPartOwned, name, addr):
 					break
 			except Exception as e:
 				tfunc.write_daemon_error(name, addr[0], "ERRORE UPLAD: {0}".format(e))
-				continue
+				break
 
 # >> PEER
 def find_file_by_md5(md5):
