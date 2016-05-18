@@ -36,7 +36,7 @@ class DaemonDownload(Thread):
 			try:
 				dnl.update_own_memory(self.md5, self.partN, self.listPartOwned, "2")
 
-				tfunc.gtext("Start download della parte " + str(self.partN) + " da " + str(self.peer[0], "ascii"))
+				#tfunc.gtext("Start download della parte " + str(self.partN) + " da " + str(self.peer[0], "ascii"))
 
 				pk = pack.request_download(self.md5, self.partN)
 				sP.sendall(pk)
@@ -84,5 +84,5 @@ def send_update(t_host, sessionID, md5, partN, listPartOwned):
 		s.sendall(pk)
 		ricevutoByte = s.recv(const.LENGTH_PACK)
 		if str(ricevutoByte[0:4], "ascii") == pack.CODE_ANSWER_UPDATE_PART:
-			tfunc.success("Download parte completato.\nAttualmente in possesso di " + str(int(ricevutoByte[4:])) + "/" + str(len(listPartOwned[md5][0])) + " parti del file.")
+			tfunc.success("Attualmente in possesso di " + str(int(ricevutoByte[4:])) + "/" + str(len(listPartOwned[md5][0])) + " parti del file.")
 		s.close()

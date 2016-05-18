@@ -45,7 +45,7 @@ def upload(md5, nPart, ss, listPartOwned, name, addr):
 				tfunc.write_daemon_error(name, addr[0], "ERRORE UPLAD: {0}".format(e))
 				break
 
-		tfunc.write_daemon_success(name, addr[0], "Upload parte " + str(int(nPart)) + " (" + str(len(listPartOwned[md5][0])) + ")")
+		tfunc.write_daemon_success(name, addr[0], "Upload parte " + str(int(nPart)) + " (" + str(fs.count_one_in_part(listPartOwned[md5][0])) + "/" + str(len(listPartOwned[md5][0])) + ")")
 
 # >> PEER
 def find_file_by_md5(md5, listPartOwned):

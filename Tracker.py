@@ -41,8 +41,12 @@ class TrackerDaemon(Thread):
 
 				# Chiusura del demone
 				elif (str(ricevutoByte[0:4], "ascii") == pack.CODE_CLOSE):
-					tfunc.write_daemon_success(self.name, addr[0], "Chiusura del demone Tracker")
-					break
+					try:
+						tfunc.write_daemon_success(self.name, addr[0], "Chiusura del demone Tracker")
+					except:
+						continue
+					finally:
+						break
 
 				# Test corretto avvio demone
 				elif (str(ricevutoByte[0:4], "ascii") == pack.CODE_CONFIRM):
