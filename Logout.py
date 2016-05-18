@@ -16,26 +16,30 @@ def logout(ip55, t_host, sessionID):
 	if s is None:
 		tfunc.error("Errore nella creazione della socket per il logout.")
 	else:
-		s.sendall(pk)
-		ricevutoByte = s.recv(const.LENGTH_PACK)
-		if str(ricevutoByte[:4], "ascii") == pack.CODE_LOGOUT_DENIED:
-			tfunc.error("Siamo spiacenti ma il logout risulta impossibile poichè si è in possesso di parti di file uniche.\n" + \
-				"Sono state scaricate " + str(int(ricevutoByte[4:])) + " parti del file, fatevi il conto di quante ne mancano.")
-		elif str(ricevutoByte[:4], "ascii") == pack.CODE_ANSWER_LOGOUT:	
-			tfunc.success("Logout eseguito con successo.\nAvevi " + str(int(ricevutoByte[4:])) + " parti, peccato tu te ne vada, addio.")
-			time.sleep(const.TIME_TO_UPDATE)
-			pk = pack.close()
-			sD = sFunc.create_socket_client(func.roll_the_dice(ip55), const.PORT);
-			if sD is None:
-				tfunc.error("Errore nella chiusura del demone")
+		try:
+			s.sendall(pk)
+			ricevutoByte = s.recv(const.LENGTH_PACK)
+			if str(ricevutoByte[:4], "ascii") == pack.CODE_LOGOUT_DENIED:
+				tfunc.error("Siamo spiacenti ma il logout risulta impossibile poichè si è in possesso di parti di file uniche.\n" + \
+					"Sono state scaricate " + str(int(ricevutoByte[4:])) + " parti del file, fatevi il conto di quante ne mancano.")
+			elif str(ricevutoByte[:4], "ascii") == pack.CODE_ANSWER_LOGOUT:	
+				tfunc.success("Logout eseguito con successo.\nAvevi " + str(int(ricevutoByte[4:])) + " parti, peccato tu te ne vada, addio.")
+				time.sleep(const.TIME_TO_UPDATE)
+				pk = pack.close()
+				sD = sFunc.create_socket_client(func.roll_the_dice(ip55), const.PORT);
+				if sD is None:
+					tfunc.error("Errore nella chiusura del demone")
+				else:
+					sD.sendall(pk)
+					sD.close()
+				tfunc.success("Chiusura del peer eseguito con successo, arrivederci.\n\n")
+				result = 1
 			else:
-				sD.sendall(pk)
-				sD.close()
-			tfunc.success("Chiusura del peer eseguito con successo, arrivederci.\n\n")
-			result = 1
-		else:
-			tfunc.error("Errore nel codice di logout.")
-		s.close()
+				tfunc.error("Errore nel codice di logout.")
+			s.close()
+		except:
+			tfunc.error("Errore nel logout a causa del tracker.")
+			s.close()
 
 	return result
 

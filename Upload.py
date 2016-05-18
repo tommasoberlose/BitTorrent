@@ -12,8 +12,6 @@ def upload(md5, nPart, ss, listPartOwned, name, addr):
 	nomeFile = find_file_by_md5(md5, listPartOwned)
 	if nomeFile != const.ERROR_FILE:
 
-		tfunc.write_daemon_success(name, addr[0], "Upload parte " + str(int(nPart)) + " (" + str(len(listPartOwned[md5][0])) + ")")
-
 		f = open((const.FILE_COND + nomeFile), 'rb')
 		lenPart = int(listPartOwned[md5][2])
 
@@ -47,9 +45,11 @@ def upload(md5, nPart, ss, listPartOwned, name, addr):
 				tfunc.write_daemon_error(name, addr[0], "ERRORE UPLAD: {0}".format(e))
 				break
 
+		tfunc.write_daemon_success(name, addr[0], "Upload parte " + str(int(nPart)) + " (" + str(len(listPartOwned[md5][0])) + ")")
+
 # >> PEER
 def find_file_by_md5(md5, listPartOwned):
 	if md5 in listPartOwned:
-		return listPartOwned[md5][3]
+		return str(listPartOwned[md5][3], "ascii").strip()
 	else:
 		return const.ERROR_FILE
