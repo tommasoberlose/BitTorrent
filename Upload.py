@@ -9,7 +9,7 @@ import FileStruct as fs
 
 # >> PEER
 def upload(md5, nPart, ss, listPartOwned, name, addr):
-	nomeFile = find_file_by_md5(md5)
+	nomeFile = find_file_by_md5(md5, listPartOwned)
 	if nomeFile != const.ERROR_FILE:
 
 		tfunc.write_daemon_success(name, addr[0], "Upload parte " + str(int(nPart)) + " (" + str(len(listPartOwned[md5][0])) + ")")

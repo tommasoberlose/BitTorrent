@@ -81,27 +81,16 @@ def update_own_memory(md5, partN, listPartOwned, value):
 
 # >> PEER
 def save_and_open_file(fileN):
-	
-	#### OPEN TUTTE LE PART, PRENDO, CREO FILE, APRO E POI CHIEDO SE DEVO ELIMINARLO
 
-	fileName = str(fileN, "ascii").strip()
-	
-	fileDnl = open((const.FILE_COND + fileName),'r+b')
-	lenFile = (os.stat(const.FILE_COND + fileName).st_size) - const.LENGTH_HOST
-	s = fileDnl.read(lenFile)
-	open((const.FILE_COPY + fileName), 'wb').write(s)
-	
+	fileName = str(fileN, "ascii").strip()	
 	
 	try:
-		os.system("open " + const.FILE_COPY + fileName)
+		os.system("open " + const.FILE_COND + fileName)
 	except:
 		try:
-			os.system("start " + const.FILE_COPY + fileName)
+			os.system("start " + const.FILE_COND + fileName)
 		except:
 			print("Apertura non riuscita")
-
-	
-	#os.remove(const.FILE_COPY + fileName)
 	
 	
 
@@ -123,18 +112,13 @@ def create_part(ricevutoByte, fileN, partN, lenFile, lenPart):
 		fileDnl.write(b'\x00' * (int(lenFile) - int(startPos) - int(lenPart)))
 	fileDnl.close()
 
-# >> PEER NON DA CONSIDERARE
+# >> PEER
 def check_ended_download(fileName, md5, listPartOwned):
 	if len(listPartOwned[md5][0]) == fs.count_part(listPartOwned[md5][0]):
 		tfunc.success("Download del file completato.")
 		return True
 	else:
 		return False
-
-def extract_tail(lenPart, partN, fileDnl, lenFile):
-	startPos = int(lenPart * (partN))
-	fileDnl.seek(startPos, 0)
-	return fileDnl.read(lenFile - startPos)
 
 
 

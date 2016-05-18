@@ -16,11 +16,18 @@ def add(ip55, sessionID, t_host, listPartOwned):
 	fileName = input("Quale file vuoi inserire?\n")
 	if fileName != "0":
 		if os.path.exists(const.FILE_COND + fileName):
-			result, fileName = check_add(fileName, ip55)
-			if not result:
-				open((const.FILE_COND + fileName), 'ab').write(bytes(ip55, "ascii"))
-			md5File = hashlib.md5(open((const.FILE_COND + fileName),'rb').read()).hexdigest()
+			
+			fileToRead = open((const.FILE_COND + fileName),'rb')
 			lenFile = os.stat(const.FILE_COND + fileName).st_size
+			m = hashlib.md5()
+
+			for x in range(0, pfunc.calculate_part(lenFile, const.LENGTH_PART)):
+				m.update(fileToRead.read(const.LENGTH_PART))
+
+			m.update(bytes(ip55, "ascii"))
+			md5File = m.hexdigest()
+			fileToRead.close()
+
 			pk = pack.request_add_file(sessionID, lenFile, md5File, tfunc.format_string(fileName, const.LENGTH_FILENAME, " "))
 			s = sfunc.create_socket_client(func.roll_the_dice(t_host[0]), t_host[1]);
 			if s is None:
@@ -48,21 +55,3 @@ def add_file_to_list(fileName, lenFile, lenPart, sessionIDUploader, md5, listFil
 		return pack.answer_add_file(fileToAdd.nPart)
 	else:
 		return pack.answer_add_file(listFile[md5].nPart)
-
-# >> PEER
-def check_add(fileName, ip55):
-	exFileName = fileName
-	f = open((const.FILE_COND + fileName),'rb')
-	f.seek(-len(ip55), 2)
-	read = f.read(len(ip55))
-	if ((read != bytes(ip55,"ascii")) and (read[0:7] == b"172.030")):
-		fileName = tfunc.format_filename(fileName, ip55)
-		f1 = open((const.FILE_COND + fileName),'w+b')
-		f.seek(0, 0)
-		f1.write(f.read(os.stat(const.FILE_COND + exFileName).st_size - len(ip55)))
-		f1.write(bytes(ip55,"ascii"))
-		return True, fileName
-	elif read == bytes(ip55,"ascii"):
-		return True, fileName
-	else:
-		return False, fileName
