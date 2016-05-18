@@ -17,7 +17,7 @@ def daemonUpload(conn, name, addr, listPartOwned):
 		if not ricevutoByte:
 			tfunc.write_daemon_error(name, addr[0], "Pacchetto errato")
 		elif (str(ricevutoByte[0:4], "ascii") == pack.CODE_CLOSE):
-			tfunc.success("Mi è arrivata una richiesta di chiusura, saluti.")
+			tfunc.write_daemon_success("Mi è arrivata una richiesta di chiusura, saluti.")
 		else:
 			if str(ricevutoByte[0:4], "ascii") == pack.CODE_DOWNLOAD: #UPLOAD
 				if pfunc.check_presence(int(ricevutoByte[36:]), ricevutoByte[4:36], listPartOwned):

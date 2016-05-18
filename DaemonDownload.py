@@ -69,7 +69,7 @@ class DaemonDownload(Thread):
 					send_update(self.t_host, self.sessionID, self.md5, self.partN, self.listPartOwned)
 
 			except Exception as e:
-				#tfunc.write_daemon_error(self.name, str(self.peer[0], "ascii"), "ERRORE DOWNLOAD: {0}".format(e))
+				#tfunc.error(self.name, str(self.peer[0], "ascii"), "ERRORE DOWNLOAD: {0}".format(e))
 				dnl.update_own_memory(self.md5, self.partN, self.listPartOwned, "0")
 
 
@@ -83,5 +83,5 @@ def send_update(t_host, sessionID, md5, partN, listPartOwned):
 		s.sendall(pk)
 		ricevutoByte = s.recv(const.LENGTH_PACK)
 		if str(ricevutoByte[0:4], "ascii") == pack.CODE_ANSWER_UPDATE_PART:
-			tfunc.success("Download eseguito della parte " + str(self.partN) + "\nAttualmente in possesso di " + str(int(ricevutoByte[4:])) + "/" + str(len(listPartOwned[md5][0])) + " parti del file.")
+			tfunc.success("Download eseguito della parte " + str(partN) + "\nAttualmente in possesso di " + str(int(ricevutoByte[4:])) + "/" + str(len(listPartOwned[md5][0])) + " parti del file.")
 		s.close()
