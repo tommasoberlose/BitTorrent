@@ -10,6 +10,29 @@ import SocketFunc as sfunc
 import Upload as upl
 import PartFunc as pfunc
 
+def daemonUpload(conn, name, addr, listPartOwned):
+	try:
+		ricevutoByte = conn.recv(const.LENGTH_PACK)
+
+		if not ricevutoByte:
+			tfunc.write_daemon_error(name, addr[0], "Pacchetto errato")
+		elif (str(ricevutoByte[0:4], "ascii") == pack.CODE_CLOSE):
+			print("Mi è arrivata una richiesta di chiusura.")
+		else:
+			if str(ricevutoByte[0:4], "ascii") == pack.CODE_DOWNLOAD: #UPLOAD
+				if pfunc.check_presence(int(ricevutoByte[36:]), ricevutoByte[4:36], listPartOwned):
+					upl.upload(ricevutoByte[4:36], ricevutoByte[36:], conn, listPartOwned, name, addr)
+				else:
+					tfunc.write_daemon_error(name, addr[0], "Errore, la parte " + str(int(ricevutoByte[36:])) + " non è presente.")
+			else:
+				tfunc.write_daemon_error(name, addr[0], "Ricevuto pacchetto sbagliato: " + str(ricevutoByte, "ascii"))
+	except:
+		print("Exception raised in daemonUpload!")
+		continue
+	finally:
+		conn.close()
+
+
 class PeerDaemon(Thread):
 
 	def __init__(self, host, listPartOwned):
@@ -28,20 +51,9 @@ class PeerDaemon(Thread):
 				try:
 					conn, addr = s.accept()
 					
-					ricevutoByte = conn.recv(const.LENGTH_PACK)
-
-					if not ricevutoByte:
-						tfunc.write_daemon_error(self.name, addr[0], "Pacchetto errato")
-					elif (str(ricevutoByte[0:4], "ascii") == pack.CODE_CLOSE):
-						break
-					else:
-						if str(ricevutoByte[0:4], "ascii") == pack.CODE_DOWNLOAD: #UPLOAD
-							if pfunc.check_presence(int(ricevutoByte[36:]), ricevutoByte[4:36], self.listPartOwned):
-								upl.upload(ricevutoByte[4:36], ricevutoByte[36:], conn, self.listPartOwned, self.name, addr)
-							else:
-								tfunc.write_daemon_error(self.name, addr[0], "Errore, la parte " + str(int(ricevutoByte[36:])) + " non è presente.")
-						else:
-							tfunc.write_daemon_error(self.name, addr[0], "Ricevuto pacchetto sbagliato: " + str(ricevutoByte, "ascii"))
+					daemonUpl = threading.Thread(target = daemonUpload, args = (conn, self.name, addr, listPartOwned, ))
+					daemonUpl.start()
+					
 				except:
 					continue
 			s.close()
