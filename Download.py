@@ -114,7 +114,7 @@ def create_part(ricevutoByte, fileN, partN, lenFile, lenPart):
 
 # >> PEER
 def check_ended_download(fileName, md5, listPartOwned):
-	if len(listPartOwned[md5][0]) == fs.count_part(listPartOwned[md5][0]):
+	if len(listPartOwned[md5][0]) == fs.count_one_in_part(listPartOwned[md5][0]):
 		tfunc.success("Download del file completato.")
 		return True
 	else:

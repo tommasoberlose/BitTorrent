@@ -83,6 +83,16 @@ def count_part(s):
 		part += int(i)
 	return part
 
+# >> PEER
+def count_one_in_part(s):
+	sl = list(s)
+	part = 0
+	for i in sl:
+		if int(i) < 2: 
+			part += int(i)
+	return part
+
+
 # >> TRACKER
 def get_part_for_logout(sessionID, listFile):
 	listF = []
