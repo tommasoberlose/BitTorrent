@@ -23,6 +23,7 @@ def menu(host, T, t_host):
 
 				daemonThreadP = daemon.PeerDaemon(host, listPartOwned)
 				daemonThreadP.setName("DAEMON PEER")
+				daemonThreadP.setDaemon(True)
 				daemonThreadP.start()
 
 				while True:
