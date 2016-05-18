@@ -15,9 +15,6 @@ def upload(md5, nPart, ss, listPartOwned, name, addr):
 		tfunc.write_daemon_success(name, addr[0], "Upload parte " + str(int(nPart)) + " (" + str(len(listPartOwned[md5][0])) + ")")
 
 		f = open((const.FILE_COND + nomeFile), 'rb')
-
-		fileLength = os.stat(const.FILE_COND + nomeFile).st_size
-
 		lenPart = int(listPartOwned[md5][2])
 
 		if (lenPart % const.LENGTH_PACK) > 0:
@@ -51,11 +48,8 @@ def upload(md5, nPart, ss, listPartOwned, name, addr):
 				break
 
 # >> PEER
-def find_file_by_md5(md5):
-	file_list = os.listdir(const.FILE_COND)
-	for filef in file_list:
-		if not filef.endswith('~'):
-			md5File = hashlib.md5(open(const.FILE_COND + filef,'rb').read()).hexdigest()
-			if str(md5, "ascii") == md5File:
-				return filef
-	return const.ERROR_FILE
+def find_file_by_md5(md5, listPartOwned):
+	if md5 in listPartOwned:
+		return listPartOwned[md5][3]
+	else:
+		return const.ERROR_FILE

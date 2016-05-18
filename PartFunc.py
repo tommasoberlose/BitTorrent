@@ -2,8 +2,8 @@ import Constant as const
 import FileStruct as fs
 
 # >> PEER
-def add_to_list_owner(md5, lenFile, lenPart, listPartOwned):
-	listPartOwned[bytes(md5, "ascii")] = [fs.create_total_part(lenFile, const.LENGTH_PART), lenFile, lenPart]
+def add_to_list_owner(md5, lenFile, lenPart, listPartOwned, fileName):
+	listPartOwned[bytes(md5, "ascii")] = [fs.create_total_part(lenFile, const.LENGTH_PART), lenFile, lenPart, fileName]
 
 # >> PEER
 def check_presence(nPart, md5, listPartOwned):

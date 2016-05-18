@@ -37,7 +37,7 @@ def add(ip55, sessionID, t_host, listPartOwned):
 				ricevutoByte = s.recv(const.LENGTH_PACK)
 				if(ricevutoByte[:4].decode("ascii") == pack.CODE_ANSWER_ADDFILE):
 					tfunc.success("Il file " + fileName + " è stato aggiunto con successo.\nÈ stato diviso in " + str(int(ricevutoByte[4:])) + " parti.")
-					pfunc.add_to_list_owner(md5File, lenFile, const.LENGTH_PART, listPartOwned)
+					pfunc.add_to_list_owner(md5File, lenFile, const.LENGTH_PART, listPartOwned, fileName)
 				else:
 					tfunc.error("Errore nella ricezione del codice di aggiunta file.")
 				s.close()
