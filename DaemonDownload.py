@@ -83,5 +83,5 @@ def send_update(t_host, sessionID, md5, partN, listPartOwned):
 		s.sendall(pk)
 		ricevutoByte = s.recv(const.LENGTH_PACK)
 		if str(ricevutoByte[0:4], "ascii") == pack.CODE_ANSWER_UPDATE_PART:
-			tfunc.success("Download eseguito della parte " + str(partN) + "\nAttualmente in possesso di " + str(int(ricevutoByte[4:])) + "/" + str(len(listPartOwned[md5][0])) + " parti del file.")
+			tfunc.dnl_success("Download eseguito della parte " + str(partN) + "\nAttualmente in possesso di " + str(int(ricevutoByte[4:])) + "/" + str(len(listPartOwned[md5][0])) + " parti del file.")
 		s.close()

@@ -27,7 +27,8 @@ def daemonUpload(conn, name, addr, listPartOwned):
 			else:
 				tfunc.write_daemon_error(name, addr[0], "Ricevuto pacchetto sbagliato: " + str(ricevutoByte, "ascii"))
 	except:
-		print("Exception raised in daemonUpload!")
+		#print("Exception raised in daemonUpload!")
+		val = ""
 	finally:
 		conn.close()
 

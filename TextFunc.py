@@ -39,14 +39,18 @@ def write_daemon_error(host, addr, text):
 def write_daemon_success(host, addr, text):
 	write_right_text(">>> " + host + " [" + addr + "]: " + START_GREEN + "SUCCESS: " + text + END_GREEN)
 
+
 def write_daemon_text(host, addr, text):
 	write_right_text(">>>  " + host + " [" + addr + "]: " + text)
 
 def error(text):
-	print (START_RED + "Error: " + text + END_RED)
+	print(START_RED + "Error: " + text + END_RED)
 
 def success(text):
-	print (START_GREEN + "Success: " + text + END_GREEN)
+	print(START_GREEN + "Success: " + text + END_GREEN)
+
+def dnl_success(text):
+	print(START_GREEN + "Success: " + text + END_GREEN, end='\r')
 
 def warning(text):
 	print (START_YELLOW + text + END_YELLOW)
