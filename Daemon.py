@@ -17,7 +17,7 @@ def daemonUpload(conn, name, addr, listPartOwned):
 		if not ricevutoByte:
 			tfunc.write_daemon_error(name, addr[0], "Pacchetto errato")
 		elif (str(ricevutoByte[0:4], "ascii") == pack.CODE_CLOSE):
-			print("Mi è arrivata una richiesta di chiusura.")
+			tfunc.success("Mi è arrivata una richiesta di chiusura, saluti.")
 		else:
 			if str(ricevutoByte[0:4], "ascii") == pack.CODE_DOWNLOAD: #UPLOAD
 				if pfunc.check_presence(int(ricevutoByte[36:]), ricevutoByte[4:36], listPartOwned):
@@ -28,7 +28,6 @@ def daemonUpload(conn, name, addr, listPartOwned):
 				tfunc.write_daemon_error(name, addr[0], "Ricevuto pacchetto sbagliato: " + str(ricevutoByte, "ascii"))
 	except:
 		print("Exception raised in daemonUpload!")
-		continue
 	finally:
 		conn.close()
 
@@ -50,7 +49,7 @@ class PeerDaemon(Thread):
 			while 1:
 				try:
 					conn, addr = s.accept()
-					daemonUpl = threading.Thread(target = daemonUpload, args = (conn, self.name, addr, listPartOwned, ))
+					daemonUpl = threading.Thread(target = daemonUpload, args = (conn, self.name, addr, self.listPartOwned, ))
 					daemonUpl.start()
 					
 				except Exception as ex:

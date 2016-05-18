@@ -85,7 +85,7 @@ def save_and_open_file(fileN):
 	fileName = str(fileN, "ascii").strip()	
 	
 	try:
-		os.system("open " + const.FILE_COND + fileName)
+		retcode = os.system("open " + const.FILE_COND + fileName)
 	except:
 		try:
 			os.system("start " + const.FILE_COND + fileName)
