@@ -42,7 +42,8 @@ class PeerDaemon(Thread):
 								tfunc.write_daemon_error(self.name, addr[0], "Errore, la parte " + str(int(ricevutoByte[36:])) + " non è presente.")
 						else:
 							tfunc.write_daemon_error(self.name, addr[0], "Ricevuto pacchetto sbagliato: " + str(ricevutoByte, "ascii"))
-				except:
+				except Exception as ex:
+					print(ex)
 					continue
 			s.close()
 		
