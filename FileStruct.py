@@ -147,7 +147,7 @@ def get_bytes_from_partlist(part):
 	return bytes(partS, "latin")
 
 # >> PEER
-def find_part_from_hitpeer(nHitPeer, part, listPartOwned, md5, lenFile, lenPart):
+def find_part_from_hitpeer(host, nHitPeer, part, listPartOwned, md5, lenFile, lenPart):
 	listPart = {}
 	myPart = listPartOwned[md5][0]
 	listHitpeer = []
@@ -164,8 +164,8 @@ def find_part_from_hitpeer(nHitPeer, part, listPartOwned, md5, lenFile, lenPart)
 			partList += tfunc.reverse_format_string(partL, const.LENGTH_NPART, "0")
 		partList = partList[0:-(8 - (pfunc.calculate_part(lenFile, lenPart) % 8))]
 
-			
-		listHitpeer.append([[ip, port], partList])
+		if [str(ip, "ascii"), str(port, "ascii")] != [host, const.PORT]:
+			listHitpeer.append([[ip, port], partList])
 
 	for x in range(0, len(myPart)):
 		if list(myPart)[x] == '0':

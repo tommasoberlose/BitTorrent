@@ -11,6 +11,8 @@ import Upload as upl
 import PartFunc as pfunc
 import Download as dnl
 
+mutex = Lock()
+
 class DaemonDownload(Thread):
 
 	def __init__(self, host, t_host, sessionID, fileName, md5, partN, peer, listPartOwned, lenFile, lenPart):
@@ -28,6 +30,8 @@ class DaemonDownload(Thread):
 		self.lenPart = lenPart
 
 	def run(self):
+
+		global mutex
 		
 		sP = sfunc.create_socket_client(func.roll_the_dice(self.peer[0]), self.peer[1])
 		if sP is None:
@@ -62,14 +66,16 @@ class DaemonDownload(Thread):
 					# Modifico nel file la parte che ho appena scaricato, se il file non esiste lo creo (es b'00000')
 					dnl.create_part(ricevutoByte, self.fileName, self.partN, self.lenFile, self.lenPart)
 
+					mutex.acquire()
 					# Aggiorno la mia memoria
 					dnl.update_own_memory(self.md5, self.partN, self.listPartOwned, "1")
+					mutex.release()
 
 					# Invio l'update al tracker
 					send_update(self.t_host, self.sessionID, self.md5, self.partN, self.listPartOwned, self.peer)
 
 			except Exception as e:
-				#tfunc.error(self.name, str(self.peer[0], "ascii"), "ERRORE DOWNLOAD: {0}".format(e))
+				tfunc.error(self.name, str(self.peer[0], "ascii"), "ERRORE DOWNLOAD: {0}".format(e))
 				dnl.update_own_memory(self.md5, self.partN, self.listPartOwned, "0")
 
 
@@ -83,5 +89,5 @@ def send_update(t_host, sessionID, md5, partN, listPartOwned, peer):
 		s.sendall(pk)
 		ricevutoByte = s.recv(const.LENGTH_PACK)
 		if str(ricevutoByte[0:4], "ascii") == pack.CODE_ANSWER_UPDATE_PART:
-			tfunc.dnl_success("Download eseguito della parte " + str(partN) + " da " + peer[0] + "\nAttualmente in possesso di " + str(int(ricevutoByte[4:])) + "/" + str(len(listPartOwned[md5][0])) + " parti del file.")
+			tfunc.dnl_success("Download eseguito della parte " + str(partN) + " da " + str(peer[0], "ascii") + "\nAttualmente in possesso di " + str(int(ricevutoByte[4:])) + "/" + str(len(listPartOwned[md5][0])) + " parti del file.")
 		s.close()
