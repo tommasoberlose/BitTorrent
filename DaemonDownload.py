@@ -66,7 +66,7 @@ class DaemonDownload(Thread):
 					dnl.update_own_memory(self.md5, self.partN, self.listPartOwned, "1")
 
 					# Invio l'update al tracker
-					send_update(self.t_host, self.sessionID, self.md5, self.partN, self.listPartOwned)
+					send_update(self.t_host, self.sessionID, self.md5, self.partN, self.listPartOwned, self.peer)
 
 			except Exception as e:
 				#tfunc.error(self.name, str(self.peer[0], "ascii"), "ERRORE DOWNLOAD: {0}".format(e))
@@ -74,7 +74,7 @@ class DaemonDownload(Thread):
 
 
 # >> PEER
-def send_update(t_host, sessionID, md5, partN, listPartOwned):
+def send_update(t_host, sessionID, md5, partN, listPartOwned, peer):
 	s = sfunc.create_socket_client(func.roll_the_dice(t_host[0]), t_host[1])
 	if s is None:
 	    tfunc.error('Error: could not open socket to update Tracker')
@@ -83,5 +83,5 @@ def send_update(t_host, sessionID, md5, partN, listPartOwned):
 		s.sendall(pk)
 		ricevutoByte = s.recv(const.LENGTH_PACK)
 		if str(ricevutoByte[0:4], "ascii") == pack.CODE_ANSWER_UPDATE_PART:
-			tfunc.dnl_success("Download eseguito della parte " + str(partN) + "\nAttualmente in possesso di " + str(int(ricevutoByte[4:])) + "/" + str(len(listPartOwned[md5][0])) + " parti del file.")
+			tfunc.dnl_success("Download eseguito della parte " + str(partN) + " da " + peer[0] + "\nAttualmente in possesso di " + str(int(ricevutoByte[4:])) + "/" + str(len(listPartOwned[md5][0])) + " parti del file.")
 		s.close()
