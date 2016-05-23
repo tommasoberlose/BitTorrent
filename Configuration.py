@@ -59,6 +59,14 @@ def readArgs(argv):
 			except:
 				tfunc.error("Errore inserimento dati")
 				writeHelp()
+
+		# TIME TO UPDATE
+		elif argv[i] == "-mr":
+			try:
+				const.MAX:RESULT = int(argv[i + 1])
+			except:
+				tfunc.error("Errore inserimento dati")
+				writeHelp()
 		
 
 		# HELP
@@ -93,5 +101,6 @@ def writeHelp():
 	print("Set Default Tracker Ip\t-ipt group identifier")
 	print("Change Port\t-p port")
 	print("Change Time To Update\t-ttu seconds")
+	print("Change Max Results/ttu\t-ms #result")
 	print("")
 	sys.exit(-1)

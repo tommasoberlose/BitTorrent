@@ -182,7 +182,7 @@ def find_part_from_hitpeer(host, nHitPeer, part, listPartOwned, md5, lenFile, le
 	listResult = []
 	listPartSorted = sorted(listPart.items(), key=lambda x:len(x[1]))
 	for el in listPartSorted:
-		if len(listResult) < const.MAX_RESULT:
+		if (const.MAX_RESULT == 0) or (len(listResult) < const.MAX_RESULT):
 			listResult.append([el[0], random.choice(el[1])])
 
 
