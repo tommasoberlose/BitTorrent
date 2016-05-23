@@ -1,3 +1,4 @@
+import PartFunc as pfunc
 import DaemonDownload as daemonDnl
 import Function as func
 import Search as src
@@ -8,7 +9,6 @@ import threading
 from threading import *
 import TextFunc as tfunc
 import Constant as const
-import Function as func
 import os
 import time
 
@@ -77,6 +77,7 @@ def update_own_memory(md5, partN, listPartOwned, value):
 	listToUpdate = list(listPartOwned[md5][0])
 	listToUpdate[partN] = value
 	listPartOwned[md5][0] = "".join(listToUpdate)
+	pfunc.part_compl(listPartOwned[md5][0])
 
 
 # >> PEER

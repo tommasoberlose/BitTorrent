@@ -31,7 +31,7 @@ def part_compl(s):
 	for x in range(0, len(l)):
 		if l[x] == "1":
 			toPrint += str(x) + " "
-	print(toPrint)
+	print(toPrint, end='\r')
 
 
 

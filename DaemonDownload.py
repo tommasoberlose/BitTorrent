@@ -39,7 +39,9 @@ class DaemonDownload(Thread):
 		    var = "" # giusto per fargli fare qualcosa
 		else:
 			try:
+				mutex.acquire()
 				dnl.update_own_memory(self.md5, self.partN, self.listPartOwned, "2")
+				mutex.release()
 
 				#tfunc.gtext("Start download della parte " + str(self.partN) + " da " + str(self.peer[0], "ascii"))
 
@@ -73,6 +75,8 @@ class DaemonDownload(Thread):
 
 					# Invio l'update al tracker
 					send_update(self.t_host, self.sessionID, self.md5, self.partN, self.listPartOwned, self.peer)
+				else:
+					raise Exception("Error Download Code")
 
 			except Exception as e:
 				tfunc.error(self.name, str(self.peer[0], "ascii"), "ERRORE DOWNLOAD: {0}".format(e))
