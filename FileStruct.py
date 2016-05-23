@@ -73,6 +73,7 @@ def update_memory(sessionID, md5, partN, listFile, name, addr):
 	file.listOwner[sessionID] = "".join(listToUpdate)
 	nPart = count_part(file.listOwner[sessionID])
 	tfunc.write_daemon_success(name, addr[0], "Parte " + str(int(partN)) + " scaricata. (" + str(int((100 * nPart)/len(file.listOwner[sessionID]))) + "%)")
+	pfunc.part_compl(file.listOwner[sessionID])
 	return pack.answer_update_tracker(nPart)
 
 # >> PEER, TRACKER
@@ -166,6 +167,7 @@ def find_part_from_hitpeer(host, nHitPeer, part, listPartOwned, md5, lenFile, le
 
 		if [str(ip, "ascii"), str(port, "ascii")] != [host, const.PORT]:
 			listHitpeer.append([[ip, port], partList])
+			pfunc.part_compl(listHitpeer[1])
 
 	for x in range(0, len(myPart)):
 		if list(myPart)[x] == '0':
@@ -177,6 +179,8 @@ def find_part_from_hitpeer(host, nHitPeer, part, listPartOwned, md5, lenFile, le
 		
 			if len(listPart[x]) == 0:	
 				del listPart[x]
+
+
 
 	listResult = []
 	listPartSorted = sorted(listPart.items(), key=lambda x:len(x[1]))
