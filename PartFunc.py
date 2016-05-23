@@ -25,3 +25,13 @@ def calculate_part(lenFile, lenPart):
 		lenP += 1
 	return lenP
 
+def part_compl(s):
+	l = list(s)
+	toPrint = "Parte: "
+	for x in range(0, len(l)):
+		if l[x] == "1":
+			toPrint += str(x) + " "
+	print(toPrint)
+
+
+
