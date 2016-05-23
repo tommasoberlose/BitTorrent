@@ -103,13 +103,13 @@ def request_logout(sessionID):
 
 # >> TRACKER
 def answer_logout(nPart):
-	nPart = tfunc.format_string(str(nPart), const.LENGTH_ITEM_REMOVED, "0")
+	nPart = tfunc.format_string(str(nPart), const.LENGTH_PARTDOWN, "0")
 	pack = bytes(CODE_ANSWER_LOGOUT, "ascii") + bytes(nPart, "ascii")
 	return pack
 
 # >> TRACKER
 def reject_logout(nPart):
-	nPart = tfunc.format_string(str(nPart), const.LENGTH_ITEM_REMOVED, "0")
+	nPart = tfunc.format_string(str(nPart), const.LENGTH_PARTDOWN, "0")
 	pack = bytes(CODE_LOGOUT_DENIED, "ascii") + bytes(nPart, "ascii")
 	return pack
 

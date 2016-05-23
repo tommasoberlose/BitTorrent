@@ -71,6 +71,7 @@ class DaemonDownload(Thread):
 					mutex.acquire()
 					# Aggiorno la mia memoria
 					dnl.update_own_memory(self.md5, self.partN, self.listPartOwned, "1")
+					print(self.listPartOwned)
 					mutex.release()
 
 					# Invio l'update al tracker
@@ -79,7 +80,7 @@ class DaemonDownload(Thread):
 					raise Exception("Error Download Code")
 
 			except Exception as e:
-				tfunc.error(self.name, str(self.peer[0], "ascii"), "ERRORE DOWNLOAD: {0}".format(e))
+				tfunc.write_daemon_error(self.name, str(self.peer[0], "ascii"), "ERRORE DOWNLOAD: {0}".format(e))
 				dnl.update_own_memory(self.md5, self.partN, self.listPartOwned, "0")
 
 
