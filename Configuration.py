@@ -63,7 +63,7 @@ def readArgs(argv):
 		# TIME TO UPDATE
 		elif argv[i] == "-mr":
 			try:
-				const.MAX:RESULT = int(argv[i + 1])
+				const.MAX_RESULT = int(argv[i + 1])
 			except:
 				tfunc.error("Errore inserimento dati")
 				writeHelp()
