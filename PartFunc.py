@@ -27,11 +27,31 @@ def calculate_part(lenFile, lenPart):
 
 def part_compl(s):
 	l = list(s)
-	toPrint = "Parte: "
+	toPrint = "COMPLETATO: "
 	for x in range(0, len(l)):
 		if l[x] == "1":
 			toPrint += str(x) + " "
 	print(toPrint, end='\r')
+
+
+def part_all(s):
+	l = list(s)
+	toPrint = "MANCANO: "
+	for x in range(0, len(l)):
+		if l[x] == "0":
+			toPrint += str(x) + " "
+
+	toPrint = "\nPENDING: "
+	for x in range(0, len(l)):
+		if l[x] == "2":
+			toPrint += str(x) + " "
+
+	toPrint = "\COMPLETATO: "
+	for x in range(0, len(l)):
+		if l[x] == "1":
+			toPrint += str(x) + " "
+
+	print(toPrint, end='\n')
 
 
 

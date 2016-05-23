@@ -182,7 +182,8 @@ def find_part_from_hitpeer(host, nHitPeer, part, listPartOwned, md5, lenFile, le
 	listResult = []
 	listPartSorted = sorted(listPart.items(), key=lambda x:len(x[1]))
 	for el in listPartSorted:
-		print("PARTE " + el[0] + " scaricabile da " + str(len(el[1])) + " peer.")
+		if len(el[1]) > 1:
+			print("PARTE " + str(el[0]) + " scaricabile da 2 peer!!!")
 		listResult.append([el[0], random.choice(el[1])])
 
 
