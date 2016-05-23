@@ -153,8 +153,6 @@ def find_part_from_hitpeer(host, nHitPeer, part, listPartOwned, md5, lenFile, le
 	myPart = listPartOwned[md5][0]
 	listHitpeer = []
 
-	print(part)
-	
 	for n in range(0, nHitPeer):
 		pointer = n * (60 + pfunc.calculate_part8(myPart))
 		ip = part[0 + pointer:55 + pointer]
@@ -181,11 +179,11 @@ def find_part_from_hitpeer(host, nHitPeer, part, listPartOwned, md5, lenFile, le
 			if len(listPart[x]) == 0:	
 				del listPart[x]
 
-
-
 	listResult = []
 	listPartSorted = sorted(listPart.items(), key=lambda x:len(x[1]))
 	for el in listPartSorted:
 		listResult.append([el[0], random.choice(el[1])])
+
+	print(listResult)
 
 	return listResult

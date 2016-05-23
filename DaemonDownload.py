@@ -71,7 +71,6 @@ class DaemonDownload(Thread):
 					mutex.acquire()
 					# Aggiorno la mia memoria
 					dnl.update_own_memory(self.md5, self.partN, self.listPartOwned, "1")
-					print(self.listPartOwned)
 					mutex.release()
 
 					# Invio l'update al tracker
