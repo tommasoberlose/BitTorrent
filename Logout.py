@@ -23,7 +23,7 @@ def logout(ip55, t_host, sessionID):
 				tfunc.error("Siamo spiacenti ma il logout risulta impossibile poichè si è in possesso di parti di file uniche.\n" + \
 					"Sono state scaricate " + str(int(ricevutoByte[4:])) + " parti del file, fatevi il conto di quante ne mancano.")
 			elif str(ricevutoByte[:4], "ascii") == pack.CODE_ANSWER_LOGOUT:	
-				tfunc.success("Logout eseguito con successo.\nAvevi " + str(int(ricevutoByte[4:])) + " parti, peccato tu te ne vada, addio.\nAttendi " + str(const.TIME_TO_UPDATE) + " e potrai scomparire.")
+				tfunc.success("Logout eseguito con successo.\nAvevi " + str(int(ricevutoByte[4:])) + " parti, peccato tu te ne vada, addio.\nAttendi " + str(const.TIME_TO_UPDATE) + " secondi e potrai scomparire.")
 				time.sleep(const.TIME_TO_UPDATE)
 				pk = pack.close()
 				sD = sFunc.create_socket_client(func.roll_the_dice(ip55), const.PORT);

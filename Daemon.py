@@ -54,7 +54,7 @@ class PeerDaemon(Thread):
 					daemonUpl.start()
 					
 				except Exception as ex:
-					print(ex)
+					#print(ex)
 					continue
 			s.close()
 		
