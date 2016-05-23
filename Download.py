@@ -77,7 +77,7 @@ def update_own_memory(md5, partN, listPartOwned, value):
 	listToUpdate = list(listPartOwned[md5][0])
 	listToUpdate[partN] = value
 	listPartOwned[md5][0] = "".join(listToUpdate)
-	pfunc.part_all(listPartOwned[md5][0])
+	#pfunc.part_compl(listPartOwned[md5][0])
 
 
 # >> PEER

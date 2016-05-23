@@ -137,7 +137,7 @@ def find_hitpeer_from_md5(listFile, listUsers, sessionID, md5):
 
 # >> TRACKER
 def get_bytes_from_partlist(part):
-	pfunc.part_compl(part)
+	#pfunc.part_compl(part)
 	partS = ""
 	lenP = len(part) / 8
 	if (len(part) % 8) != 0:
