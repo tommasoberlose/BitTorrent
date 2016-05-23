@@ -51,7 +51,7 @@ def part_all(s):
 		if l[x] == "1":
 			toPrint += str(x) + " "
 
-	print(toPrint, end='\n')
+	print(toPrint)
 
 
 
