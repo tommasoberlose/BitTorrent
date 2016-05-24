@@ -39,42 +39,49 @@ class DaemonDownload(Thread):
 		    var = "" # giusto per fargli fare qualcosa
 		else:
 			try:
-				mutex.acquire()
-				dnl.update_own_memory(self.md5, self.partN, self.listPartOwned, "2")
-				mutex.release()
-
-				#tfunc.gtext("Start download della parte " + str(self.partN) + " da " + str(self.peer[0], "ascii"))
-
-				pk = pack.request_download(self.md5, self.partN)
-				sP.sendall(pk)
-				ricevutoByte = sP.recv(const.LENGTH_HEADER)
-				if str(ricevutoByte[0:4], "ascii") == pack.CODE_ANSWER_DOWNLOAD:
-					nChunk = int(ricevutoByte[4:10])
-					ricevutoByte = b''
-					i = 0
-					
-					while i != nChunk:
-						ricevutoLen = sP.recv(const.LENGTH_NCHUNK)
-						while (len(ricevutoLen) < const.LENGTH_NCHUNK):
-							ricevutoLen = ricevutoLen + sP.recv(const.LENGTH_NCHUNK - len(ricevutoLen))
-						buff = sP.recv(int(ricevutoLen))
-						while(len(buff) < int(ricevutoLen)):
-							buff = buff + sP.recv(int(ricevutoLen) - len(buff))
-						ricevutoByte = ricevutoByte + buff
-						i = i + 1
-
-					sP.close()
-
-					# Modifico nel file la parte che ho appena scaricato, se il file non esiste lo creo (es b'00000')
-					dnl.create_part(ricevutoByte, self.fileName, self.partN, self.lenFile, self.lenPart)
-
-					mutex.acquire()
-					# Aggiorno la mia memoria
-					dnl.update_own_memory(self.md5, self.partN, self.listPartOwned, "1")
+				if mutex.acquire(timeout = const.TIME_TO_UPDATE):
+					dnl.update_own_memory(self.md5, self.partN, self.listPartOwned, "2")
 					mutex.release()
 
-					# Invio l'update al tracker
-					send_update(self.t_host, self.sessionID, self.md5, self.partN, self.listPartOwned, self.peer)
+					#tfunc.gtext("Start download della parte " + str(self.partN) + " da " + str(self.peer[0], "ascii"))
+
+					pk = pack.request_download(self.md5, self.partN)
+					sP.sendall(pk)
+					ricevutoByte = sP.recv(const.LENGTH_HEADER)
+					if str(ricevutoByte[0:4], "ascii") == pack.CODE_ANSWER_DOWNLOAD:
+						nChunk = int(ricevutoByte[4:10])
+						ricevutoByte = b''
+						i = 0
+						
+						while i != nChunk:
+							ricevutoLen = sP.recv(const.LENGTH_NCHUNK)
+							while (len(ricevutoLen) < const.LENGTH_NCHUNK):
+								ricevutoLen = ricevutoLen + sP.recv(const.LENGTH_NCHUNK - len(ricevutoLen))
+							buff = sP.recv(int(ricevutoLen))
+							while(len(buff) < int(ricevutoLen)):
+								buff = buff + sP.recv(int(ricevutoLen) - len(buff))
+							ricevutoByte = ricevutoByte + buff
+							i = i + 1
+
+						sP.close()
+
+						# Modifico nel file la parte che ho appena scaricato, se il file non esiste lo creo (es b'00000')
+						dnl.create_part(ricevutoByte, self.fileName, self.partN, self.lenFile, self.lenPart)
+
+						if mutex.acquire(timeout = const.TIME_TO_UPDATE):
+							# Aggiorno la mia memoria
+							dnl.update_own_memory(self.md5, self.partN, self.listPartOwned, "1")
+							mutex.release()
+
+							pfunc.part_all(self.listPartOwned[self.md5][0])
+
+							# Invio l'update al tracker
+							send_update(self.t_host, self.sessionID, self.md5, self.partN, self.listPartOwned, self.peer)
+						else:
+							raise Exception("Error Download Code")
+					else:
+						raise Exception("Error Download Code")
+
 				else:
 					raise Exception("Error Download Code")
 

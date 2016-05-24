@@ -149,42 +149,47 @@ def get_bytes_from_partlist(part):
 
 # >> PEER
 def find_part_from_hitpeer(host, nHitPeer, part, listPartOwned, md5, lenFile, lenPart):
-	listPart = {}
-	myPart = listPartOwned[md5][0]
-	listHitpeer = []
+	try:
+		listPart = {}
+		myPart = listPartOwned[md5][0]
+		listHitpeer = []
 
-	for n in range(0, nHitPeer):
-		pointer = n * (60 + pfunc.calculate_part8(myPart))
-		ip = part[0 + pointer:55 + pointer]
-		port = part[55 + pointer:60 + pointer]
-		memory = part[60 + pointer:60 + pfunc.calculate_part8(myPart) + pointer]
-		partList = ""
+		for n in range(0, nHitPeer):
+			pointer = n * (60 + pfunc.calculate_part8(myPart))
+			ip = part[0 + pointer:55 + pointer]
+			port = part[55 + pointer:60 + pointer]
+			memory = part[60 + pointer:60 + pfunc.calculate_part8(myPart) + pointer]
+			partList = ""
 
-		for j in range(0, len(memory)):
-			partL = bin(ord(memory[j:j+1]))[2:]
-			partList += tfunc.format_string(partL, const.LENGTH_NPART, "0")
-		partList = partList[0:-(8 - (pfunc.calculate_part(lenFile, lenPart) % 8))]
+			for j in range(0, len(memory)):
+				partL = bin(ord(memory[j:j+1]))[2:]
+				partList += tfunc.format_string(partL, const.LENGTH_NPART, "0")
+			partList = partList[0:-(8 - (pfunc.calculate_part(lenFile, lenPart) % 8))]
 
-		if [str(ip, "ascii"), str(port, "ascii")] != [host, const.PORT]:
-			listHitpeer.append([[ip, port], partList])
+			if [str(ip, "ascii"), str(port, "ascii")] != [host, const.PORT]:
+				listHitpeer.append([[ip, port], partList])
 
-	for x in range(0, len(myPart)):
-		if list(myPart)[x] == '0':
-			listPart[x] = []
+		for x in range(0, len(myPart)):
+			if list(myPart)[x] == '0':
+				listPart[x] = []
 
-			for p in range(0, len(listHitpeer)):
-				if list(listHitpeer[p][1])[x] == "1":
-					listPart[x].append(listHitpeer[p][0])
-		
-			if len(listPart[x]) == 0:	
-				del listPart[x]
+				for p in range(0, len(listHitpeer)):
+					if list(listHitpeer[p][1])[x] == "1":
+						listPart[x].append(listHitpeer[p][0])
+			
+				if len(listPart[x]) == 0:	
+					del listPart[x]
 
-	listResult = []
-	listPartSorted = sorted(listPart.items(), key=lambda x:len(x[1]))
-	for el in listPartSorted:
-		if (const.MAX_RESULT == 0) or (len(listResult) < const.MAX_RESULT):
-			if len(listResult) < 1000:
-				listResult.append([el[0], random.choice(el[1])])
+		listResult = []
+		listPartSorted = sorted(listPart.items(), key=lambda x:len(x[1]))
+		for el in listPartSorted:
+			if (const.MAX_RESULT == 0) or (len(listResult) < const.MAX_RESULT):
+				if len(listResult) < 1000:
+					listResult.append([el[0], random.choice(el[1])])
 
 
-	return listResult
+		return listResult
+	except:
+		listError = []
+		listError.append([-1, []])
+		return listError

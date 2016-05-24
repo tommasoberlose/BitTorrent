@@ -45,17 +45,22 @@ def start_download(host, t_host, selectFile, sessionID, listPartOwned, waitingDo
 		if nHitPeer != 0:
 			listPart = fs.find_part_from_hitpeer(host, int(ricevutoByte[4:7]), ricevutoByte[7:], listPartOwned, md5, lenFile, lenPart)
 
-			for part in listPart:
-				daemonThreadD = daemonDnl.DaemonDownload(host, t_host, sessionID, fileName, md5, part[0], part[1], listPartOwned, lenFile, lenPart)
-				daemonThreadD.setName("DAEMON DOWNLOAD PART " + str(part[0]) + " di " + str(fileName, "ascii"))
-				daemonThreadD.setDaemon(True)
-				daemonThreadD.start()
-
-			# Controllo se ho finito di scaricare il file
-			if check_ended_download(fileName, md5, listPartOwned):
-				save_and_open_file(fileName)
+			if [-1, []] in listPart:
+				tfunc.error("Errore nei peer inviati del Tracker. Download bloccato.")
 				del waitingDownload[:]
 				return False
+			else:
+				for part in listPart:
+					daemonThreadD = daemonDnl.DaemonDownload(host, t_host, sessionID, fileName, md5, part[0], part[1], listPartOwned, lenFile, lenPart)
+					daemonThreadD.setName("DAEMON DOWNLOAD PART " + str(part[0]) + " di " + str(fileName, "ascii"))
+					daemonThreadD.setDaemon(True)
+					daemonThreadD.start()
+
+				# Controllo se ho finito di scaricare il file
+				if check_ended_download(fileName, md5, listPartOwned):
+					save_and_open_file(fileName)
+					del waitingDownload[:]
+					return False
 		else:
 			tfunc.error("Non ci sono hitpeer disponibili da cui scaricare il file.")
 
@@ -66,7 +71,7 @@ def start_download(host, t_host, selectFile, sessionID, listPartOwned, waitingDo
 def request_memory_of_hitpeer(t_host, sessionID, md5):
 	s = sfunc.create_socket_client(func.roll_the_dice(t_host[0]), t_host[1]);
 	if s is None:
-		tfunc.error("Tracker non attivo.")
+		#tfunc.error("Tracker non attivo.")
 		return bytes(const.ERROR_PKT, "ascii")
 	else:
 		pk = pack.request_hitpeer(sessionID, md5)
@@ -122,6 +127,8 @@ def check_ended_download(fileName, md5, listPartOwned):
 		return True
 	else:
 		return False
+
+
 
 
 
