@@ -9,7 +9,7 @@ import FileStruct as fs
 
 # MACROFUNZIONE DI SISTEMA
 # >> PEER
-def search(sessionID, host, t_host, listPartOwned):
+def search(sessionID, host, t_host, listPartOwned, waitingDownload):
 
 	tfunc.warning("\n>>> SEARCH")
 	query = input("\nInserisci il nome del file da cercare: ")
@@ -68,11 +68,13 @@ def search(sessionID, host, t_host, listPartOwned):
 						if not selectFile[1] in listPartOwned:
 							listPartOwned[selectFile[1]] = [fs.create_empty_part(selectFile[3], selectFile[4]), selectFile[3], selectFile[4], selectFile[2]]
 						print ("\n>>> DOWNLOAD")
-						daemonThreadD = dnl.DaemonMasterOfDownloads(host, t_host, selectFile, sessionID, listPartOwned)
+						daemonThreadD = dnl.DaemonMasterOfDownloads(host, t_host, selectFile, sessionID, listPartOwned, waitingDownload)
 						daemonThreadD.setName("ONE THREAD TO RULE THEM ALL")
 						daemonThreadD.setDaemon(True)
 						daemonThreadD.start()
+						waitingDownload.append(0)
 				except:
+					waitingDownload = []
 					tfunc.error("Inserisci un intero. Pirla")
 
 			else:

@@ -44,12 +44,14 @@ def logout(ip55, t_host, sessionID):
 	return result
 
 # >> TRACKER
-def try_logout(sessionID, listFile, listUsers):
+def try_logout(sessionID, listFile, listUsers, name, addr):
 	nPart, ndPart = fs.get_part_for_logout(sessionID, listFile)
 	if ndPart != 0:
+		tfunc.write_daemon_error(name, addr[0], "Logout rejected, " + str(nPart - ndPart) + " parts not already downloaded.")
 		return pack.reject_logout(nPart - ndPart)
 	else:
 		remove_user(sessionID, listFile, listUsers)
+		tfunc.write_daemon_success(name, addr[0], "Logout accepted, " + str(nPart) + " parts removed.")
 		return pack.answer_logout(nPart)
 
 # >> PEER

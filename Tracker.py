@@ -92,7 +92,7 @@ class TrackerDaemon(Thread):
 
 					elif str(ricevutoByte[0:4], "ascii") == pack.CODE_LOGOUT: ### LOGOUT OK
 						if ricevutoByte[4:20] in self.listUsers:
-							pk = logo.try_logout(ricevutoByte[4:], self.listFile, self.listUsers)
+							pk = logo.try_logout(ricevutoByte[4:], self.listFile, self.listUsers, self.name, addr)
 							conn.sendall(pk)
 						else:
 							tfunc.write_daemon_error(self.name, addr[0], "User not logged")

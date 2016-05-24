@@ -45,7 +45,7 @@ class PeerDaemon(Thread):
 		# Creazione socket
 		s = sfunc.create_socket_server(func.roll_the_dice(self.host), self.port)
 		if s is None:
-			tfunc.write_daemon_text(self.name, self.host, 'Error: Daemon could not open socket in upload.')
+			tfunc.write_daemon_error(self.name, self.host, 'Error: Daemon could not open socket.')
 		else:
 			while 1:
 				try:

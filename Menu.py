@@ -26,23 +26,28 @@ def menu(host, T, t_host):
 				daemonThreadP.setDaemon(True)
 				daemonThreadP.start()
 
+				waitingDownload = []
+
 				while True:
-					print ("\n\nScegli azione PEER LOGGATO:\nadd\t - Add File\nsearch\t - Search and Download\nlogout\t - Logout\n\n")
-					choice_after_log = input()
+					if len(waitingDownload) == 0:
+						print ("\n\nScegli azione PEER LOGGATO:\nadd\t - Add File\nsearch\t - Search and Download\nlogout\t - Logout\n\n")
+						choice_after_log = input()
 
-					if (choice_after_log == "add" or choice_after_log == "a"):
-						add.add(host, sessionID, t_host, listPartOwned)
+						if (choice_after_log == "add" or choice_after_log == "a"):
+							add.add(host, sessionID, t_host, listPartOwned)
 
-					elif (choice_after_log == "search" or choice_after_log == "s"):
-						src.search(sessionID, host, t_host, listPartOwned)
+						elif (choice_after_log == "search" or choice_after_log == "s"):
+							src.search(sessionID, host, t_host, listPartOwned, waitingDownload)
 
-					elif (choice_after_log == "logout" or choice_after_log == "l"):
-						if (logo.logout(host, t_host, sessionID) > 0):
+						elif (choice_after_log == "logout" or choice_after_log == "l"):
+							if (logo.logout(host, t_host, sessionID) > 0):
 
-							break
+								break
 
+						else:
+							tfunc.error("Wrong Choice!")
 					else:
-						tfunc.error("Wrong Choice!")
+						time.sleep(1)
 
 			else:
 				tfunc.error("Errore Login")	

@@ -16,22 +16,23 @@ import time
 
 class DaemonMasterOfDownloads(Thread):
 
-	def __init__(self, host, t_host, selectFile, sessionID, listPartOwned):
+	def __init__(self, host, t_host, selectFile, sessionID, listPartOwned, waitingDownload):
 		Thread.__init__(self)
 		self.host = host
 		self.t_host = t_host
 		self.selectFile = selectFile
 		self.sessionID = sessionID
 		self.listPartOwned = listPartOwned
+		self.waitingDownload = waitingDownload
 
 	def run(self):
-		while start_download(self.host, self.t_host, self.selectFile, self.sessionID, self.listPartOwned):
+		while start_download(self.host, self.t_host, self.selectFile, self.sessionID, self.listPartOwned, self.waitingDownload):
 			time.sleep(const.TIME_TO_UPDATE)
 
 
 # Funzione di download
 # >> PEER
-def start_download(host, t_host, selectFile, sessionID, listPartOwned):	
+def start_download(host, t_host, selectFile, sessionID, listPartOwned, waitingDownload):	
 
 	md5 = selectFile[1]
 	fileName = selectFile[2]
@@ -53,6 +54,7 @@ def start_download(host, t_host, selectFile, sessionID, listPartOwned):
 			# Controllo se ho finito di scaricare il file
 			if check_ended_download(fileName, md5, listPartOwned):
 				save_and_open_file(fileName)
+				waitingDownload = []
 				return False
 		else:
 			tfunc.error("Non ci sono hitpeer disponibili da cui scaricare il file.")
