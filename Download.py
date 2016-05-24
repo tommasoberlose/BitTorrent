@@ -54,7 +54,7 @@ def start_download(host, t_host, selectFile, sessionID, listPartOwned, waitingDo
 			# Controllo se ho finito di scaricare il file
 			if check_ended_download(fileName, md5, listPartOwned):
 				save_and_open_file(fileName)
-				waitingDownload = []
+				del waitingDownload[:]
 				return False
 		else:
 			tfunc.error("Non ci sono hitpeer disponibili da cui scaricare il file.")

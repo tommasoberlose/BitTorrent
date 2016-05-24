@@ -74,7 +74,7 @@ def search(sessionID, host, t_host, listPartOwned, waitingDownload):
 						daemonThreadD.start()
 						waitingDownload.append(0)
 				except:
-					waitingDownload = []
+					del waitingDownload[:]
 					tfunc.error("Inserisci un intero. Pirla")
 
 			else:

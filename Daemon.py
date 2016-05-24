@@ -24,11 +24,11 @@ def daemonUpload(conn, name, addr, listPartOwned):
 					upl.upload(ricevutoByte[4:36], ricevutoByte[36:], conn, listPartOwned, name, addr)
 				else:
 					#tfunc.write_daemon_error(name, addr[0], "Errore, la parte " + str(int(ricevutoByte[36:])) + " non è presente.")
-					val1 = ""
+					pass
 			else:
 				tfunc.write_daemon_error(name, addr[0], "Ricevuto pacchetto sbagliato: " + str(ricevutoByte, "ascii"))
 	except:
-		val = ""
+		pass
 	finally:
 		conn.close()
 

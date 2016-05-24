@@ -28,7 +28,8 @@ def logout(ip55, t_host, sessionID):
 				pk = pack.close()
 				sD = sFunc.create_socket_client(func.roll_the_dice(ip55), const.PORT);
 				if sD is None:
-					tfunc.error("Errore nella chiusura del demone")
+					pass
+					#tfunc.error("Errore nella chiusura del demone")
 				else:
 					sD.sendall(pk)
 					sD.close()
